@@ -47,13 +47,13 @@ public class StartScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         Image logoImage = new Image(Assets.logo);
-        logoImage.setPosition((stage.getWidth() - logoImage.getPrefWidth()) / 2, (stage.getHeight() - logoImage.getPrefHeight()/2)/2 + 100);
+        logoImage.setPosition((stage.getWidth() - logoImage.getPrefWidth()) / 2, (stage.getHeight() - logoImage.getPrefHeight()/2)/2 + 160);
 
         Drawable button = new TextureRegionDrawable(Assets.button);
 
-        Button playButton = new Button(new Button.ButtonStyle(button, button, button));
-        playButton.setPosition((stage.getWidth() - playButton.getPrefWidth()) / 2,  (stage.getHeight() - playButton.getPrefHeight())/2);
-        playButton.addListener(new ClickListener() {
+        Button levelSelectButton = new Button(new Button.ButtonStyle(button, button, button));
+        levelSelectButton.setPosition((stage.getWidth() - levelSelectButton.getPrefWidth()) / 2,  (stage.getHeight() - levelSelectButton.getPrefHeight())/2);
+        levelSelectButton.addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
                 parent.showLevelSelectScreen();
@@ -62,14 +62,32 @@ public class StartScreen implements Screen {
 
         Label.LabelStyle white = new Label.LabelStyle(Assets.font, Color.WHITE);
 
-        Label playLabel = new Label("Click here to play", white);
-        playLabel.setPosition((stage.getWidth() - playLabel.getPrefWidth()) / 2, (stage.getHeight() - playLabel.getPrefHeight())/2);
-        playLabel.setTouchable(Touchable.disabled);
+        Label levelSelectLabel = new Label("Level Select", white);
+        levelSelectLabel.setPosition((stage.getWidth() - levelSelectLabel.getPrefWidth()) / 2, (stage.getHeight() - levelSelectLabel.getPrefHeight())/2);
+        levelSelectLabel.setTouchable(Touchable.disabled);
+        
+        
+      //button for level one
+        Button playButtonOne = new Button(new Button.ButtonStyle(button, button, button));
+        playButtonOne.setPosition((((stage.getWidth() - playButtonOne.getPrefWidth())) /2) ,  (stage.getHeight() - playButtonOne.getPrefHeight())/2 +60);
+        playButtonOne.addListener(new ClickListener() {
+
+            public void clicked(InputEvent event, float x, float y) {
+                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
+            }
+        });
+
+        //Label for level one
+        Label playLabelOne = new Label("New Game", white);
+        playLabelOne.setPosition((((stage.getWidth() - playLabelOne.getPrefWidth())) /2) , (stage.getHeight() - playLabelOne.getPrefHeight())/2 +60);
+        playLabelOne.setTouchable(Touchable.disabled);
         
 
         stage.addActor(logoImage);
-        stage.addActor(playButton);
-        stage.addActor(playLabel);
+        stage.addActor(levelSelectButton);
+        stage.addActor(levelSelectLabel);
+        stage.addActor(playButtonOne);
+        stage.addActor(playLabelOne);
     }
 
     /**
