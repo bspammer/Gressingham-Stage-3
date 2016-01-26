@@ -105,7 +105,7 @@ public class Mob extends Character {
             }
 
             if (powerup != null) {
-                parent.createPowerup(x, y, powerup, 10);
+                parent.createPowerup(x, y, powerup);
             }
         }
 

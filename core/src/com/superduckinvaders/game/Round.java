@@ -90,7 +90,7 @@ public final class Round {
         entities.add(objective);
 
         createUpgrade(startX + 20, startY, Player.Upgrade.GUN);
-        createPowerup(startX + 40, startY, Player.Powerup.RATE_OF_FIRE, 60);
+        createPowerup(startX + 40, startY, Player.Powerup.RATE_OF_FIRE);
         spawnRandomMobs(100, 200, 200, 1000, 1000);
     }
 
@@ -310,8 +310,8 @@ public final class Round {
      * @param powerup the powerup to grant to the player
      * @param time    how long the powerup should last for
      */
-    public void createPowerup(double x, double y, Player.Powerup powerup, double time) {
-        entities.add(new Powerup(this, x, y, powerup, time));
+    public void createPowerup(double x, double y, Player.Powerup powerup) {
+        entities.add(new Powerup(this, x, y, powerup));
     }
 
     /**
@@ -375,7 +375,7 @@ public final class Round {
 
             if (entity.isRemoved()) {
                 if (entity instanceof Mob && ((Mob) entity).isDead()) {
-                    player.addScore((int) (10 * (player.getPowerup() == Player.Powerup.SCORE_MULTIPLIER ? Player.PLAYER_SCORE_MULTIPLIER : 1)));
+                    player.addScore((int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1)));
                 }
 
                 entities.remove(i);

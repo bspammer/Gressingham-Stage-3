@@ -1,5 +1,6 @@
 package com.superduckinvaders.game.entity;
 
+import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -56,17 +57,13 @@ public class Player extends Character {
      */
     private int points = 0;
     /**
-     * Player's current powerup.
+     * Relates each powerup to its time left for the player to use it. 0.0 encodes not active
      */
-    private Powerup powerup = Powerup.NONE;
+    private HashMap<Powerup, Double> powerupRemainingTimes = new HashMap<Powerup, Double>();
     /**
      * Player's upgrade.
      */
     private Upgrade upgrade = Upgrade.NONE;
-    /**
-     * How much time is remaining on the Player's powerup.
-     */
-    private double powerupInitial, powerupTimer = 0;
     /**
      * Shows if a player is flying. If less than 0, player is flying for -flyingTimer seconds. If less than PLAYER_FLIGHT_COOLDOWN, flying is on cooldown.
      */
@@ -85,6 +82,11 @@ public class Player extends Character {
      */
     public Player(Round parent, double x, double y) {
         super(parent, x, y, PLAYER_HEALTH);
+        
+        //Initialize powerup states
+        for (Powerup key : Powerup.values()) {
+        	powerupRemainingTimes.put(key, 0.0);
+        }
     }
 
     /**
@@ -113,15 +115,6 @@ public class Player extends Character {
     public double getFlyingTimer() {
         return flyingTimer;
     }
-
-    /**
-     * Gets the Player's current powerup (in the Powerup enum).
-     *
-     * @return the current powerup
-     */
-    public Powerup getPowerup() {
-        return powerup;
-    }
     
     /**
      * Get the players current upgrade (in the Upgrade enum). 
@@ -139,42 +132,32 @@ public class Player extends Character {
     public void setUpgrade(Upgrade upgrade) {
         this.upgrade = upgrade;
     }
-
+    
     /**
-     * Gets the time remaining on the Player's powerup.
-     *
-     * @return the time remaining on the powerup
-     */
-    public double getPowerupTime() {
-        return powerupTimer;
-    }
-
-    /**
-     * Gets the time that the current powerup initially lasted for.
-     *
-     * @return the initial powerup time
-     */
-    public double getPowerupInitialTime() {
-        return powerupInitial;
-    }
-
-    /**
-     * Clears the Player's current powerup.
-     */
-    public void clearPowerup() {
-        powerup = Powerup.NONE;
-        powerupInitial = powerupTimer = 0;
-    }
-
-    /**
-     * Sets the Player's current powerup and how long it should last.
+     * Sets a powerup to be active for a certain amount of time.
      *
      * @param powerup the powerup to set (in the Powerup enum)
      * @param time    how long the powerup should last, in seconds
      */
     public void setPowerup(Powerup powerup, double time) {
-        this.powerup = powerup;
-        this.powerupInitial = this.powerupTimer = time;
+        powerupRemainingTimes.put(powerup, time);
+    }
+
+    /**
+     * Gets the time remaining for a particular powerup.
+     * @return the time remaining on the powerup
+     */
+    public double getPowerupTimeRemaining(Powerup powerup) {
+        return powerupRemainingTimes.get(powerup);
+    }
+    
+    /**
+     * Returns true if the player has a particular powerup currently active
+     * @param powerup The powerup to be checked
+     * @return true if the powerup is currently active
+     */
+    public boolean powerupIsActive(Powerup powerup) {
+    	return powerupRemainingTimes.get(powerup) > 0;
     }
 
     /**
@@ -184,7 +167,6 @@ public class Player extends Character {
     public boolean isFlying() {
         return flyingTimer <= 0;
     }
-
 
     /**
      * @return the width of this Player
@@ -210,7 +192,7 @@ public class Player extends Character {
     @Override
     public void damage(int health) {
         // Only apply damage if we don't have the invulnerability powerup.
-        if (powerup != Powerup.INVULNERABLE) {
+        if (!powerupIsActive(Powerup.INVULNERABLE)) {
             super.damage(health);
         }
     }
@@ -222,12 +204,14 @@ public class Player extends Character {
      */
     @Override
     public void update(float delta) {
-        // Decrement powerup timer.
-        if (powerupTimer > 0) {
-            powerupTimer -= delta;
-        } else if (powerupTimer <= 0) {
-            clearPowerup();
-        }
+        // Decrement powerup timer for each powerup.
+    	for (Player.Powerup key : powerupRemainingTimes.keySet()) {
+    		if (powerupIsActive(key)) {
+    			powerupRemainingTimes.put(key, powerupRemainingTimes.get(key) - delta);
+    		} else {
+    			powerupRemainingTimes.put(key, 0.0);
+    		}
+    	}
 
         // Update flying timer.
         flyingTimer += delta;
@@ -237,7 +221,7 @@ public class Player extends Character {
 
         // Left mouse to attack.
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            if (attackTimer >= PLAYER_ATTACK_DELAY * (getPowerup() == Powerup.RATE_OF_FIRE ? PLAYER_ATTACK_DELAY_MULTIPLIER : 1)) {
+            if (attackTimer >= PLAYER_ATTACK_DELAY * (powerupIsActive(Powerup.RATE_OF_FIRE) ? PLAYER_ATTACK_DELAY_MULTIPLIER : 1)) {
                 attackTimer = 0;
 
                 if (upgrade == Upgrade.GUN) {
@@ -263,7 +247,7 @@ public class Player extends Character {
         // Only allow movement via keys if not flying.
         if (!isFlying()) {
             // Calculate speed at which to move the player.
-            double speed = PLAYER_SPEED * (powerup == Powerup.SUPER_SPEED ? PLAYER_SUPER_SPEED_MULTIPLIER : 1);
+            double speed = PLAYER_SPEED * (powerupIsActive(Powerup.SUPER_SPEED) ? PLAYER_SUPER_SPEED_MULTIPLIER : 1);
 
             // Left/right movement.
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -312,7 +296,6 @@ public class Player extends Character {
      * Available powerups (only last for a while).
      */
     public enum Powerup {
-        NONE,
         SCORE_MULTIPLIER,
         SUPER_SPEED,
         RATE_OF_FIRE,

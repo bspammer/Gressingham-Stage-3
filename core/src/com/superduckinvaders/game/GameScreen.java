@@ -138,7 +138,7 @@ public class GameScreen implements Screen {
 
         // Draw powerup bar.
 		uiBatch.draw(Assets.powerupEmpty, 1080, 50);
-        Assets.powerupFull.setRegionWidth((int) Math.max(0, round.getPlayer().getPowerupTime() / round.getPlayer().getPowerupInitialTime() * 192));
+//        Assets.powerupFull.setRegionWidth((int) Math.max(0, round.getPlayer().getPowerupTime() / round.getPlayer().getPowerupInitialTime() * 192));
         uiBatch.draw(Assets.powerupFull, 1080, 50);
 
         int x = 0;
