@@ -68,6 +68,7 @@ public class DuckGame extends Game {
         if (startScreen != null) {
             startScreen.dispose();
         }
+      
 
         setScreen(startScreen = new StartScreen(this));
     }
