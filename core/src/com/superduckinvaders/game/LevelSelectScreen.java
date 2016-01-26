@@ -82,7 +82,7 @@ public class LevelSelectScreen implements Screen {
 	        playButtonTwo.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
+	                parent.showGameScreen(new Round(parent, Assets.levelTwoMap));
 	            }
 	        });
 
@@ -97,7 +97,7 @@ public class LevelSelectScreen implements Screen {
 	        playButtonThree.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
+	                parent.showGameScreen(new Round(parent, Assets.levelThreeMap));
 	            }
 	        });
 
@@ -113,7 +113,7 @@ public class LevelSelectScreen implements Screen {
 	        playButtonFour.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
+	                parent.showGameScreen(new Round(parent, Assets.levelFourMap));
 	            }
 	        });
 
@@ -130,7 +130,7 @@ public class LevelSelectScreen implements Screen {
 	        playButtonFive.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
+	                parent.showGameScreen(new Round(parent, Assets.levelFiveMap));
 	            }
 	        });
 
@@ -146,7 +146,7 @@ public class LevelSelectScreen implements Screen {
 	        playButtonSix.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
+	                parent.showGameScreen(new Round(parent, Assets.levelSixMap));
 	            }
 	        });
 
@@ -162,7 +162,7 @@ public class LevelSelectScreen implements Screen {
 	        playButtonSeven.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
+	                parent.showGameScreen(new Round(parent, Assets.levelSevenMap));
 	            }
 	        });
 
@@ -178,7 +178,7 @@ public class LevelSelectScreen implements Screen {
 	        playButtonEight.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
+	                parent.showGameScreen(new Round(parent, Assets.levelEightMap));
 	            }
 	        });
 
