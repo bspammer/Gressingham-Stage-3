@@ -25,7 +25,7 @@ public class Player extends Character {
     /**
      * Player's standard attack delay (how many seconds between attacks).
      */
-    public static final int PLAYER_ATTACK_DELAY = 1;
+    public static final float PLAYER_ATTACK_DELAY = 0.01f;
     /**
      * How much the Player's score increases should be multiplied by if they have the score multiplier powerup.
      */
@@ -41,7 +41,7 @@ public class Player extends Character {
     /**
      * How much the Player's attack rate should be multiplied by if they have the rate of fire powerup.
      */
-    public static final double PLAYER_ATTACK_DELAY_MULTIPLIER = 0.2;
+    public static final double PLAYER_ATTACK_DELAY_MULTIPLIER = 1;
     /**
      * How long the Player can fly for, in seconds.
      */

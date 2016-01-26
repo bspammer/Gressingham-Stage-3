@@ -123,9 +123,9 @@ public class GameScreen implements Screen {
         uiBatch.begin();
         // TODO: finish UI
         Assets.font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        Assets.font.draw(uiBatch, "Objective: " + round.getObjective().getObjectiveString(), 10, 710);
-        Assets.font.draw(uiBatch, "Score: " + round.getPlayer().getScore(), 10, 680);
-        Assets.font.draw(uiBatch, Gdx.graphics.getFramesPerSecond() + " FPS", 10, 650);
+        Assets.font.draw(uiBatch, "Objective: " + round.getObjective().getObjectiveString(), 10, 100);
+        Assets.font.draw(uiBatch, "Score: " + round.getPlayer().getScore(), 10,80);
+        Assets.font.draw(uiBatch, Gdx.graphics.getFramesPerSecond() + " FPS", 10, 60);
 
         // Draw stamina bar (for flight);
 		uiBatch.draw(Assets.staminaEmpty, 1080, 10);
@@ -160,6 +160,7 @@ public class GameScreen implements Screen {
      */
     @Override
     public void resize(int width, int height) {
+    	
     }
 
     /**

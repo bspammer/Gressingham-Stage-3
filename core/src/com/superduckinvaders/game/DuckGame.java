@@ -8,7 +8,7 @@ public class DuckGame extends Game {
     /**
      * The width of the game window.
      */
-    public static final int GAME_WIDTH = 1280;
+    public static final int GAME_WIDTH = 1200;
     /**
      * The height of the game window.
      */
@@ -36,7 +36,7 @@ public class DuckGame extends Game {
     /**
      * Stores the current round that is being rendered using the gameScreen
      */
-    private Round round;
+    private Round roundOne,roundTwo,roundThree,roundFour,roundFive,roundSix,roundSeven,roundEight;
 
     /**
      * Initialises the startScreen. Called by libGDX to set up the graphics.
@@ -45,8 +45,14 @@ public class DuckGame extends Game {
     public void create() {
         Assets.load();
 
-        round = new Round(this, Assets.levelOneMap);
-
+        roundOne = new Round(this, Assets.levelOneMap);
+        roundTwo = new Round(this, Assets.levelTwoMap);
+        roundThree = new Round(this, Assets.levelThreeMap);
+        roundFour = new Round(this, Assets.levelFourMap);
+        roundFive = new Round(this, Assets.levelFiveMap);
+        roundSix = new Round(this, Assets.levelSixMap);
+        roundSeven = new Round(this, Assets.levelSevenMap);
+        roundEight = new Round(this, Assets.levelEightMap);
         showStartScreen();
     }
 

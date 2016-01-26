@@ -91,7 +91,7 @@ public final class Round {
 
         createUpgrade(startX + 20, startY, Player.Upgrade.GUN);
         createPowerup(startX + 40, startY, Player.Powerup.RATE_OF_FIRE, 60);
-        spawnRandomMobs(500, 200, 200, 1000, 1000);
+        spawnRandomMobs(100, 200, 200, 1000, 1000);
     }
 
     /**

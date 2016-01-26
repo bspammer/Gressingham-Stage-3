@@ -23,6 +23,7 @@ public class StartScreen implements Screen {
      */
     private DuckGame parent;
 
+    
     /**
      * Stage for containing the button.
      */
@@ -34,6 +35,7 @@ public class StartScreen implements Screen {
      */
     public StartScreen(DuckGame parent) {
         this.parent = parent;
+        Assets.load();
     }
 
     /**
@@ -45,12 +47,12 @@ public class StartScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         Image logoImage = new Image(Assets.logo);
-        logoImage.setPosition((stage.getWidth() - logoImage.getPrefWidth()) / 2, 400);
+        logoImage.setPosition((stage.getWidth() - logoImage.getPrefWidth()) / 2, (stage.getHeight() - logoImage.getPrefHeight()/2)/2 + 100);
 
         Drawable button = new TextureRegionDrawable(Assets.button);
 
         Button playButton = new Button(new Button.ButtonStyle(button, button, button));
-        playButton.setPosition((stage.getWidth() - playButton.getPrefWidth()) / 2, 300);
+        playButton.setPosition((stage.getWidth() - playButton.getPrefWidth()) / 2,  (stage.getHeight() - playButton.getPrefHeight())/2);
         playButton.addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
@@ -61,8 +63,9 @@ public class StartScreen implements Screen {
         Label.LabelStyle white = new Label.LabelStyle(Assets.font, Color.WHITE);
 
         Label playLabel = new Label("Click here to play", white);
-        playLabel.setPosition((stage.getWidth() - playLabel.getPrefWidth()) / 2, 315);
+        playLabel.setPosition((stage.getWidth() - playLabel.getPrefWidth()) / 2, (stage.getHeight() - playLabel.getPrefHeight())/2);
         playLabel.setTouchable(Touchable.disabled);
+        
 
         stage.addActor(logoImage);
         stage.addActor(playButton);
@@ -83,10 +86,12 @@ public class StartScreen implements Screen {
     }
 
     /**
-     * Not used since the game window cannot be resized.
+     * We now have the technology to resize the game.
+     * Gressingham4lyf
      */
     @Override
     public void resize(int width, int height) {
+    	show();
     }
 
     /**
