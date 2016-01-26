@@ -56,7 +56,7 @@ public class StartScreen implements Screen {
         playButton.addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
-                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
+                parent.showLevelSelectScreen();
             }
         });
 
