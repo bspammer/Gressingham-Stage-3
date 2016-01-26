@@ -26,6 +26,11 @@ public class DuckGame extends Game {
      */
     private GameScreen gameScreen = null;
     /**
+     * Stores the Screen displayed for selecting levels
+     */
+    private LevelSelectScreen levelSelectScreen =null;
+    
+    /**
      * Stores the Screen displayed when a level has been won
      */
     private WinScreen winScreen = null;
@@ -63,10 +68,21 @@ public class DuckGame extends Game {
         if (startScreen != null) {
             startScreen.dispose();
         }
+      
 
         setScreen(startScreen = new StartScreen(this));
     }
 
+    
+    public void showLevelSelectScreen() {
+        if (levelSelectScreen != null) {
+            levelSelectScreen.dispose();
+        }
+
+        setScreen(levelSelectScreen = new LevelSelectScreen(this));
+    }
+    
+    
     /**
      * Sets the current screen to the gameScreen.
      * @param round The round to be displayed on the game screen
