@@ -137,8 +137,6 @@ public class GameScreen implements Screen {
             Assets.staminaFull.setRegionWidth(0);
         }
 		uiBatch.draw(Assets.staminaFull, 1080, 10);
-
-		uiBatch.draw(Assets.loadTexture("textures/player_flying_front.png"), 0f, 100f, 1080, 50, 50, 50);
 		
 		//Draw powerup buffs
 		int powerupCount = 0;
