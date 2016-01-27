@@ -5,11 +5,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.superduckinvaders.game.assets.Assets;
 import com.superduckinvaders.game.entity.Entity;
 import com.superduckinvaders.game.entity.Player;
+import com.superduckinvaders.game.entity.item.Powerup;
 
 /**
  * Screen for interaction with the game.
@@ -136,10 +138,26 @@ public class GameScreen implements Screen {
         }
 		uiBatch.draw(Assets.staminaFull, 1080, 10);
 
-        // Draw powerup bar.
-		uiBatch.draw(Assets.powerupEmpty, 1080, 50);
-//        Assets.powerupFull.setRegionWidth((int) Math.max(0, round.getPlayer().getPowerupTime() / round.getPlayer().getPowerupInitialTime() * 192));
-        uiBatch.draw(Assets.powerupFull, 1080, 50);
+		uiBatch.draw(Assets.loadTexture("textures/player_flying_front.png"), 0f, 100f, 1080, 50, 50, 50);
+		
+		//Draw powerup buffs
+		int powerupCount = 0;
+		for (Player.Powerup powerup : Player.Powerup.values()) {
+			if (round.getPlayer().powerupIsActive(powerup)) {
+				TextureRegion powerupTexture = new TextureRegion(Player.Powerup.getTextureForPowerup(powerup));
+				int powerupDrawScale = 3;
+				float powerupWidth = powerupTexture.getRegionWidth();
+				float powerupHeight = powerupTexture.getRegionHeight();
+				float powerupX = 1225 - powerupWidth*powerupDrawScale*powerupCount*1.2f;
+				float powerupY = 45;
+				
+				//Remove some of the texture to represent time left on the powerup
+				powerupTexture.setRegionWidth((int) (round.getPlayer().getPowerupTimeRemaining(powerup)/Powerup.getMaxPowerupTime(powerup) * powerupWidth));
+				powerupWidth = powerupTexture.getRegionWidth();
+				uiBatch.draw(powerupTexture, powerupX, powerupY, powerupWidth*powerupDrawScale, powerupHeight*powerupDrawScale);
+				powerupCount += 1;
+			}
+		}
 
         int x = 0;
         while(x < round.getPlayer().getMaximumHealth()) {

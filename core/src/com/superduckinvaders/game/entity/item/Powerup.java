@@ -12,10 +12,10 @@ public class Powerup extends Item {
 	
 	private static final HashMap<Player.Powerup, Integer> POWERUP_MAX_TIMES = new HashMap<Player.Powerup, Integer>();
 	static {
-		POWERUP_MAX_TIMES.put(Player.Powerup.INVULNERABLE, 50);
-		POWERUP_MAX_TIMES.put(Player.Powerup.RATE_OF_FIRE, 50);
-		POWERUP_MAX_TIMES.put(Player.Powerup.SCORE_MULTIPLIER, 50);
-		POWERUP_MAX_TIMES.put(Player.Powerup.SUPER_SPEED, 50);
+		POWERUP_MAX_TIMES.put(Player.Powerup.INVULNERABLE, 10);
+		POWERUP_MAX_TIMES.put(Player.Powerup.RATE_OF_FIRE, 10);
+		POWERUP_MAX_TIMES.put(Player.Powerup.SCORE_MULTIPLIER, 10);
+		POWERUP_MAX_TIMES.put(Player.Powerup.SUPER_SPEED, 10);
 	}
 	
     /**
@@ -40,7 +40,7 @@ public class Powerup extends Item {
      * @param powerup The powerup
      * @return The max duration for a specific powerup
      */
-    public int getMaxPowerupTime(Player.Powerup powerup) {
+    public static int getMaxPowerupTime(Player.Powerup powerup) {
     	return POWERUP_MAX_TIMES.get(powerup);
     }
     
