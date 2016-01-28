@@ -22,10 +22,10 @@ void main() {
 	if (distanceBetweenPixelAndCentre <= u_powerupWidth) {
 	
 		// Different angle behaviour depending on whether you're on the right side of the powerup or the left
-		if (eastOfCenter && angleBetweenNorthAndCentre < u_currentAngle && powerupColor.a != 0) {
+		if (eastOfCenter && angleBetweenNorthAndCentre < u_currentAngle && powerupColor.a != 0.) {
 			powerupColor.a = transparency;
 		}
-		else if ((2*PI - angleBetweenNorthAndCentre) < u_currentAngle && powerupColor.a != 0) {
+		else if ((2.*PI - angleBetweenNorthAndCentre) < u_currentAngle && powerupColor.a != 0.) {
 			powerupColor.a = transparency;
 		}
 	}
