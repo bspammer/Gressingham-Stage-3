@@ -35,7 +35,7 @@ public class StartScreen implements Screen {
      */
     public StartScreen(DuckGame parent) {
         this.parent = parent;
-        Assets.load();
+        
         
     }
 

@@ -43,7 +43,6 @@ public class LevelSelectScreen implements Screen {
 	     */
 	    public LevelSelectScreen(DuckGame parent) {
 	        this.parent = parent;
-	        Assets.load();
 	    }
 
 	    /**
@@ -231,6 +230,9 @@ public class LevelSelectScreen implements Screen {
 	    	show();
 	    }
 	    
+	    /**
+	     * Checks for esc keypress and returns to main menu
+	     */
 	    public void update(){
 	    	if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 	    		parent.showStartScreen();
