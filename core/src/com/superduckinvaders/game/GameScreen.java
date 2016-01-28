@@ -4,8 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.superduckinvaders.game.assets.Assets;
@@ -37,6 +40,11 @@ public class GameScreen implements Screen {
      * The Round this GameScreen renders.
      */
     private Round round;
+    
+    /**
+     * The shader program used to render the radial buffs
+     */
+	private ShaderProgram shader = new ShaderProgram(Gdx.files.internal("shaders/powerupShader.vsh"), Gdx.files.internal("shaders/powerupShader.fsh"));
 
     /**
      * Initialises this GameScreen for the specified round.
@@ -137,25 +145,6 @@ public class GameScreen implements Screen {
             Assets.staminaFull.setRegionWidth(0);
         }
 		uiBatch.draw(Assets.staminaFull, 1080, 10);
-		
-		//Draw powerup buffs
-		int powerupCount = 0;
-		for (Player.Powerup powerup : Player.Powerup.values()) {
-			if (round.getPlayer().powerupIsActive(powerup)) {
-				TextureRegion powerupTexture = new TextureRegion(Player.Powerup.getTextureForPowerup(powerup));
-				int powerupDrawScale = 3;
-				float powerupWidth = powerupTexture.getRegionWidth();
-				float powerupHeight = powerupTexture.getRegionHeight();
-				float powerupX = 1225 - powerupWidth*powerupDrawScale*powerupCount*1.2f;
-				float powerupY = 45;
-				
-				//Remove some of the texture to represent time left on the powerup
-				powerupTexture.setRegionWidth((int) (round.getPlayer().getPowerupTimeRemaining(powerup)/Powerup.getMaxPowerupTime(powerup) * powerupWidth));
-				powerupWidth = powerupTexture.getRegionWidth();
-				uiBatch.draw(powerupTexture, powerupX, powerupY, powerupWidth*powerupDrawScale, powerupHeight*powerupDrawScale);
-				powerupCount += 1;
-			}
-		}
 
         int x = 0;
         while(x < round.getPlayer().getMaximumHealth()) {
@@ -169,6 +158,36 @@ public class GameScreen implements Screen {
         }
 
         uiBatch.end();
+        
+        SpriteBatch powerupBatch = new SpriteBatch();
+		ShaderProgram.pedantic = false;
+		if (shader.getLog().length() > 0)
+			System.out.println(shader.getLog());
+		powerupBatch.setShader(shader);
+		powerupBatch.begin();
+		
+		//Draw powerup buffs
+		int powerupCount = 0;
+		for (Player.Powerup powerup : Player.Powerup.values()) {
+			if (round.getPlayer().powerupIsActive(powerup)) {
+				TextureRegion powerupTexture = new TextureRegion(Player.Powerup.getTextureForPowerup(powerup));
+				int powerupDrawScale = 3;
+				float powerupWidth = powerupTexture.getRegionWidth();
+				float powerupHeight = powerupTexture.getRegionHeight();
+				float powerupX = 1225 - powerupWidth*powerupDrawScale*powerupCount*1.2f;
+				float powerupY = 45;
+				
+				double proportionTimeLeft = round.getPlayer().getPowerupTimeRemaining(powerup)/Powerup.getMaxPowerupTime(powerup);
+				shader.setUniformf("u_centre", powerupX + 1 + (powerupWidth*powerupDrawScale)/2, powerupY - 1 + (powerupHeight*powerupDrawScale)/2);
+				shader.setUniformf("u_powerupWidth", powerupWidth*powerupDrawScale);
+				//Starts at 0 and increases to 2*pi
+				shader.setUniformf("u_currentAngle", (float) (2*Math.PI - (proportionTimeLeft*2*Math.PI)));
+				powerupBatch.draw(powerupTexture, powerupX, powerupY, powerupWidth*powerupDrawScale, powerupHeight*powerupDrawScale);
+				powerupBatch.flush();
+				powerupCount += 1;
+			}
+		}
+		powerupBatch.end();
     }
 
     /**
