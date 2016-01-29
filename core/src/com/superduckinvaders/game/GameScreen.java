@@ -166,7 +166,7 @@ public class GameScreen implements Screen {
         SpriteBatch powerupBatch = new SpriteBatch();
 		ShaderProgram.pedantic = false;
 		if (shader.getLog().length() > 0)
-			//System.out.println(shader.getLog());
+			shader.getLog();
 		powerupBatch.setShader(shader);
 		powerupBatch.begin();
 		
