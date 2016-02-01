@@ -26,7 +26,7 @@ public class Player extends Character {
     /**
      * Player's standard attack delay (how many seconds between attacks).
      */
-    public static final float PLAYER_ATTACK_DELAY = 0.01f;
+    public static final float PLAYER_ATTACK_DELAY = 0.1f;
     /**
      * How much the Player's score increases should be multiplied by if they have the score multiplier powerup.
      */
@@ -121,6 +121,7 @@ public class Player extends Character {
      * @return the current upgrade
      */
     public Upgrade getUpgrade(){
+    	
     	return upgrade;
     }
 
@@ -130,6 +131,7 @@ public class Player extends Character {
      * @param upgrade the upgrade to set
      */
     public void setUpgrade(Upgrade upgrade) {
+    	Assets.gunPickup.play(1.0f);
         this.upgrade = upgrade;
     }
     
@@ -140,6 +142,7 @@ public class Player extends Character {
      * @param time    how long the powerup should last, in seconds
      */
     public void setPowerup(Powerup powerup, double time) {
+    	Assets.collect.play(1.0f);
         powerupRemainingTimes.put(powerup, time);
     }
 
@@ -225,6 +228,7 @@ public class Player extends Character {
                 attackTimer = 0;
 
                 if (upgrade == Upgrade.GUN) {
+                	Assets.shot.play(0.5f);
                     Vector3 target = parent.unproject(Gdx.input.getX(), Gdx.input.getY());
 
                     // Face target when firing gun.

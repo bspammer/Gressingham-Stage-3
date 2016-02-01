@@ -1,6 +1,7 @@
 package com.superduckinvaders.game.assets;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -78,7 +79,33 @@ public class Assets {
      *  Texture for the game logo.
      */
     public static TextureRegion logo;
+  
+    /**
+     * music for the game
+     */
+    public static Sound music;
+    
+    /**
+     * button noise
+     */
+    public static Sound buttonPress;
 
+    
+    /**
+     * collectable noise
+     */
+    public static Sound collect;
+    
+    
+    /**
+     * gun pickup noise
+     */
+    public static Sound gunPickup;
+    
+    /**
+     * gunshot noise
+     */
+    public static Sound shot;
     /**
      * Responsible for loading maps.
      */
@@ -96,7 +123,11 @@ public class Assets {
 
         explosionAnimation = loadAnimation("textures/explosion.png", 2, 32, 0.3f);
 
-        
+        music = loadSound("sound/levelMusic.mp3");
+        buttonPress = loadSound("sound/button.mp3");
+        collect = loadSound("sound/collect.mp3");
+        gunPickup = loadSound("sound/gun.mp3");
+        shot = loadSound("sound/shot.mp3");
         
         //load multiple levels
         levelOneMap = loadTiledMap("maps/map.tmx");
@@ -245,5 +276,12 @@ public class Assets {
         return new BitmapFont(Gdx.files.internal(fontFile), Gdx.files.internal(imageFile), false);
     }
 
-
+    /**
+     * Loads sound files based on a given path
+     * @param path the path of the file
+     * @return the gdx sound object
+     */
+    public static Sound loadSound(String path){
+    	return Gdx.audio.newSound(Gdx.files.internal(path));
+    }
 }
