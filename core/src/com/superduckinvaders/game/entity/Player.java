@@ -170,6 +170,13 @@ public class Player extends Character {
     public boolean isFlying() {
         return flyingTimer <= 0;
     }
+    
+    /**
+     * Returns if the player is currently swimming
+     */
+    public boolean isSwimming() {
+    	return Round.isSwimming;
+    }
 
     /**
      * @return the width of this Player
@@ -298,7 +305,14 @@ public class Player extends Character {
     @Override
     public void render(SpriteBatch spriteBatch) {
         // Use the right texture set.
-        TextureSet textureSet = isFlying() ? Assets.playerFlying : Assets.playerNormal;
+        TextureSet textureSet;
+        if (isFlying()) {
+        	textureSet = Assets.playerFlying;
+        } else if (isSwimming()) {
+        	textureSet = Assets.playerSwimming;
+        } else {
+        	textureSet = Assets.playerNormal;
+        }
 
         spriteBatch.draw(textureSet.getTexture(facing, stateTime), (int) x, (int) y);
     }

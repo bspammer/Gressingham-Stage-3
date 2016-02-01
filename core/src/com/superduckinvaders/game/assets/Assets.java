@@ -16,9 +16,9 @@ import com.badlogic.gdx.utils.Array;
 public class Assets {
 
     /**
-     *  Player texture sets for normal and flying.
+     *  Player texture sets for normal, flying and swimming.
      */
-    public static TextureSet playerNormal, playerFlying;
+    public static TextureSet playerNormal, playerFlying, playerSwimming;
 
     /**
      *  Bad guy texture set.
@@ -195,6 +195,15 @@ public class Assets {
         Animation walkingRight = loadAnimation("textures/player_walking_right.png", 4, 14, 0.2f);
         
         //Load swimming animations.
+        Animation swimmingFront = loadAnimation("textures/player_swimming_front.png", 2, 14, 0.2f);
+        Animation swimmingBack = loadAnimation("textures/player_swimming_back.png", 2, 14, 0.2f);
+        Animation swimmingLeft = loadAnimation("textures/player_swimming_left.png", 2, 14, 0.2f);
+        Animation swimmingRight = loadAnimation("textures/player_swimming_right.png", 2, 14, 0.2f);
+        Texture swimmingIdle = new Texture("textures/player_swimming_idle.png");
+        TextureRegion swimmingIdleFront = new TextureRegion(swimmingIdle, 0*14, 0, 14, 17);
+        TextureRegion swimmingIdleBack = new TextureRegion(swimmingIdle, 1*14, 0, 14, 17);
+        TextureRegion swimmingIdleLeft = new TextureRegion(swimmingIdle, 2*14, 0, 14, 17);
+        TextureRegion swimmingIdleRight = new TextureRegion(swimmingIdle, 3*14, 0, 14, 17);
 
         // Load flying animations.
         Animation flyingFront = loadAnimation("textures/player_flying_front.png", 2, 18, 0.2f);
@@ -204,6 +213,8 @@ public class Assets {
 
         playerNormal = new TextureSet(front, back, left, right, walkingFront, walkingBack, walkingLeft, walkingRight);
         playerFlying = new TextureSet(front, back, left, right, flyingFront, flyingBack, flyingLeft, flyingRight);
+        playerSwimming = new TextureSet(swimmingIdleFront, swimmingIdleBack, swimmingIdleLeft, swimmingIdleRight,
+        									swimmingFront, swimmingBack, swimmingLeft, swimmingRight);
     }
 
     /**
