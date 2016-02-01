@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.superduckinvaders.game.assets.Assets;
@@ -119,6 +120,9 @@ public class GameScreen implements Screen {
             mapRenderer.renderTileLayer(round.getObstaclesLayer());
         }
 
+        //Render water layer
+        mapRenderer.renderTileLayer((TiledMapTileLayer) round.getMap().getLayers().get("Water"));
+        
         // Draw all entities.
         for (Entity entity : round.getEntities()) {
             entity.render(spriteBatch);
