@@ -26,7 +26,7 @@ import java.util.List;
 public final class Round {
 
 	
-	public boolean isSwimming=false;
+	public static boolean isSwimming=false;
 	
 	
 	/**
@@ -399,7 +399,6 @@ public final class Round {
         	isSwimming=false;
         }
         
-       System.out.println(isSwimming);
         
         
         

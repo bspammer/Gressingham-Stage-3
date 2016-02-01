@@ -22,7 +22,7 @@ public class Player extends Character {
     /**
      * Player's standard movement speed in pixels per second.
      */
-    public static final int PLAYER_SPEED = 200;
+    public static int PLAYER_SPEED = 200;
     /**
      * Player's standard attack delay (how many seconds between attacks).
      */
@@ -208,6 +208,13 @@ public class Player extends Character {
     @Override
     public void update(float delta) {
         // Decrement powerup timer for each powerup.
+    	if(Round.isSwimming){
+    		PLAYER_SPEED=100;
+    	}
+    	else {
+    		PLAYER_SPEED=200;
+    	}
+    	
     	for (Player.Powerup key : powerupRemainingTimes.keySet()) {
     		if (powerupIsActive(key)) {
     			powerupRemainingTimes.put(key, powerupRemainingTimes.get(key) - delta);

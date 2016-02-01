@@ -25,7 +25,7 @@ import com.superduckinvaders.game.entity.item.Powerup;
  */
 public class GameScreen implements Screen {
 
-	private boolean gridlines=true;
+	private boolean gridlines=false;
     /**
      * The game camera.
      */
@@ -102,8 +102,7 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-    	
-        round.update(delta);
+    	round.update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

@@ -186,11 +186,15 @@ public class Assets {
         TextureRegion left = new TextureRegion(playerIdle, 28, 0, 14, 18);
         TextureRegion right = new TextureRegion(playerIdle, 42, 0, 14, 18);
 
+        //Cut idle swim textures from the map.
+        
         // Load walking animations.
         Animation walkingFront = loadAnimation("textures/player_walking_front.png", 4, 12, 0.2f);
         Animation walkingBack = loadAnimation("textures/player_walking_back.png", 4, 12, 0.2f);
         Animation walkingLeft = loadAnimation("textures/player_walking_left.png", 4, 14, 0.2f);
         Animation walkingRight = loadAnimation("textures/player_walking_right.png", 4, 14, 0.2f);
+        
+        //Load swimming animations.
 
         // Load flying animations.
         Animation flyingFront = loadAnimation("textures/player_flying_front.png", 2, 18, 0.2f);

@@ -127,7 +127,7 @@ public abstract class Entity {
      */
     public int directionTo(double x, double y) {
         double angle = angleTo(x, y);
-
+        
         if (angle < Math.PI * 3 / 4 && angle >= Math.PI / 4) {
             return TextureSet.FACING_BACK;
         } else if (angle < Math.PI / 4 && angle >= -Math.PI / 4) {
