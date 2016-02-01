@@ -106,6 +106,16 @@ public class Assets {
      * gunshot noise
      */
     public static Sound shot;
+    
+    /**
+     * levelComplete noise
+     */
+    public static Sound levelComplete;
+    
+    /**
+     * gameOver noise
+     */
+    public static Sound gameOver;
     /**
      * Responsible for loading maps.
      */
@@ -128,6 +138,8 @@ public class Assets {
         collect = loadSound("sound/collect.mp3");
         gunPickup = loadSound("sound/gun.mp3");
         shot = loadSound("sound/shot.mp3");
+        levelComplete = loadSound("sound/levelComplete.mp3");
+        gameOver = loadSound("sound/gameOver.mp3");
         
         //load multiple levels
         levelOneMap = loadTiledMap("maps/map.tmx");

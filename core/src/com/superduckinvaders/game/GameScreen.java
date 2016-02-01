@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
@@ -22,6 +25,7 @@ import com.superduckinvaders.game.entity.item.Powerup;
  */
 public class GameScreen implements Screen {
 
+	private boolean gridlines=true;
     /**
      * The game camera.
      */
@@ -98,15 +102,23 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float delta) {
+    	
         round.update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        
+        
         // Centre the camera on the player.
         camera.position.set((int) round.getPlayer().getX() + round.getPlayer().getWidth() / 2, (int) round.getPlayer().getY() + round.getPlayer().getHeight() / 2, 0);
         camera.update();
 
+        
+       
+        
+        
+        
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
 
@@ -197,6 +209,20 @@ public class GameScreen implements Screen {
 			}
 		}
 		powerupBatch.end();
+		
+		if (gridlines){
+		 TiledMap map =round.getMap();
+	        ShapeRenderer sr = new ShapeRenderer();
+	        int tileWidth = map.getProperties().get("tilewidth", Integer.class), tileHeight = map.getProperties().get("tileheight", Integer.class);
+	        int mapWidth = map.getProperties().get("width", Integer.class) * tileWidth, mapHeight = map.getProperties().get("height", Integer.class) * tileHeight;
+	        sr.setProjectionMatrix(camera.combined);
+	        sr.begin(ShapeType.Line);
+	        for(int y = 0; y < mapWidth; y += tileWidth)
+	        	   sr.line(y, 0, y, mapHeight);
+	        	for(int y = 0; y < mapHeight; y += tileHeight)
+	        	   sr.line(0, y, mapWidth, y);
+	        	sr.end();
+		}
     }
 
     /**
@@ -234,6 +260,7 @@ public class GameScreen implements Screen {
      */
     @Override
     public void dispose() {
+    	Assets.music.stop();
         mapRenderer.dispose();
         spriteBatch.dispose();
         uiBatch.dispose();

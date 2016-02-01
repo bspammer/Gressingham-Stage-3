@@ -70,6 +70,7 @@ public class WinScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	Assets.buttonPress.play(1.0f);
                 parent.showStartScreen();
             }
         });

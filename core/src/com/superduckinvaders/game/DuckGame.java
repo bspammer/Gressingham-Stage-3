@@ -103,6 +103,7 @@ public class DuckGame extends Game {
         if (winScreen != null) {
             winScreen.dispose();
         }
+        
 
         setScreen(winScreen = new WinScreen(this, score));
     }

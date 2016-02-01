@@ -1,6 +1,8 @@
 package com.superduckinvaders.game;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
@@ -18,12 +20,20 @@ import com.superduckinvaders.game.objective.Objective;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * Represents a round of the game played on one level with a single objective.
  */
 public final class Round {
 
+	
+	public boolean isSwimming=false;
+	
+	
+	/**
+	 * used to display tiles
+	 */
+	public ShapeRenderer sr;
+	
     /**
      * How near entities must be to the player to get updated in the game loop.
      */
@@ -367,12 +377,33 @@ public final class Round {
             objective.update(delta);
 
             if (objective.getStatus() == Objective.OBJECTIVE_COMPLETED) {
+            	Assets.music.stop();
+            	Assets.levelComplete.play(1.0f);
                 parent.showWinScreen(player.getScore());
             } else if (player.isDead()) {
+            	Assets.music.stop();
+            	Assets.gameOver.play(1.0f);
                 parent.showLoseScreen();
             }
         }
 
+        int PlayerX = (int)player.getX()/32;
+        int PlayerY = (int) player.getY()/32;
+        
+        TiledMapTileLayer water = (TiledMapTileLayer) map.getLayers().get("Water");
+        
+        if (water.getCell(PlayerX,PlayerY) != null){
+        	isSwimming = true;
+        }
+        else{
+        	isSwimming=false;
+        }
+        
+       System.out.println(isSwimming);
+        
+        
+        
+        
         for (int i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
 
