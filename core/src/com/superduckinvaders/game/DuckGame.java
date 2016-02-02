@@ -174,7 +174,6 @@ public class DuckGame extends Game {
     	
     	//if the file doesn't exit, make it
     	if ( fileExistance == false){
-    		System.out.println("creating file");
     		String path = Gdx.files.getExternalStoragePath() + "/Saves/Settings.ini";
         	// Use relative path for Unix systems
         	File f = new File(path);

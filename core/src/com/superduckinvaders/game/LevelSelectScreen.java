@@ -25,7 +25,7 @@ public class LevelSelectScreen implements Screen {
 
 
 
-
+		
 	    /**
 	     * The DuckGame this StartScreen belongs to.
 	     */
@@ -43,6 +43,7 @@ public class LevelSelectScreen implements Screen {
 	     */
 	    public LevelSelectScreen(DuckGame parent) {
 	        this.parent = parent;
+	        DuckGame.loadSettings();
 	    }
 
 	    /**
@@ -319,6 +320,7 @@ public class LevelSelectScreen implements Screen {
 	        Gdx.gl.glClearColor(0, 0, 0, 1);
 	        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	        update();
+	        System.out.println(DuckGame.levelsComplete);
 	        stage.draw();
 	       
 	    }
