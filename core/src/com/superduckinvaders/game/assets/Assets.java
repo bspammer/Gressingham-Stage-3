@@ -19,6 +19,8 @@ public class Assets {
 	public static TextureRegion downButton;
 
 	public static TextureRegion upButton;
+	
+	public static TextureRegion backButton;
     /**
      *  Player texture sets for normal, flying and swimming.
      */
@@ -174,6 +176,7 @@ public class Assets {
         downButton = new TextureRegion(loadTexture("textures/down.png"));
         upButton = new TextureRegion(loadTexture("textures/down.png"));
         upButton.flip(true, false);
+        backButton = new TextureRegion(loadTexture("textures/esc.png"));
 
         flag = new TextureRegion(loadTexture("textures/flag.png"));
         logo = new TextureRegion(loadTexture("textures/logo.png"));

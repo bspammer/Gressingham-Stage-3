@@ -60,6 +60,23 @@ public class LevelSelectScreen implements Screen {
 	        Drawable buttonLocked = new TextureRegionDrawable(Assets.buttonLocked);
 	        Label.LabelStyle white = new Label.LabelStyle(Assets.font, Color.WHITE);
 
+	        Drawable buttonBack = new TextureRegionDrawable(Assets.backButton);
+
+	        Label backLabel = new Label("Esc", white);
+	        backLabel.setPosition(65,Gdx.graphics.getHeight()-85);
+	        backLabel.setTouchable(Touchable.disabled);
+	        
+	        Button backButton = new Button(new Button.ButtonStyle(buttonBack, buttonBack, buttonBack));
+	        backButton.setPosition(40,Gdx.graphics.getHeight()-100);
+	        backButton.addListener(new ClickListener() {
+
+	            public void clicked(InputEvent event, float x, float y) {
+	            	Assets.buttonPress.play(DuckGame.MasterVol);
+	                parent.showStartScreen();
+	            }
+	        });
+	        
+	        
 	        //button for level one
 	        Button playButtonOne = new Button(new Button.ButtonStyle(button, button, button));
 	        playButtonOne.setPosition((((stage.getWidth() - playButtonOne.getPrefWidth())) /2) -200,  (stage.getHeight() - playButtonOne.getPrefHeight())/2 +160);
@@ -290,7 +307,9 @@ public class LevelSelectScreen implements Screen {
 	        playLabelEight.setTouchable(Touchable.disabled);
 	        
 	        
-	        
+	        stage.addActor(backButton);
+	        stage.addActor(backLabel);
+	       
 	        stage.addActor(playButtonOne);
 	        stage.addActor(playLabelOne);
 	        stage.addActor(playButtonTwo);
