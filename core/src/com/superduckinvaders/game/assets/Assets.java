@@ -72,7 +72,7 @@ public class Assets {
     /**
      *  Textures for floor items.
      */
-    public static TextureRegion floorItemGun, floorItemSpeed, floorItemInvulnerable, floorItemScore, floorItemFireRate;
+    public static TextureRegion floorItemGun, floorItemSpeed, floorItemInvulnerable, floorItemScore, floorItemFireRate, floorItemRegeneration;
 
     /**
      *  Texture for objective flag.
@@ -252,11 +252,12 @@ public class Assets {
     public static void loadFloorItems() {
         Texture floorItems = loadTexture("textures/floor_items.png");
 
-        floorItemGun = new TextureRegion(floorItems, 0, 0, 15, 15);
-        floorItemSpeed = new TextureRegion(floorItems, 15, 0, 15, 15);
-        floorItemInvulnerable = new TextureRegion(floorItems, 30, 0, 15, 15);
-        floorItemScore = new TextureRegion(floorItems, 45, 0, 15, 15);
-        floorItemFireRate = new TextureRegion(floorItems, 60, 0, 15, 15);
+        floorItemGun = new TextureRegion(floorItems, 0*15, 0, 15, 15);
+        floorItemSpeed = new TextureRegion(floorItems, 1*15, 0, 15, 15);
+        floorItemInvulnerable = new TextureRegion(floorItems, 2*15, 0, 15, 15);
+        floorItemScore = new TextureRegion(floorItems, 3*15, 0, 15, 15);
+        floorItemFireRate = new TextureRegion(floorItems, 4*15, 0, 15, 15);
+        floorItemRegeneration = new TextureRegion(floorItems, 5*15, 0, 15, 15);
     }
 
     /**

@@ -175,7 +175,7 @@ public class GameScreen implements Screen {
         		uiBatch.draw(Assets.heartEmpty, x * 18 + 10, 10);
         	x += 2;
         }
-        uiBatch.draw(Assets.powerupBackboard, Gdx.graphics.getWidth() - Assets.powerupBackboard.getWidth() - 10, 40);
+        //uiBatch.draw(Assets.powerupBackboard, Gdx.graphics.getWidth() - Assets.powerupBackboard.getWidth() - 10, 40);
         uiBatch.end();
         
         SpriteBatch powerupBatch = new SpriteBatch();

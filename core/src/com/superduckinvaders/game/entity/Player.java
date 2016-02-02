@@ -53,6 +53,10 @@ public class Player extends Character {
      * How long after flying before the Player can fly again, in seconds.
      */
     public static final double PLAYER_FLIGHT_COOLDOWN = 5;
+    /**
+     * The time between regeneration ticks with the regeneration powerup.
+     */
+    public static final double PLAYER_REGENERATION_TIME = 0.95;
 
     /**
      * Player's current score.
@@ -74,6 +78,10 @@ public class Player extends Character {
      * How long it has been since the Player last attacked.
      */
     private double attackTimer = 0;
+    /**
+     * Time until next regen (only used with regeneration powerup).
+     */
+    private double regenTimer = 0;
 
     /**
      * Initialises this Player at the specified coordinates and with the specified initial health.
@@ -256,6 +264,20 @@ public class Player extends Character {
                 }
             }
         }
+        
+        // Regenerate the player if the powerup is active and the regenTimer has reached 0
+        if (powerupIsActive(Powerup.REGENERATION)) {
+        	if (regenTimer <= 0) {
+        		if (currentHealth < maximumHealth) {
+        			heal(1);
+        		}
+        		regenTimer = PLAYER_REGENERATION_TIME;
+        	} else {
+        		regenTimer -= delta;
+        	}
+        } else {
+        	regenTimer = PLAYER_REGENERATION_TIME;
+        }
 
         // Press space to start flying, but only if flying isn't cooling down and we're moving.
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && flyingTimer >= PLAYER_FLIGHT_COOLDOWN && (velocityX != 0 || velocityY != 0)) {
@@ -294,7 +316,6 @@ public class Player extends Character {
                 velocityY /= Math.sqrt(2);
             }
         }
-
         // Update movement.
         super.update(delta);
     }
@@ -326,7 +347,8 @@ public class Player extends Character {
         SCORE_MULTIPLIER,
         SUPER_SPEED,
         RATE_OF_FIRE,
-        INVULNERABLE;
+        INVULNERABLE,
+        REGENERATION;
 
         /**
          * Gets a texture for this powerup's floor item.
@@ -344,6 +366,8 @@ public class Player extends Character {
                     return Assets.floorItemFireRate;
                 case INVULNERABLE:
                     return Assets.floorItemInvulnerable;
+                case REGENERATION:
+                	return Assets.floorItemRegeneration;
                 default:
                     return null;
             }

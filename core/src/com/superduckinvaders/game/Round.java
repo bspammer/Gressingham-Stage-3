@@ -104,6 +104,7 @@ public final class Round {
         createPowerup(startX + 60, startY, Player.Powerup.INVULNERABLE);
         createPowerup(startX + 80, startY, Player.Powerup.SCORE_MULTIPLIER);
         createPowerup(startX + 100, startY, Player.Powerup.SUPER_SPEED);
+        createPowerup(startX + 120, startY, Player.Powerup.REGENERATION);
         spawnRandomMobs(100, 200, 200, 1000, 1000);
     }
 

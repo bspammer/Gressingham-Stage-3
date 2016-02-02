@@ -16,6 +16,7 @@ public class Powerup extends Item {
 		POWERUP_MAX_TIMES.put(Player.Powerup.RATE_OF_FIRE, 10);
 		POWERUP_MAX_TIMES.put(Player.Powerup.SCORE_MULTIPLIER, 10);
 		POWERUP_MAX_TIMES.put(Player.Powerup.SUPER_SPEED, 10);
+		POWERUP_MAX_TIMES.put(Player.Powerup.REGENERATION, 3);
 	}
 	
     /**
