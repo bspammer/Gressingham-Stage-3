@@ -1,11 +1,13 @@
 package com.superduckinvaders.game.entity;
 
 import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.superduckinvaders.game.DuckGame;
 import com.superduckinvaders.game.Round;
 import com.superduckinvaders.game.assets.Assets;
 import com.superduckinvaders.game.assets.TextureSet;
@@ -131,7 +133,7 @@ public class Player extends Character {
      * @param upgrade the upgrade to set
      */
     public void setUpgrade(Upgrade upgrade) {
-    	Assets.gunPickup.play(1.0f);
+    	Assets.gunPickup.play(DuckGame.MasterVol*DuckGame.SfxVol);
         this.upgrade = upgrade;
     }
     
@@ -142,7 +144,7 @@ public class Player extends Character {
      * @param time    how long the powerup should last, in seconds
      */
     public void setPowerup(Powerup powerup, double time) {
-    	Assets.collect.play(1.0f);
+    	Assets.collect.play(DuckGame.MasterVol*DuckGame.SfxVol);
         powerupRemainingTimes.put(powerup, time);
     }
 
@@ -242,7 +244,7 @@ public class Player extends Character {
                 attackTimer = 0;
 
                 if (upgrade == Upgrade.GUN) {
-                	Assets.shot.play(0.5f);
+                	Assets.shot.play(DuckGame.MasterVol*DuckGame.SfxVol /2);
                     Vector3 target = parent.unproject(Gdx.input.getX(), Gdx.input.getY());
 
                     // Face target when firing gun.

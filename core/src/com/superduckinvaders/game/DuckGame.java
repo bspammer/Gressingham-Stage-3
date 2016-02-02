@@ -1,10 +1,22 @@
 package com.superduckinvaders.game;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.superduckinvaders.game.assets.Assets;
 
 public class DuckGame extends Game {
 	
+	public static float MasterVol;
+	public static float SfxVol;
+	public static float MusicVol;
+	public static String levelsComplete;
     /**
      * The width of the game window.
      */
@@ -48,6 +60,42 @@ public class DuckGame extends Game {
      */
     @Override
     public void create() {
+    	
+    	
+    	
+    	
+    	FileHandle handle;
+    	
+    	String extRoot = Gdx.files.getExternalStoragePath();
+    	boolean fileExistance = Gdx.files.external("Saves/Settings.ini").exists();
+    	
+    	//if the file doesn't exit, make it
+    	if ( fileExistance == false){
+    		System.out.println("creating file");
+    		String path = Gdx.files.getExternalStoragePath() + "/Saves/Settings.ini";
+        	// Use relative path for Unix systems
+        	File f = new File(path);
+        	// Works for both Windows and Linux
+        	f.getParentFile().mkdirs(); 
+        	try {
+    			f.createNewFile();
+    			handle = Gdx.files.external("Saves/Settings.ini");
+    			//creates defualt settings file
+    	    	handle.writeString("levelsComplete=00000000\nMaster=1.0f\nSFX=1.0f\nMusic=1.0f", false);
+ 
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
+    	
+    	handle = Gdx.files.external("Saves/Settings.ini");
+    	String text = handle.readString();
+    	String lines[] = text.split("\\r?\\n");
+    	levelsComplete = lines[0].substring(15);
+    	MasterVol = Float.parseFloat(lines[1].substring(7));
+    	SfxVol = Float.parseFloat(lines[2].substring(4));
+    	MusicVol = Float.parseFloat(lines[3].substring(6));
         Assets.load();
 
         roundOne = new Round(this, Assets.levelOneMap);
