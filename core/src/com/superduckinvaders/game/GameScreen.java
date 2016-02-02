@@ -160,7 +160,7 @@ public class GameScreen implements Screen {
         int staminaBarY = 10;
 		uiBatch.draw(Assets.staminaEmpty, staminaBarX, staminaBarY, staminaBarWidth, staminaBarHeight);
         if (round.getPlayer().getFlyingTimer() > 0) {
-            Assets.staminaFull.setRegionWidth((int) Math.max(0, Math.min(192, round.getPlayer().getFlyingTimer() / Player.PLAYER_FLIGHT_COOLDOWN * 192)));
+            Assets.staminaFull.setRegionWidth((int) Math.max(0, Math.min(staminaBarWidth, round.getPlayer().getFlyingTimer() / Player.PLAYER_FLIGHT_COOLDOWN * staminaBarWidth)));
         } else {
             Assets.staminaFull.setRegionWidth(0);
         }
@@ -176,7 +176,7 @@ public class GameScreen implements Screen {
         		uiBatch.draw(Assets.heartEmpty, x * 18 + 10, 10);
         	x += 2;
         }
-
+        uiBatch.draw(Assets.powerupBackboard, Gdx.graphics.getWidth() - Assets.powerupBackboard.getWidth() - 10, 40);
         uiBatch.end();
         
         SpriteBatch powerupBatch = new SpriteBatch();
@@ -194,8 +194,8 @@ public class GameScreen implements Screen {
 				int powerupDrawScale = 3;
 				float powerupWidth = powerupTexture.getRegionWidth();
 				float powerupHeight = powerupTexture.getRegionHeight();
-				float powerupX = Gdx.graphics.getWidth() - 55 - powerupWidth*powerupDrawScale*powerupCount*1.2f;
-				float powerupY = 45;
+				float powerupX = Gdx.graphics.getWidth() - 62 - powerupWidth*powerupDrawScale*powerupCount*1.2f;
+				float powerupY = 46;
 				
 				double proportionTimeLeft = round.getPlayer().getPowerupTimeRemaining(powerup)/Powerup.getMaxPowerupTime(powerup);
 				shader.setUniformf("u_centre", powerupX + 1 + (powerupWidth*powerupDrawScale)/2, powerupY - 1 + (powerupHeight*powerupDrawScale)/2);
