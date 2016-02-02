@@ -61,41 +61,11 @@ public class DuckGame extends Game {
     @Override
     public void create() {
     	
+    	loadSettings();
     	
     	
     	
-    	FileHandle handle;
     	
-    	String extRoot = Gdx.files.getExternalStoragePath();
-    	boolean fileExistance = Gdx.files.external("Saves/Settings.ini").exists();
-    	
-    	//if the file doesn't exit, make it
-    	if ( fileExistance == false){
-    		System.out.println("creating file");
-    		String path = Gdx.files.getExternalStoragePath() + "/Saves/Settings.ini";
-        	// Use relative path for Unix systems
-        	File f = new File(path);
-        	// Works for both Windows and Linux
-        	f.getParentFile().mkdirs(); 
-        	try {
-    			f.createNewFile();
-    			handle = Gdx.files.external("Saves/Settings.ini");
-    			//creates defualt settings file
-    	    	handle.writeString("levelsComplete=00000000\nMaster=1.0f\nSFX=1.0f\nMusic=1.0f", false);
- 
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
-    	}
-    	
-    	handle = Gdx.files.external("Saves/Settings.ini");
-    	String text = handle.readString();
-    	String lines[] = text.split("\\r?\\n");
-    	levelsComplete = lines[0].substring(15);
-    	MasterVol = Float.parseFloat(lines[1].substring(7));
-    	SfxVol = Float.parseFloat(lines[2].substring(4));
-    	MusicVol = Float.parseFloat(lines[3].substring(6));
         Assets.load();
 
         roundOne = new Round(this, Assets.levelOneMap);
@@ -191,6 +161,50 @@ public class DuckGame extends Game {
      */
     public GameScreen getGameScreen() {
         return gameScreen;
+    }
+    
+    /**
+     * Loads settings from an external file
+     */
+    public void loadSettings(){
+    	FileHandle handle;
+    	
+    	String extRoot = Gdx.files.getExternalStoragePath();
+    	boolean fileExistance = Gdx.files.external("Saves/Settings.ini").exists();
+    	
+    	//if the file doesn't exit, make it
+    	if ( fileExistance == false){
+    		System.out.println("creating file");
+    		String path = Gdx.files.getExternalStoragePath() + "/Saves/Settings.ini";
+        	// Use relative path for Unix systems
+        	File f = new File(path);
+        	// Works for both Windows and Linux
+        	f.getParentFile().mkdirs(); 
+        	try {
+    			f.createNewFile();
+    			handle = Gdx.files.external("Saves/Settings.ini");
+    			//creates defualt settings file
+    	    	handle.writeString("levelsComplete=00000000\nMaster=1.0f\nSFX=1.0f\nMusic=1.0f", false);
+ 
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
+    	
+    	handle = Gdx.files.external("Saves/Settings.ini");
+    	String text = handle.readString();
+    	String lines[] = text.split("\\r?\\n");
+    	levelsComplete = lines[0].substring(15);
+    	MasterVol = Float.parseFloat(lines[1].substring(7));
+    	SfxVol = Float.parseFloat(lines[2].substring(4));
+    	MusicVol = Float.parseFloat(lines[3].substring(6));
+    }
+    
+    public static void saveSettings(){
+    	FileHandle handle;
+    	handle = Gdx.files.external("Saves/Settings.ini");
+    	handle.writeString("levelsComplete="+levelsComplete+"\nMaster="+Float.toString(MasterVol)+"\nSFX="+Float.toString(SfxVol)+"\nMusic="+Float.toString(MusicVol),false);
     }
     
 }
