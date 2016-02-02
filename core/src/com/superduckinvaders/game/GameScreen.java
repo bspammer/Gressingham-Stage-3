@@ -58,7 +58,7 @@ public class GameScreen implements Screen {
      */
     public GameScreen(Round round) {
         this.round = round;
-        Assets.music.play(1.0f);
+        Assets.music.play(DuckGame.MasterVol*DuckGame.MusicVol);
     }
 
     /**

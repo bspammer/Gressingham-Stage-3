@@ -379,6 +379,28 @@ public final class Round {
             if (objective.getStatus() == Objective.OBJECTIVE_COMPLETED) {
             	Assets.music.stop();
             	Assets.levelComplete.play(1.0f);
+            	if(map.equals(Assets.levelOneMap)){
+            		DuckGame.levelsComplete="1000000";
+            	}
+            	else if(map.equals(Assets.levelTwoMap)){
+            		DuckGame.levelsComplete="11000000";
+            	}
+            	else if(map.equals(Assets.levelThreeMap)){
+            		DuckGame.levelsComplete="11100000";
+            	}
+            	else if(map.equals(Assets.levelFourMap)){
+            		DuckGame.levelsComplete="11110000";
+            	}
+            	else if(map.equals(Assets.levelFiveMap)){
+            		DuckGame.levelsComplete="11111000";
+            	}
+            	else if(map.equals(Assets.levelSixMap)){
+            		DuckGame.levelsComplete="11111100";
+            	}
+            	else if(map.equals(Assets.levelSevenMap)){
+            		DuckGame.levelsComplete="11111110";
+            	}
+            	DuckGame.saveSettings();
                 parent.showWinScreen(player.getScore());
             } else if (player.isDead()) {
             	Assets.music.stop();

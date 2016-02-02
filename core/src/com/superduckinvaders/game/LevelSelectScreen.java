@@ -56,6 +56,7 @@ public class LevelSelectScreen implements Screen {
 	        
 	        //Formatting for buttons and labels
 	        Drawable button = new TextureRegionDrawable(Assets.button);
+	        Drawable buttonLocked = new TextureRegionDrawable(Assets.buttonLocked);
 	        Label.LabelStyle white = new Label.LabelStyle(Assets.font, Color.WHITE);
 
 	        //button for level one
@@ -64,7 +65,7 @@ public class LevelSelectScreen implements Screen {
 	        playButtonOne.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(1.0f);
+	            	Assets.buttonPress.play(DuckGame.MasterVol);
 	                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
 	            }
 	        });
@@ -77,15 +78,30 @@ public class LevelSelectScreen implements Screen {
 	        
 	        
 	        //button for level two
-	        Button playButtonTwo = new Button(new Button.ButtonStyle(button, button, button));
-	        playButtonTwo.setPosition((((stage.getWidth() - playButtonTwo.getPrefWidth())) /2) -200,  (stage.getHeight() - playButtonTwo.getPrefHeight())/2+100);
-	        playButtonTwo.addListener(new ClickListener() {
+	        Button playButtonTwo;
+	        if (DuckGame.levelsComplete.substring(0, 1).equals("0")){
+	        	playButtonTwo = new Button(new Button.ButtonStyle(buttonLocked, buttonLocked, buttonLocked));
+	        	playButtonTwo.setPosition((((stage.getWidth() - playButtonTwo.getPrefWidth())) /2) -200,  (stage.getHeight() - playButtonTwo.getPrefHeight())/2+100);
+		        playButtonTwo.addListener(new ClickListener() {
 
-	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(1.0f);
-	                parent.showGameScreen(new Round(parent, Assets.levelTwoMap));
-	            }
-	        });
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            }
+		        });
+	        }
+	        else {
+	        	playButtonTwo = new Button(new Button.ButtonStyle(button, button, button));
+	        	playButtonTwo.setPosition((((stage.getWidth() - playButtonTwo.getPrefWidth())) /2) -200,  (stage.getHeight() - playButtonTwo.getPrefHeight())/2+100);
+		        playButtonTwo.addListener(new ClickListener() {
+
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		                parent.showGameScreen(new Round(parent, Assets.levelTwoMap));
+		            }
+		        });
+	        }
+	        
+	        
 
 	        //Label for level two
 	        Label playLabelTwo = new Label("Level Two", white);
@@ -93,15 +109,28 @@ public class LevelSelectScreen implements Screen {
 	        playLabelTwo.setTouchable(Touchable.disabled);
 	        
 	      //button for level three
-	        Button playButtonThree = new Button(new Button.ButtonStyle(button, button, button));
-	        playButtonThree.setPosition((((stage.getWidth() - playButtonThree.getPrefWidth())) /2) -200,  (stage.getHeight() - playButtonThree.getPrefHeight())/2+40);
-	        playButtonThree.addListener(new ClickListener() {
+	        Button playButtonThree;
+	        if (DuckGame.levelsComplete.substring(1, 2).equals("0")){
+	        	playButtonThree = new Button(new Button.ButtonStyle(buttonLocked, buttonLocked, buttonLocked));
+	        	playButtonThree.setPosition((((stage.getWidth() - playButtonThree.getPrefWidth())) /2) -200,  (stage.getHeight() - playButtonThree.getPrefHeight())/2+40);
+		        playButtonThree.addListener(new ClickListener() {
 
-	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(1.0f);
-	                parent.showGameScreen(new Round(parent, Assets.levelThreeMap));
-	            }
-	        });
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            }
+		        });
+	        }
+	        else {
+	        	playButtonThree = new Button(new Button.ButtonStyle(button, button, button));
+	        	playButtonThree.setPosition((((stage.getWidth() - playButtonThree.getPrefWidth())) /2) -200,  (stage.getHeight() - playButtonThree.getPrefHeight())/2+40);
+		        playButtonThree.addListener(new ClickListener() {
+
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		                parent.showGameScreen(new Round(parent, Assets.levelThreeMap));
+		            }
+		        });
+	        }
 
 	        //Label for level three
 	        Label playLabelThree = new Label("Level Three", white);
@@ -110,15 +139,28 @@ public class LevelSelectScreen implements Screen {
 	      
 	        
 	      //button for level four
-	        Button playButtonFour = new Button(new Button.ButtonStyle(button, button, button));
-	        playButtonFour.setPosition((((stage.getWidth() - playButtonFour.getPrefWidth())) /2) -200,  (stage.getHeight() - playButtonFour.getPrefHeight())/2-20);
-	        playButtonFour.addListener(new ClickListener() {
+	        Button playButtonFour;
+	        if (DuckGame.levelsComplete.substring(2, 3).equals("0")){
+	        	playButtonFour = new Button(new Button.ButtonStyle(buttonLocked, buttonLocked, buttonLocked));
+	        	playButtonFour.setPosition((((stage.getWidth() - playButtonFour.getPrefWidth())) /2) -200,  (stage.getHeight() - playButtonFour.getPrefHeight())/2+-20);
+		        playButtonFour.addListener(new ClickListener() {
 
-	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(1.0f);
-	                parent.showGameScreen(new Round(parent, Assets.levelFourMap));
-	            }
-	        });
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            }
+		        });
+	        }
+	        else {
+	        	playButtonFour = new Button(new Button.ButtonStyle(button, button, button));
+	        	playButtonFour.setPosition((((stage.getWidth() - playButtonFour.getPrefWidth())) /2) -200,  (stage.getHeight() - playButtonFour.getPrefHeight())/2+-20);
+		        playButtonFour.addListener(new ClickListener() {
+
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		                parent.showGameScreen(new Round(parent, Assets.levelFourMap));
+		            }
+		        });
+	        }
 
 	        //Label for level four
 	        Label playLabelFour = new Label("Level Four", white);
@@ -128,15 +170,28 @@ public class LevelSelectScreen implements Screen {
 	        
 	        
 	        //button for level Five
-	        Button playButtonFive = new Button(new Button.ButtonStyle(button, button, button));
-	        playButtonFive.setPosition((((stage.getWidth() - playButtonFive.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonFive.getPrefHeight())/2+160);
-	        playButtonFive.addListener(new ClickListener() {
+	        Button playButtonFive;
+	        if (DuckGame.levelsComplete.substring(3, 4).equals("0")){
+	        	playButtonFive = new Button(new Button.ButtonStyle(buttonLocked, buttonLocked, buttonLocked));
+	        	playButtonFive.setPosition((((stage.getWidth() - playButtonFive.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonFive.getPrefHeight())/2+160);
+		        playButtonFive.addListener(new ClickListener() {
 
-	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(1.0f);
-	                parent.showGameScreen(new Round(parent, Assets.levelFiveMap));
-	            }
-	        });
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            }
+		        });
+	        }
+	        else {
+	        	playButtonFive = new Button(new Button.ButtonStyle(button, button, button));
+	        	playButtonFive.setPosition((((stage.getWidth() - playButtonFive.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonFive.getPrefHeight())/2+160);
+		        playButtonFive.addListener(new ClickListener() {
+
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		                parent.showGameScreen(new Round(parent, Assets.levelFiveMap));
+		            }
+		        });
+	        }
 
 	        //Label for level Five
 	        Label playLabelFive = new Label("Level Five", white);
@@ -145,15 +200,28 @@ public class LevelSelectScreen implements Screen {
 	        
 	        
 	      //button for level Six
-	        Button playButtonSix = new Button(new Button.ButtonStyle(button, button, button));
-	        playButtonSix.setPosition((((stage.getWidth() - playButtonSix.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonSix.getPrefHeight())/2+100);
-	        playButtonSix.addListener(new ClickListener() {
+	        Button playButtonSix;
+	        if (DuckGame.levelsComplete.substring(4, 5).equals("0")){
+	        	playButtonSix = new Button(new Button.ButtonStyle(buttonLocked, buttonLocked, buttonLocked));
+	        	playButtonSix.setPosition((((stage.getWidth() - playButtonSix.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonSix.getPrefHeight())/2+100);
+		        playButtonSix.addListener(new ClickListener() {
 
-	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(1.0f);
-	                parent.showGameScreen(new Round(parent, Assets.levelSixMap));
-	            }
-	        });
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            }
+		        });
+	        }
+	        else {
+	        	playButtonSix = new Button(new Button.ButtonStyle(button, button, button));
+	        	playButtonSix.setPosition((((stage.getWidth() - playButtonSix.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonSix.getPrefHeight())/2+100);
+		        playButtonSix.addListener(new ClickListener() {
+
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		                parent.showGameScreen(new Round(parent, Assets.levelSixMap));
+		            }
+		        });
+	        }
 
 	        //Label for level Six
 	        Label playLabelSix = new Label("Level Six", white);
@@ -162,15 +230,28 @@ public class LevelSelectScreen implements Screen {
 	        
 	        
 	      //button for level Seven
-	        Button playButtonSeven = new Button(new Button.ButtonStyle(button, button, button));
-	        playButtonSeven.setPosition((((stage.getWidth() - playButtonSeven.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonSeven.getPrefHeight())/2+40);
-	        playButtonSeven.addListener(new ClickListener() {
+	        Button playButtonSeven;
+	        if (DuckGame.levelsComplete.substring(5, 6).equals("0")){
+	        	playButtonSeven = new Button(new Button.ButtonStyle(buttonLocked, buttonLocked, buttonLocked));
+	        	playButtonSeven.setPosition((((stage.getWidth() - playButtonSeven.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonSeven.getPrefHeight())/2+40);
+		        playButtonSeven.addListener(new ClickListener() {
 
-	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(1.0f);
-	                parent.showGameScreen(new Round(parent, Assets.levelSevenMap));
-	            }
-	        });
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            }
+		        });
+	        }
+	        else {
+	        	playButtonSeven = new Button(new Button.ButtonStyle(button, button, button));
+	        	playButtonSeven.setPosition((((stage.getWidth() - playButtonSeven.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonSeven.getPrefHeight())/2+40);
+		        playButtonSeven.addListener(new ClickListener() {
+
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		                parent.showGameScreen(new Round(parent, Assets.levelSevenMap));
+		            }
+		        });
+	        }
 
 	        //Label for level Seven
 	        Label playLabelSeven = new Label("Level Seven", white);
@@ -179,15 +260,28 @@ public class LevelSelectScreen implements Screen {
 	        
 	        
 	      //button for level Eight
-	        Button playButtonEight = new Button(new Button.ButtonStyle(button, button, button));
-	        playButtonEight.setPosition((((stage.getWidth() - playButtonEight.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonEight.getPrefHeight())/2-20);
-	        playButtonEight.addListener(new ClickListener() {
+	        Button playButtonEight;
+	        if (DuckGame.levelsComplete.substring(6,7).equals("0")){
+	        	playButtonEight = new Button(new Button.ButtonStyle(buttonLocked, buttonLocked, buttonLocked));
+	        	playButtonEight.setPosition((((stage.getWidth() - playButtonEight.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonEight.getPrefHeight())/2-20);
+		        playButtonEight.addListener(new ClickListener() {
 
-	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(1.0f);
-	                parent.showGameScreen(new Round(parent, Assets.levelEightMap));
-	            }
-	        });
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            }
+		        });
+	        }
+	        else {
+	        	playButtonEight = new Button(new Button.ButtonStyle(button, button, button));
+	        	playButtonEight.setPosition((((stage.getWidth() - playButtonEight.getPrefWidth())) /2) +200,  (stage.getHeight() - playButtonEight.getPrefHeight())/2-20);
+		        playButtonEight.addListener(new ClickListener() {
+
+		            public void clicked(InputEvent event, float x, float y) {
+		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		                parent.showGameScreen(new Round(parent, Assets.levelEightMap));
+		            }
+		        });
+	        }
 
 	        //Label for level Eight
 	        Label playLabelEight = new Label("Level Eight", white);

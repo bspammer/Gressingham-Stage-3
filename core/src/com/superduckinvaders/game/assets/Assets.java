@@ -86,6 +86,10 @@ public class Assets {
     public static Sound music;
     
     /**
+     * texture for buttonLocked
+     */
+    public static TextureRegion buttonLocked;
+    /**
      * button noise
      */
     public static Sound buttonPress;
@@ -162,6 +166,7 @@ public class Assets {
 
         powerupBackboard = new Texture("textures/powerupBackboard.png");
         button = new TextureRegion(loadTexture("textures/button.png"));
+        buttonLocked = new TextureRegion(loadTexture("textures/buttonLocked.png"));
 
         flag = new TextureRegion(loadTexture("textures/flag.png"));
         logo = new TextureRegion(loadTexture("textures/logo.png"));
