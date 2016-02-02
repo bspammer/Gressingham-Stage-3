@@ -195,10 +195,10 @@ public class GameScreen implements Screen {
 				float powerupWidth = powerupTexture.getRegionWidth();
 				float powerupHeight = powerupTexture.getRegionHeight();
 				float powerupX = Gdx.graphics.getWidth() - 62 - powerupWidth*powerupDrawScale*powerupCount*1.2f;
-				float powerupY = 46;
+				float powerupY = 49;
 				
 				double proportionTimeLeft = round.getPlayer().getPowerupTimeRemaining(powerup)/Powerup.getMaxPowerupTime(powerup);
-				shader.setUniformf("u_centre", powerupX + 1 + (powerupWidth*powerupDrawScale)/2, powerupY - 1 + (powerupHeight*powerupDrawScale)/2);
+				shader.setUniformf("u_centre", powerupX + 2 + (powerupWidth*powerupDrawScale)/2, powerupY - 1 + (powerupHeight*powerupDrawScale)/2);
 				shader.setUniformf("u_powerupWidth", powerupWidth*powerupDrawScale);
 				//Starts at 0 and increases to 2*pi
 				shader.setUniformf("u_currentAngle", (float) (2*Math.PI - (proportionTimeLeft*2*Math.PI)));

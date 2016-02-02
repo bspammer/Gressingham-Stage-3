@@ -9,7 +9,7 @@ varying vec2 v_texCoord0;
 void main() {
 	//sample the powerup
 	vec4 powerupColor = texture2D(u_texture, v_texCoord0);
-	float transparency = 0.3;
+	float transparency = 0.2;
 	float distanceBetweenPixelAndCentre = length(u_centre - gl_FragCoord.xy);
 	float PI = 3.14159265;
 	
