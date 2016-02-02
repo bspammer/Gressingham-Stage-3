@@ -62,13 +62,14 @@ public class SettingsScreen implements Screen {
 	        
 	        Label.LabelStyle white = new Label.LabelStyle(Assets.font, Color.WHITE);
 	        Label levelSelectLabel = new Label(Integer.toString(masterVol), white);
-	        levelSelectLabel.setPosition((stage.getWidth() - levelSelectLabel.getPrefWidth()) / 2, (stage.getHeight() - levelSelectLabel.getPrefHeight())/2-120);
+	        levelSelectLabel.setPosition((stage.getWidth() - levelSelectLabel.getPrefWidth()) / 2, (stage.getHeight() - levelSelectLabel.getPrefHeight())/2-60);
 	        levelSelectLabel.setTouchable(Touchable.disabled);
 	        
-	        Drawable button = new TextureRegionDrawable(Assets.button);
-
-	        Button masterUp = new Button(new Button.ButtonStyle(button, button, button));
-	        masterUp.setPosition((stage.getWidth() - masterUp.getPrefWidth()) / 2,  (stage.getHeight() - masterUp.getPrefHeight())/2);
+	        Drawable downButton = new TextureRegionDrawable(Assets.downButton);
+	        Drawable upButton = new TextureRegionDrawable(Assets.upButton);
+	        
+	        Button masterUp = new Button(new Button.ButtonStyle(upButton, upButton, upButton));
+	        masterUp.setPosition((stage.getWidth() - masterUp.getPrefWidth()) / 2 +40,  (stage.getHeight() - masterUp.getPrefHeight())/2-60);
 	        masterUp.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
@@ -90,8 +91,8 @@ public class SettingsScreen implements Screen {
 	        
 	        
 	        
-	        Button masterDown = new Button(new Button.ButtonStyle(button, button, button));
-	        masterDown.setPosition((stage.getWidth() - masterDown.getPrefWidth()) / 2,  (stage.getHeight() - masterDown.getPrefHeight())/2-60);
+	        Button masterDown = new Button(new Button.ButtonStyle(downButton, downButton, downButton));
+	        masterDown.setPosition((stage.getWidth() - masterDown.getPrefWidth()) / 2 -40,  (stage.getHeight() - masterDown.getPrefHeight())/2-60);
 	        masterDown.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
@@ -125,7 +126,6 @@ public class SettingsScreen implements Screen {
 	        Gdx.gl.glClearColor(0, 0, 0, 1);
 	        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	        update();
-	        System.out.println(DuckGame.levelsComplete);
 	        stage.draw();
 	    }
 

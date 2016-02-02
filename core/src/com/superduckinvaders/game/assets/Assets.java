@@ -15,6 +15,10 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Assets {
 
+	
+	public static TextureRegion downButton;
+
+	public static TextureRegion upButton;
     /**
      *  Player texture sets for normal, flying and swimming.
      */
@@ -167,6 +171,9 @@ public class Assets {
         powerupBackboard = new Texture("textures/powerupBackboard.png");
         button = new TextureRegion(loadTexture("textures/button.png"));
         buttonLocked = new TextureRegion(loadTexture("textures/buttonLocked.png"));
+        downButton = new TextureRegion(loadTexture("textures/down.png"));
+        upButton = new TextureRegion(loadTexture("textures/down.png"));
+        upButton.flip(true, false);
 
         flag = new TextureRegion(loadTexture("textures/flag.png"));
         logo = new TextureRegion(loadTexture("textures/logo.png"));
