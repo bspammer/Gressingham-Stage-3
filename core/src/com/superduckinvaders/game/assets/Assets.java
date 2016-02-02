@@ -41,9 +41,9 @@ public class Assets {
     public static TextureRegion staminaFull, staminaEmpty;
 
     /**
-     *  Textures for powerup.
+     * Texture for powerup backboard.
      */
-    public static TextureRegion powerupFull, powerupEmpty;
+    public static Texture powerupBackboard;
 
     /**
      *  Animation for explosion.
@@ -89,13 +89,11 @@ public class Assets {
      * button noise
      */
     public static Sound buttonPress;
-
     
     /**
      * collectable noise
      */
     public static Sound collect;
-    
     
     /**
      * gun pickup noise
@@ -159,13 +157,10 @@ public class Assets {
         heartEmpty = new TextureRegion(hearts, 64, 0, 32, 28);
 
         Texture stamina = loadTexture("textures/stamina.png");
-        staminaFull = new TextureRegion(stamina, 0, 0, 192, 28);
-        staminaEmpty = new TextureRegion(stamina, 0, 28, 192, 28);
+        staminaFull = new TextureRegion(stamina, 0, 0, stamina.getWidth(), stamina.getHeight()/2);
+        staminaEmpty = new TextureRegion(stamina, 0, stamina.getHeight()/2, stamina.getWidth(), stamina.getHeight()/2);
 
-        Texture powerup = loadTexture("textures/powerup.png");
-        powerupFull = new TextureRegion(powerup, 0, 0, 192, 28);
-        powerupEmpty = new TextureRegion(powerup, 0, 28, 192, 28);
-
+        powerupBackboard = new Texture("textures/powerupBackboard.png");
         button = new TextureRegion(loadTexture("textures/button.png"));
 
         flag = new TextureRegion(loadTexture("textures/flag.png"));
