@@ -10,12 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.superduckinvaders.game.assets.Assets;
-
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 public class StartScreen implements Screen {
 
     /**
@@ -47,6 +48,7 @@ public class StartScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
+        
         Image logoImage = new Image(Assets.logo);
         logoImage.setPosition((stage.getWidth() - logoImage.getPrefWidth()) / 2, (stage.getHeight() - logoImage.getPrefHeight()/2)/2 + 160);
 
@@ -88,11 +90,30 @@ public class StartScreen implements Screen {
         playLabelOne.setTouchable(Touchable.disabled);
         
 
+      //button for settings
+        Button settingsButton = new Button(new Button.ButtonStyle(button, button, button));
+        settingsButton.setPosition((((stage.getWidth() - playButtonOne.getPrefWidth())) /2) ,  (stage.getHeight() - playButtonOne.getPrefHeight())/2 -60);
+        settingsButton.addListener(new ClickListener() {
+
+            public void clicked(InputEvent event, float x, float y) {
+            	Assets.buttonPress.play(DuckGame.MasterVol);
+            	DuckGame.newGame();
+                parent.showSettingsScreen();
+            }
+        });
+
+        //Label for level one
+        Label settingsLabel = new Label("Settings", white);
+        settingsLabel.setPosition((((stage.getWidth() - playLabelOne.getPrefWidth())) /2) , (stage.getHeight() - playLabelOne.getPrefHeight())/2 -60);
+        settingsLabel.setTouchable(Touchable.disabled);
+        
         stage.addActor(logoImage);
         stage.addActor(levelSelectButton);
         stage.addActor(levelSelectLabel);
         stage.addActor(playButtonOne);
         stage.addActor(playLabelOne);
+        stage.addActor(settingsButton);
+        stage.addActor(settingsLabel);
     }
 
     /**

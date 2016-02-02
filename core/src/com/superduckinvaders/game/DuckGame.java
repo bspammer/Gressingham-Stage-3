@@ -17,6 +17,7 @@ public class DuckGame extends Game {
 	public static float SfxVol;
 	public static float MusicVol;
 	public static String levelsComplete;
+	private SettingsScreen settingsScreen = null;
     /**
      * The width of the game window.
      */
@@ -62,7 +63,6 @@ public class DuckGame extends Game {
     public void create() {
     	
     	loadSettings();
-    	
     	
     	
     	
@@ -214,4 +214,12 @@ public class DuckGame extends Game {
 		//creates defualt settings file
     	handle.writeString("levelsComplete=00000000\nMaster="+Float.toString(MasterVol)+"\nSFX="+Float.toString(SfxVol)+"\nMusic="+Float.toString(MusicVol),false);
     }
+    
+    public void showSettingsScreen(){
+    	if (settingsScreen != null) {
+            settingsScreen.dispose();
+        }
+
+        setScreen(settingsScreen = new SettingsScreen(this));
+        }
 }
