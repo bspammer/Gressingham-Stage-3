@@ -23,7 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 
 public class SettingsScreen implements Screen {
 
-		private int masterVol=(int)DuckGame.MasterVol*100;
+		private int masterVol;
 
 	    /**
 	     * The DuckGame this StartScreen belongs to.
@@ -43,7 +43,6 @@ public class SettingsScreen implements Screen {
 	    public SettingsScreen(DuckGame parent) {
 	        this.parent = parent;
 	        
-	        
 	    }
 
 	    /**
@@ -51,6 +50,8 @@ public class SettingsScreen implements Screen {
 	     */
 	    @Override
 	    public void show() {
+	        masterVol=(int) (DuckGame.MasterVol*100);
+
 	        stage = new Stage(new ScreenViewport());
 	        Gdx.input.setInputProcessor(stage);
 
@@ -64,7 +65,6 @@ public class SettingsScreen implements Screen {
 	        levelSelectLabel.setPosition((stage.getWidth() - levelSelectLabel.getPrefWidth()) / 2, (stage.getHeight() - levelSelectLabel.getPrefHeight())/2-120);
 	        levelSelectLabel.setTouchable(Touchable.disabled);
 	        
-	        //sliders pls
 	        Drawable button = new TextureRegionDrawable(Assets.button);
 
 	        Button masterUp = new Button(new Button.ButtonStyle(button, button, button));
@@ -126,7 +126,6 @@ public class SettingsScreen implements Screen {
 	        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	        update();
 	        stage.draw();
-	        System.out.println(masterVol);
 	    }
 
 	    /**
@@ -181,6 +180,7 @@ public class SettingsScreen implements Screen {
 	    
 	    public void applySettings(){
 	    	DuckGame.MasterVol=(float)masterVol/100;
+	    	DuckGame.saveSettings();
 	    }
 	}
 
