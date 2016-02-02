@@ -166,7 +166,7 @@ public class DuckGame extends Game {
     /**
      * Loads settings from an external file
      */
-    public void loadSettings(){
+    public static void loadSettings(){
     	FileHandle handle;
     	
     	String extRoot = Gdx.files.getExternalStoragePath();
@@ -207,4 +207,11 @@ public class DuckGame extends Game {
     	handle.writeString("levelsComplete="+levelsComplete+"\nMaster="+Float.toString(MasterVol)+"\nSFX="+Float.toString(SfxVol)+"\nMusic="+Float.toString(MusicVol),false);
     }
     
+    public static void newGame(){
+    	FileHandle handle;
+    	
+    	handle = Gdx.files.external("Saves/Settings.ini");
+		//creates defualt settings file
+    	handle.writeString("levelsComplete=00000000\nMaster="+Float.toString(MasterVol)+"\nSFX="+Float.toString(SfxVol)+"\nMusic="+Float.toString(MusicVol),false);
+    }
 }

@@ -58,6 +58,7 @@ public class StartScreen implements Screen {
 
             public void clicked(InputEvent event, float x, float y) {
             	Assets.buttonPress.play(DuckGame.MasterVol);
+            	DuckGame.loadSettings();
                 parent.showLevelSelectScreen();
             }
         });
@@ -76,6 +77,7 @@ public class StartScreen implements Screen {
 
             public void clicked(InputEvent event, float x, float y) {
             	Assets.buttonPress.play(DuckGame.MasterVol);
+            	DuckGame.newGame();
                 parent.showGameScreen(new Round(parent, Assets.levelOneMap));
             }
         });
