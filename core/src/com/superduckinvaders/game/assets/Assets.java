@@ -24,7 +24,7 @@ public class Assets {
     /**
      *  Player texture sets for normal, flying and swimming.
      */
-    public static TextureSet playerNormal, playerFlying, playerSwimming;
+    public static TextureSet playerNormal, playerGun, playerFlying, playerSwimming;
 
     /**
      *  Bad guy texture set.
@@ -95,6 +95,7 @@ public class Assets {
      * texture for buttonLocked
      */
     public static TextureRegion buttonLocked;
+    
     /**
      * button noise
      */
@@ -191,12 +192,10 @@ public class Assets {
         Texture playerIdle = loadTexture("textures/player_idle.png");
 
         // Cut idle textures from texture map.
-        TextureRegion front = new TextureRegion(playerIdle, 0, 0, 14, 18);
-        TextureRegion back = new TextureRegion(playerIdle, 14, 0, 14, 18);
-        TextureRegion left = new TextureRegion(playerIdle, 28, 0, 14, 18);
-        TextureRegion right = new TextureRegion(playerIdle, 42, 0, 14, 18);
-
-        //Cut idle swim textures from the map.
+        TextureRegion front = new TextureRegion(playerIdle, 0*14, 0, 14, 18);
+        TextureRegion back = new TextureRegion(playerIdle, 1*14, 0, 14, 18);
+        TextureRegion left = new TextureRegion(playerIdle, 2*14, 0, 14, 18);
+        TextureRegion right = new TextureRegion(playerIdle, 3*14, 0, 14, 18);
         
         // Load walking animations.
         Animation walkingFront = loadAnimation("textures/player_walking_front.png", 4, 12, 0.2f);
@@ -204,16 +203,37 @@ public class Assets {
         Animation walkingLeft = loadAnimation("textures/player_walking_left.png", 4, 14, 0.2f);
         Animation walkingRight = loadAnimation("textures/player_walking_right.png", 4, 14, 0.2f);
         
+        
+        // Load idle with gun texture map.
+        Texture playerIdleGun = loadTexture("textures/player_gun_idle.png");
+        
+        // Cut idle with gun textures from texture map.
+        TextureRegion frontGun = new TextureRegion(playerIdleGun, 0*18, 0, 18, 18);
+        TextureRegion backGun = new TextureRegion(playerIdleGun, 1*18, 0, 18, 18);
+        TextureRegion leftGun = new TextureRegion(playerIdleGun, 2*18, 0, 18, 18);
+        TextureRegion rightGun = new TextureRegion(playerIdleGun, 3*18, 0, 18, 18);
+        
+        // Load walking with gun animations.
+        Animation walkingFrontGun = loadAnimation("textures/player_gun_walking_front.png", 4, 12, 0.2f);
+        Animation walkingBackGun = loadAnimation("textures/player_gun_walking_back.png", 4, 12, 0.2f);
+        Animation walkingLeftGun = loadAnimation("textures/player_gun_walking_left.png", 4, 18, 0.2f);
+        Animation walkingRightGun = loadAnimation("textures/player_gun_walking_right.png", 4, 18, 0.2f);
+        
+        
+        // Load swimming texture map.
+        Texture swimmingIdle = new Texture("textures/player_swimming_idle.png");
+        
+        // Cut idle swimming textures from texture map.
+        TextureRegion swimmingIdleFront = new TextureRegion(swimmingIdle, 0*14, 0, 14, 17);
+        TextureRegion swimmingIdleBack = new TextureRegion(swimmingIdle, 1*14, 0, 14, 17);
+        TextureRegion swimmingIdleLeft = new TextureRegion(swimmingIdle, 2*14, 0, 14, 17);
+        TextureRegion swimmingIdleRight = new TextureRegion(swimmingIdle, 3*14, 0, 14, 17);
+        
         //Load swimming animations.
         Animation swimmingFront = loadAnimation("textures/player_swimming_front.png", 2, 14, 0.2f);
         Animation swimmingBack = loadAnimation("textures/player_swimming_back.png", 2, 14, 0.2f);
         Animation swimmingLeft = loadAnimation("textures/player_swimming_left.png", 2, 14, 0.2f);
         Animation swimmingRight = loadAnimation("textures/player_swimming_right.png", 2, 14, 0.2f);
-        Texture swimmingIdle = new Texture("textures/player_swimming_idle.png");
-        TextureRegion swimmingIdleFront = new TextureRegion(swimmingIdle, 0*14, 0, 14, 17);
-        TextureRegion swimmingIdleBack = new TextureRegion(swimmingIdle, 1*14, 0, 14, 17);
-        TextureRegion swimmingIdleLeft = new TextureRegion(swimmingIdle, 2*14, 0, 14, 17);
-        TextureRegion swimmingIdleRight = new TextureRegion(swimmingIdle, 3*14, 0, 14, 17);
 
         // Load flying animations.
         Animation flyingFront = loadAnimation("textures/player_flying_front.png", 2, 18, 0.2f);
@@ -222,6 +242,7 @@ public class Assets {
         Animation flyingRight = loadAnimation("textures/player_flying_right.png", 2, 21, 0.2f);
 
         playerNormal = new TextureSet(front, back, left, right, walkingFront, walkingBack, walkingLeft, walkingRight);
+        playerGun = new TextureSet(frontGun, backGun, leftGun, rightGun, walkingFrontGun, walkingBackGun, walkingLeftGun, walkingRightGun);
         playerFlying = new TextureSet(front, back, left, right, flyingFront, flyingBack, flyingLeft, flyingRight);
         playerSwimming = new TextureSet(swimmingIdleFront, swimmingIdleBack, swimmingIdleLeft, swimmingIdleRight,
         									swimmingFront, swimmingBack, swimmingLeft, swimmingRight);
