@@ -214,8 +214,8 @@ public class Assets {
         TextureRegion rightGun = new TextureRegion(playerIdleGun, 3*18, 0, 18, 18);
         
         // Load walking with gun animations.
-        Animation walkingFrontGun = loadAnimation("textures/player_gun_walking_front.png", 4, 12, 0.2f);
-        Animation walkingBackGun = loadAnimation("textures/player_gun_walking_back.png", 4, 12, 0.2f);
+        Animation walkingFrontGun = loadAnimation("textures/player_gun_walking_front.png", 4, 18, 0.2f);
+        Animation walkingBackGun = loadAnimation("textures/player_gun_walking_back.png", 4, 18, 0.2f);
         Animation walkingLeftGun = loadAnimation("textures/player_gun_walking_left.png", 4, 18, 0.2f);
         Animation walkingRightGun = loadAnimation("textures/player_gun_walking_right.png", 4, 18, 0.2f);
         

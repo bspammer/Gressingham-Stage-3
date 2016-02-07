@@ -251,7 +251,7 @@ public class Player extends Character {
             if (attackTimer >= PLAYER_ATTACK_DELAY * (powerupIsActive(Powerup.RATE_OF_FIRE) ? PLAYER_ATTACK_DELAY_MULTIPLIER : 1)) {
                 attackTimer = 0;
 
-                if (upgrade == Upgrade.GUN) {
+                if (upgrade == Upgrade.GUN && !isSwimming()) {
                 	Assets.shot.play(DuckGame.MasterVol*DuckGame.SfxVol /2);
                     Vector3 target = parent.unproject(Gdx.input.getX(), Gdx.input.getY());
 
