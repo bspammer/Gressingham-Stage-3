@@ -157,6 +157,7 @@ public class GameScreen implements Screen {
         int staminaBarHeight = Assets.staminaEmpty.getRegionHeight();
         int staminaBarX = Gdx.graphics.getWidth() - staminaBarWidth - 10;
         int staminaBarY = 10;
+        // TODO Stamina bar does not draw in correct position on window resize
 		uiBatch.draw(Assets.staminaEmpty, staminaBarX, staminaBarY, staminaBarWidth, staminaBarHeight);
         if (round.getPlayer().getFlyingTimer() > 0) {
             Assets.staminaFull.setRegionWidth((int) Math.max(0, Math.min(staminaBarWidth, round.getPlayer().getFlyingTimer() / Player.PLAYER_FLIGHT_COOLDOWN * staminaBarWidth)));
