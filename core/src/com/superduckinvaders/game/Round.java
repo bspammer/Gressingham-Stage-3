@@ -138,12 +138,13 @@ public final class Round {
      * @param maxY the maximum y distance from the player to spawn the mobs
      */
     private void spawnRandomMobs(int amount, int minX, int minY, int maxX, int maxY) {
-        while(amount > 0) {
-            int x = MathUtils.random(minX, maxX) * (MathUtils.randomBoolean() ? -1 : 1);
-            int y = MathUtils.random(minY, maxY) * (MathUtils.randomBoolean() ? -1 : 1);
-
-            amount -= createMob(getPlayer().getX() + x, getPlayer().getY() + y, 100, Assets.badGuyNormal, 100) ? 1 : 0;
-        }
+    	createMob(getPlayer().getX() + 40, getPlayer().getY(), 200, Assets.badGuyNormal, 100);
+//        while(amount > 0) {
+//            int x = MathUtils.random(minX, maxX) * (MathUtils.randomBoolean() ? -1 : 1);
+//            int y = MathUtils.random(minY, maxY) * (MathUtils.randomBoolean() ? -1 : 1);
+//
+//            amount -= createMob(getPlayer().getX() + x, getPlayer().getY() + y, 100, Assets.badGuyNormal, 100) ? 1 : 0;
+//        }
     }
 
     /**
@@ -352,7 +353,7 @@ public final class Round {
         Mob mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32));
 
         // Check mob isn't out of bounds.
-        if (x < 0 || x > getMapWidth() - textureSet.getWidth() || y > getMapHeight() - textureSet.getHeight()) {
+        if (x < 0 || x > getMapWidth() - textureSet.getWidth() || y < 0 || y > getMapHeight() - textureSet.getHeight()) {
             return false;
         }
 
@@ -379,7 +380,7 @@ public final class Round {
 
             if (objective.getStatus() == Objective.OBJECTIVE_COMPLETED) {
             	Assets.music.stop();
-            	Assets.levelComplete.play(1.0f);
+            	DuckGame.playSoundEffect(Assets.levelComplete, 1);
             	if(map.equals(Assets.levelOneMap)){
             		DuckGame.levelsComplete="1000000";
             	}
@@ -405,7 +406,7 @@ public final class Round {
                 parent.showWinScreen(player.getScore());
             } else if (player.isDead()) {
             	Assets.music.stop();
-            	Assets.gameOver.play(1.0f);
+            	DuckGame.playSoundEffect(Assets.gameOver, 1);
                 parent.showLoseScreen();
             }
         }

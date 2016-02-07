@@ -110,7 +110,7 @@ public class SettingsScreen implements Screen {
 	        backButton.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(DuckGame.MasterVol);
+	            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 	                parent.showStartScreen();
 	            }
 	        });
@@ -120,7 +120,7 @@ public class SettingsScreen implements Screen {
 	        masterUp.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(DuckGame.MasterVol);
+	            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 	            	if (masterVol >= 100){
 	            		
 	            	}else{
@@ -143,7 +143,7 @@ public class SettingsScreen implements Screen {
 	        masterDown.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(DuckGame.MasterVol);
+	            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 	            	if(masterVol<=0){
 	            		
 	            	}else{
@@ -166,7 +166,7 @@ public class SettingsScreen implements Screen {
 	        sfxUp.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(DuckGame.MasterVol);
+	            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 	            	if (sfxVol >= 100){
 	            		
 	            	}else{
@@ -189,7 +189,7 @@ public class SettingsScreen implements Screen {
 	        sfxDown.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(DuckGame.MasterVol);
+	            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 	            	if(sfxVol<=0){
 	            		
 	            	}else{
@@ -212,7 +212,7 @@ public class SettingsScreen implements Screen {
 	        musicUp.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(DuckGame.MasterVol);
+	            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 	            	if (musicVol >= 100){
 	            		
 	            	}else{
@@ -235,7 +235,7 @@ public class SettingsScreen implements Screen {
 	        musicDown.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(DuckGame.MasterVol);
+	            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 	            	if(musicVol<=0){
 	            		
 	            	}else{

@@ -58,7 +58,7 @@ public class GameScreen implements Screen {
      */
     public GameScreen(Round round) {
         this.round = round;
-        Assets.music.play(DuckGame.MasterVol*DuckGame.MusicVol);
+        DuckGame.playMusic(Assets.music);
     }
 
     /**
@@ -105,18 +105,11 @@ public class GameScreen implements Screen {
     	round.update(delta);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        
         
         // Centre the camera on the player.
         camera.position.set((int) round.getPlayer().getX() + round.getPlayer().getWidth() / 2, (int) round.getPlayer().getY() + round.getPlayer().getHeight() / 2, 0);
         camera.update();
 
-        
-       
-        
-        
-        
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
 

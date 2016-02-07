@@ -141,7 +141,7 @@ public class Player extends Character {
      * @param upgrade the upgrade to set
      */
     public void setUpgrade(Upgrade upgrade) {
-    	Assets.gunPickup.play(DuckGame.MasterVol*DuckGame.SfxVol);
+    	DuckGame.playSoundEffect(Assets.gunPickup, 1);
         this.upgrade = upgrade;
     }
     
@@ -152,7 +152,7 @@ public class Player extends Character {
      * @param time    how long the powerup should last, in seconds
      */
     public void setPowerup(Powerup powerup, double time) {
-    	Assets.collect.play(DuckGame.MasterVol*DuckGame.SfxVol);
+    	DuckGame.playSoundEffect(Assets.collect, 1);
         powerupRemainingTimes.put(powerup, time);
     }
 
@@ -215,6 +215,7 @@ public class Player extends Character {
         if (!powerupIsActive(Powerup.INVULNERABLE)) {
             super.damage(health);
         }
+        
     }
 
     /**
@@ -252,7 +253,7 @@ public class Player extends Character {
                 attackTimer = 0;
 
                 if (upgrade == Upgrade.GUN && !isSwimming()) {
-                	Assets.shot.play(DuckGame.MasterVol*DuckGame.SfxVol /2);
+                	DuckGame.playSoundEffect(Assets.shot, 0.3f);
                     Vector3 target = parent.unproject(Gdx.input.getX(), Gdx.input.getY());
 
                     // Face target when firing gun.

@@ -1,6 +1,7 @@
 
 package com.superduckinvaders.game.ai;
 
+import com.badlogic.gdx.graphics.g3d.particles.ParticleSorter.Distance;
 import com.badlogic.gdx.math.MathUtils;
 import com.superduckinvaders.game.Round;
 import com.superduckinvaders.game.entity.Mob;
@@ -104,9 +105,16 @@ public class ZombieAI extends AI {
         if (currentOffset >= deltaOffsetLimit && (int) distanceFromPlayer < 1280 / 4) {
             deltaOffsetLimit = PATHFINDING_RATE + (MathUtils.random() % PATHFINDING_RATE_OFFSET);
             currentOffset = 0;
-            Coordinate targetCoord = FindPath(mob);
-            Coordinate targetDir = new Coordinate((int) (targetCoord.x - mob.getX()), (int) (targetCoord.y - mob.getY()));
-            mob.setVelocity(targetDir.x, targetDir.y);
+            
+            //Only find a path if we're not already close enough to the player
+            if (mob.distanceTo(playerX, playerY) > attackRange/1.5) {
+                Coordinate targetCoord = FindPath(mob);
+                Coordinate targetDir = new Coordinate((int) (targetCoord.x - mob.getX()), (int) (targetCoord.y - mob.getY()));
+                mob.setVelocity(targetDir.x, targetDir.y);
+            } else {
+            	mob.setVelocity(0, 0);
+            	mob.setFacing(mob.directionTo(playerX, playerY));
+            }
         }
 
         // Damage player.
@@ -128,6 +136,7 @@ public class ZombieAI extends AI {
     private Coordinate FindPath(Mob mob) {
         Coordinate startCoord = new Coordinate((int) mob.getX(), (int) mob.getY());
         Coordinate finalCoord = new Coordinate(playerX, playerY);
+        
         boolean finalFound = false;
 
         PriorityQueue<Coordinate> fringe = new PriorityQueue<Coordinate>();
@@ -146,9 +155,9 @@ public class ZombieAI extends AI {
 
             //work out N, E, S, W permutations
             Coordinate[] perm = new Coordinate[4];
-            perm[0] = new Coordinate(currentCoord.x, currentCoord.y + tileHeight);
+            perm[0] = new Coordinate(currentCoord.x, currentCoord.y + tileHeight/4);
             perm[1] = new Coordinate(currentCoord.x + tileWidth, currentCoord.y);
-            perm[2] = new Coordinate(currentCoord.x, currentCoord.y - tileHeight);
+            perm[2] = new Coordinate(currentCoord.x, currentCoord.y - tileHeight/4);
             perm[3] = new Coordinate(currentCoord.x - tileWidth, currentCoord.y);
 
             for (Coordinate currentPerm : perm) {

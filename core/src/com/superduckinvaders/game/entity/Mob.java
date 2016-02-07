@@ -113,6 +113,10 @@ public class Mob extends Character {
 
         super.update(delta);
     }
+    
+    public void setFacing(int newFacing) {
+    	facing = newFacing;
+    }
 
     @Override
     public void render(SpriteBatch spriteBatch) {

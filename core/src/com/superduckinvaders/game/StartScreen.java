@@ -59,7 +59,7 @@ public class StartScreen implements Screen {
         levelSelectButton.addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
-            	Assets.buttonPress.play(DuckGame.MasterVol);
+            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
             	DuckGame.loadSettings();
                 parent.showLevelSelectScreen();
             }
@@ -78,7 +78,7 @@ public class StartScreen implements Screen {
         playButtonOne.addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
-            	Assets.buttonPress.play(DuckGame.MasterVol);
+            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
             	DuckGame.newGame();
                 parent.showGameScreen(new Round(parent, Assets.levelOneMap));
             }
@@ -96,7 +96,7 @@ public class StartScreen implements Screen {
         settingsButton.addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
-            	Assets.buttonPress.play(DuckGame.MasterVol);
+            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
             	DuckGame.newGame();
                 parent.showSettingsScreen();
             }

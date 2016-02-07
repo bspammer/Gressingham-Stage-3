@@ -71,7 +71,7 @@ public class LevelSelectScreen implements Screen {
 	        backButton.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(DuckGame.MasterVol);
+	            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 	                parent.showStartScreen();
 	            }
 	        });
@@ -83,7 +83,7 @@ public class LevelSelectScreen implements Screen {
 	        playButtonOne.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {
-	            	Assets.buttonPress.play(DuckGame.MasterVol);
+	            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 	                parent.showGameScreen(new Round(parent, Assets.levelOneMap));
 	            }
 	        });
@@ -103,7 +103,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonTwo.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		            }
 		        });
 	        }
@@ -113,7 +113,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonTwo.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		                parent.showGameScreen(new Round(parent, Assets.levelTwoMap));
 		            }
 		        });
@@ -134,7 +134,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonThree.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		            }
 		        });
 	        }
@@ -144,7 +144,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonThree.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		                parent.showGameScreen(new Round(parent, Assets.levelThreeMap));
 		            }
 		        });
@@ -164,7 +164,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonFour.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		            }
 		        });
 	        }
@@ -174,7 +174,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonFour.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		                parent.showGameScreen(new Round(parent, Assets.levelFourMap));
 		            }
 		        });
@@ -195,7 +195,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonFive.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		            }
 		        });
 	        }
@@ -205,7 +205,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonFive.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		                parent.showGameScreen(new Round(parent, Assets.levelFiveMap));
 		            }
 		        });
@@ -225,7 +225,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonSix.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		            }
 		        });
 	        }
@@ -235,7 +235,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonSix.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		                parent.showGameScreen(new Round(parent, Assets.levelSixMap));
 		            }
 		        });
@@ -255,7 +255,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonSeven.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		            }
 		        });
 	        }
@@ -265,7 +265,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonSeven.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		                parent.showGameScreen(new Round(parent, Assets.levelSevenMap));
 		            }
 		        });
@@ -285,7 +285,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonEight.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		            }
 		        });
 	        }
@@ -295,7 +295,7 @@ public class LevelSelectScreen implements Screen {
 		        playButtonEight.addListener(new ClickListener() {
 
 		            public void clicked(InputEvent event, float x, float y) {
-		            	Assets.buttonPress.play(DuckGame.MasterVol);
+		            	DuckGame.playSoundEffect(Assets.buttonPress, 1);
 		                parent.showGameScreen(new Round(parent, Assets.levelEightMap));
 		            }
 		        });
