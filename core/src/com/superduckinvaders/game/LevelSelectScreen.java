@@ -62,12 +62,12 @@ public class LevelSelectScreen implements Screen {
 
 	        Drawable buttonBack = new TextureRegionDrawable(Assets.backButton);
 
-	        Label backLabel = new Label("Esc", white);
-	        backLabel.setPosition(65,Gdx.graphics.getHeight()-85);
+	        Label backLabel = new Label("Escape", white);
+	        backLabel.setPosition(85, Gdx.graphics.getHeight()-85);
 	        backLabel.setTouchable(Touchable.disabled);
 	        
 	        Button backButton = new Button(new Button.ButtonStyle(buttonBack, buttonBack, buttonBack));
-	        backButton.setPosition(40,Gdx.graphics.getHeight()-100);
+	        backButton.setPosition(40, Gdx.graphics.getHeight()-100);
 	        backButton.addListener(new ClickListener() {
 
 	            public void clicked(InputEvent event, float x, float y) {

@@ -101,8 +101,8 @@ public class SettingsScreen implements Screen {
 	        
 	        Drawable buttonBack = new TextureRegionDrawable(Assets.backButton);
 
-	        Label backLabel = new Label("Esc", white);
-	        backLabel.setPosition(65,Gdx.graphics.getHeight()-85);
+	        Label backLabel = new Label("Escape", white);
+	        backLabel.setPosition(85,Gdx.graphics.getHeight()-85);
 	        backLabel.setTouchable(Touchable.disabled);
 	        
 	        Button backButton = new Button(new Button.ButtonStyle(buttonBack, buttonBack, buttonBack));
