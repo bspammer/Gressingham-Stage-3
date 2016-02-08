@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="left-up" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="1">
+ <properties>
+  <property name="ObjectiveType" value="0"/>
+  <property name="ObjectiveX" value="21"/>
+  <property name="ObjectiveY" value="58"/>
+  <property name="StartX" value="43"/>
+  <property name="StartY" value="3"/>
+ </properties>
  <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32" tilecount="400" columns="20">
   <image source="Tileset.png" width="640" height="640"/>
  </tileset>

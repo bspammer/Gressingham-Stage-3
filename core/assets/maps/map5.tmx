@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="left-up" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="1">
+ <properties>
+  <property name="ObjectiveType" value="1"/>
+  <property name="ObjectiveX" value="0"/>
+  <property name="ObjectiveY" value="0"/>
+  <property name="StartX" value="30"/>
+  <property name="StartY" value="30"/>
+ </properties>
  <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32" tilecount="400" columns="20">
   <image source="Tileset.png" width="640" height="640"/>
+  <tile id="7">
+   <properties>
+    <property name="ObjectiveType" value="1"/>
+    <property name="ObjectiveX" value="0"/>
+    <property name="ObjectiveY" value="0"/>
+    <property name="StartX" value="28"/>
+    <property name="StartY" value="30"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Base" width="60" height="60">
   <data encoding="csv">
