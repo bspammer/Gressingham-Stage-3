@@ -17,6 +17,7 @@ import com.superduckinvaders.game.entity.item.Powerup;
 import com.superduckinvaders.game.entity.item.Upgrade;
 import com.superduckinvaders.game.objective.CollectObjective;
 import com.superduckinvaders.game.objective.Objective;
+import com.superduckinvaders.game.objective.SurviveObjective;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,17 +88,43 @@ public final class Round {
         int startY = Integer.parseInt(map.getProperties().get("StartY", "0", String.class)) * getTileHeight();
 
         player = new Player(this, startX, startY);
-
-        // Determine where to spawn the objective.
-        int objectiveX = Integer.parseInt(map.getProperties().get("ObjectiveX", "10", String.class)) * getTileWidth();
-        int objectiveY = Integer.parseInt(map.getProperties().get("ObjectiveY", "10", String.class)) * getTileHeight();
-
-        Item objective = new Item(this, objectiveX, objectiveY, Assets.flag);
-        setObjective(new CollectObjective(this, objective));
+        
+        //set collect objective
+//        // Determine where to spawn the objective.
+//        int objectiveX = Integer.parseInt(map.getProperties().get("ObjectiveX", "10", String.class)) * getTileWidth();
+//        int objectiveY = Integer.parseInt(map.getProperties().get("ObjectiveY", "10", String.class)) * getTileHeight();
+//
+//        Item objective = new Item(this, objectiveX, objectiveY, Assets.flag);
+//        setObjective(new CollectObjective(this, objective));
+        
+        //set survival objective
 
         entities = new ArrayList<Entity>(128);
         entities.add(player);
-        entities.add(objective);
+        
+        //read map.tmx property value to determine which objective to create
+        int objectiveType = Integer.parseInt(map.getProperties().get("ObjectiveType", "0", String.class));
+        System.out.println(objectiveType);
+        
+        //create appropriate objective as defined by map.tmx file in ObjectiveType property
+        switch(objectiveType) {
+        	case(Objective.COLLECT_OBJECTIVE):
+        		// set collect objective
+        		// Determine where to spawn the objective.
+        		int objectiveX = Integer.parseInt(map.getProperties().get("ObjectiveX", "10", String.class)) * getTileWidth();
+	          	int objectiveY = Integer.parseInt(map.getProperties().get("ObjectiveY", "10", String.class)) * getTileHeight();
+	  
+	          	Item objective = new Item(this, objectiveX, objectiveY, Assets.flag);
+	          	setObjective(new CollectObjective(this, objective));
+	          	
+	            entities.add(objective);
+	          	break;
+	          	
+        	case(Objective.SURVIVE_OBJECTIVE):
+        		// set survival objective with time 100 seconds
+        		setObjective(new SurviveObjective(this, 100));
+        		break;
+        }
 
         createUpgrade(startX + 20, startY, Player.Upgrade.GUN);
         createPowerup(startX + 40, startY, Player.Powerup.RATE_OF_FIRE);

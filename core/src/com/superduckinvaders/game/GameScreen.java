@@ -50,7 +50,13 @@ public class GameScreen implements Screen {
      * The shader program used to render the radial buffs
      */
 	private ShaderProgram shader = new ShaderProgram(Gdx.files.internal("shaders/powerupShader.vsh"), Gdx.files.internal("shaders/powerupShader.fsh"));
-
+	
+	/**
+	 * Stores current window width.
+	 * Useful for positioning UI elements.
+	 */
+	private int prevWindowWidth;
+	
     /**
      * Initialises this GameScreen for the specified round.
      *
@@ -58,6 +64,7 @@ public class GameScreen implements Screen {
      */
     public GameScreen(Round round) {
         this.round = round;
+        this.prevWindowWidth = Gdx.graphics.getWidth();
         DuckGame.playMusic(Assets.music);
     }
 
@@ -138,72 +145,20 @@ public class GameScreen implements Screen {
 
         spriteBatch.end();
 
+        //draw main player UI elements
         uiBatch.begin();
-        // TODO: finish UI
-        Assets.font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        Assets.font.draw(uiBatch, "Objective: " + round.getObjective().getObjectiveString(), 10, 100);
-        Assets.font.draw(uiBatch, "Score: " + round.getPlayer().getScore(), 10,80);
-        Assets.font.draw(uiBatch, Gdx.graphics.getFramesPerSecond() + " FPS", 10, 60);
+        drawPlayerObjectiveAndScore();
+        
+        drawPlayerStaminaBar();
 
-        // Draw stamina bar (for flight);
-        int staminaBarWidth = Assets.staminaEmpty.getRegionWidth();
-        int staminaBarHeight = Assets.staminaEmpty.getRegionHeight();
-        int staminaBarX = Gdx.graphics.getWidth() - staminaBarWidth - 10;
-        int staminaBarY = 10;
-        // TODO Stamina bar does not draw in correct position on window resize
-		uiBatch.draw(Assets.staminaEmpty, staminaBarX, staminaBarY, staminaBarWidth, staminaBarHeight);
-        if (round.getPlayer().getFlyingTimer() > 0) {
-            Assets.staminaFull.setRegionWidth((int) Math.max(0, Math.min(staminaBarWidth, round.getPlayer().getFlyingTimer() / Player.PLAYER_FLIGHT_COOLDOWN * staminaBarWidth)));
-        } else {
-            Assets.staminaFull.setRegionWidth(0);
-        }
-        uiBatch.draw(Assets.staminaFull, staminaBarX, staminaBarY);
-
-        int x = 0;
-        while(x < round.getPlayer().getMaximumHealth()) {
-        	if(x+2 <= round.getPlayer().getCurrentHealth())
-        		uiBatch.draw(Assets.heartFull, x * 18 + 10, 10);
-        	else if(x+1 <= round.getPlayer().getCurrentHealth())
-        		uiBatch.draw(Assets.heartHalf, x * 18 + 10, 10);
-        	else
-        		uiBatch.draw(Assets.heartEmpty, x * 18 + 10, 10);
-        	x += 2;
-        }
-        //uiBatch.draw(Assets.powerupBackboard, Gdx.graphics.getWidth() - Assets.powerupBackboard.getWidth() - 10, 40);
+        drawPlayerHearts();
         uiBatch.end();
         
-        SpriteBatch powerupBatch = new SpriteBatch();
-		ShaderProgram.pedantic = false;
-		if (shader.getLog().length() > 0)
-			shader.getLog();
-		powerupBatch.setShader(shader);
-		powerupBatch.begin();
-		
-		//Draw powerup buffs
-		int powerupCount = 0;
-		for (Player.Powerup powerup : Player.Powerup.values()) {
-			if (round.getPlayer().powerupIsActive(powerup)) {
-				TextureRegion powerupTexture = new TextureRegion(Player.Powerup.getTextureForPowerup(powerup));
-				int powerupDrawScale = 3;
-				float powerupWidth = powerupTexture.getRegionWidth();
-				float powerupHeight = powerupTexture.getRegionHeight();
-				float powerupX = Gdx.graphics.getWidth() - 62 - powerupWidth*powerupDrawScale*powerupCount*1.2f;
-				float powerupY = 49;
-				
-				double proportionTimeLeft = round.getPlayer().getPowerupTimeRemaining(powerup)/Powerup.getMaxPowerupTime(powerup);
-				shader.setUniformf("u_centre", powerupX + 2 + (powerupWidth*powerupDrawScale)/2, powerupY - 1 + (powerupHeight*powerupDrawScale)/2);
-				shader.setUniformf("u_powerupWidth", powerupWidth*powerupDrawScale);
-				//Starts at 0 and increases to 2*pi
-				shader.setUniformf("u_currentAngle", (float) (2*Math.PI - (proportionTimeLeft*2*Math.PI)));
-				powerupBatch.draw(powerupTexture, powerupX, powerupY, powerupWidth*powerupDrawScale, powerupHeight*powerupDrawScale);
-				powerupBatch.flush();
-				powerupCount += 1;
-			}
-		}
-		powerupBatch.end();
+        //draw custom powerup icon timers
+        drawPlayerPowerupTimers();
 		
 		if (gridlines){
-		 TiledMap map =round.getMap();
+		 TiledMap map = round.getMap();
 	        ShapeRenderer sr = new ShapeRenderer();
 	        int tileWidth = map.getProperties().get("tilewidth", Integer.class), tileHeight = map.getProperties().get("tileheight", Integer.class);
 	        int mapWidth = map.getProperties().get("width", Integer.class) * tileWidth, mapHeight = map.getProperties().get("height", Integer.class) * tileHeight;
@@ -217,12 +172,83 @@ public class GameScreen implements Screen {
 		}
     }
 
-    /**
+    private void drawPlayerPowerupTimers() {
+    	 SpriteBatch powerupBatch = new SpriteBatch();
+ 		ShaderProgram.pedantic = false;
+ 		if (shader.getLog().length() > 0)
+ 			shader.getLog();
+ 		powerupBatch.setShader(shader);
+ 		powerupBatch.begin();
+ 		
+ 		//Draw powerup buffs
+ 		int powerupCount = 0;
+ 		for (Player.Powerup powerup : Player.Powerup.values()) {
+ 			if (round.getPlayer().powerupIsActive(powerup)) {
+ 				TextureRegion powerupTexture = new TextureRegion(Player.Powerup.getTextureForPowerup(powerup));
+ 				int powerupDrawScale = 3;
+ 				float powerupWidth = powerupTexture.getRegionWidth();
+ 				float powerupHeight = powerupTexture.getRegionHeight();
+ 				float powerupX = Gdx.graphics.getWidth() - 62 - powerupWidth*powerupDrawScale*powerupCount*1.2f;
+ 				float powerupY = 49;
+ 				
+ 				double proportionTimeLeft = round.getPlayer().getPowerupTimeRemaining(powerup)/Powerup.getMaxPowerupTime(powerup);
+ 				shader.setUniformf("u_centre", powerupX + 2 + (powerupWidth*powerupDrawScale)/2, powerupY - 1 + (powerupHeight*powerupDrawScale)/2);
+ 				shader.setUniformf("u_powerupWidth", powerupWidth*powerupDrawScale);
+ 				//Starts at 0 and increases to 2*pi
+ 				shader.setUniformf("u_currentAngle", (float) (2*Math.PI - (proportionTimeLeft*2*Math.PI)));
+ 				powerupBatch.draw(powerupTexture, powerupX, powerupY, powerupWidth*powerupDrawScale, powerupHeight*powerupDrawScale);
+ 				powerupBatch.flush();
+ 				powerupCount += 1;
+ 			}
+ 		}
+ 		powerupBatch.end();
+	}
+
+	private void drawPlayerHearts() {
+    	int x = 0;
+        while(x < round.getPlayer().getMaximumHealth()) {
+        	if(x+2 <= round.getPlayer().getCurrentHealth())
+        		uiBatch.draw(Assets.heartFull, x * 18 + 10, 10);
+        	else if(x+1 <= round.getPlayer().getCurrentHealth())
+        		uiBatch.draw(Assets.heartHalf, x * 18 + 10, 10);
+        	else
+        		uiBatch.draw(Assets.heartEmpty, x * 18 + 10, 10);
+        	x += 2;
+        }
+	}
+
+	private void drawPlayerStaminaBar() {
+    	// Draw stamina bar (for flight);
+        int staminaBarWidth = Assets.staminaEmpty.getRegionWidth();
+        int staminaBarHeight = Assets.staminaEmpty.getRegionHeight();
+        
+        //calculate offset for positioning of stamina bar
+        int resizeOffset = (Gdx.graphics.getWidth() - prevWindowWidth ) == 0 ? staminaBarWidth : (staminaBarWidth + (Gdx.graphics.getWidth() - prevWindowWidth));
+        
+        int staminaBarX = Gdx.graphics.getWidth() - resizeOffset - 10;
+        int staminaBarY = 10;
+        // TODO Stamina bar does not draw in correct position on window resize
+		uiBatch.draw(Assets.staminaEmpty, staminaBarX, staminaBarY, staminaBarWidth, staminaBarHeight);
+        if (round.getPlayer().getFlyingTimer() > 0) {
+            Assets.staminaFull.setRegionWidth((int) Math.max(0, Math.min(staminaBarWidth, round.getPlayer().getFlyingTimer() / Player.PLAYER_FLIGHT_COOLDOWN * staminaBarWidth)));
+        } else {
+            Assets.staminaFull.setRegionWidth(0);
+        }
+        uiBatch.draw(Assets.staminaFull, staminaBarX, staminaBarY);
+	}
+
+	private void drawPlayerObjectiveAndScore() {
+        Assets.font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        Assets.font.draw(uiBatch, "Objective: " + round.getObjective().getObjectiveString(), 10, 100);
+        Assets.font.draw(uiBatch, "Score: " + round.getPlayer().getScore(), 10,80);
+        Assets.font.draw(uiBatch, Gdx.graphics.getFramesPerSecond() + " FPS", 10, 60);
+	}
+
+	/**
      * Not used since the game window cannot be resized.
      */
     @Override
     public void resize(int width, int height) {
-    	
     }
 
     /**

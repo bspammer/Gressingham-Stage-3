@@ -6,6 +6,16 @@ import com.superduckinvaders.game.Round;
  * Represents an objective that needs to be completed in order to advance.
  */
 public abstract class Objective {
+	
+	/**
+	 * Specifies the ObjectiveType map property switch value for collect objective.
+	 */
+	public static final int COLLECT_OBJECTIVE = 0;
+	
+	/**
+	 * Specifies the ObjectiveType map property switch value for survive objective.
+	 */
+	public static final int SURVIVE_OBJECTIVE = 1;
 
     /**
      * Indicates that the objective hasn't yet been completed.

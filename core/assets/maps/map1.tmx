@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="left-up" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="1">
  <properties>
+  <property name="ObjectiveType" value="1"/>
   <property name="ObjectiveX" value="89"/>
   <property name="ObjectiveY" value="3"/>
   <property name="StartX" value="89"/>
