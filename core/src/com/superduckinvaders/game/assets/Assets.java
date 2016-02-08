@@ -153,7 +153,7 @@ public class Assets {
         //load multiple levels
         levelOneMap = loadTiledMap("maps/map.tmx");
         //loads temp map1
-        levelTwoMap = loadTiledMap("maps/map1.tmx");
+        levelTwoMap = loadTiledMap("maps/map.tmx");
         levelThreeMap = loadTiledMap("maps/map.tmx");
         levelFourMap = loadTiledMap("maps/map.tmx");
         levelFiveMap = loadTiledMap("maps/map.tmx");
