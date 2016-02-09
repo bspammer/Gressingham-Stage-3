@@ -19,7 +19,7 @@ import com.superduckinvaders.game.assets.Assets;
 public class CompleteScreen implements Screen {
 
 	/**
-     * The DuckGame this WinScreen belongs to.
+     * The DuckGame this CompleteScreen belongs to.
      */
     private DuckGame parent;
 
@@ -34,12 +34,12 @@ public class CompleteScreen implements Screen {
     private Stage stage;
 
     /**
-     * The final score to display on the WinScreen.
+     * The final score to display on the CompleteScreen.
      */
     private int finalScore;
 
     /**
-     * Initialises this WinScreen to display the final score.
+     * Initialises this CompleteScreen to display the final score.
      *
      * @param parent the game the screen is associated with
      * @param score the final score to display
@@ -105,7 +105,7 @@ public class CompleteScreen implements Screen {
     }
 
     /**
-     * Not used since the game window cannot be resized.
+     * Not used.
      */
     @Override
     public void resize(int width, int height) {
