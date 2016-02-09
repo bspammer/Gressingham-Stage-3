@@ -355,7 +355,7 @@ public class Player extends Character {
         	textureSet = Assets.playerFlying;
         } else if (isSwimming()) {
         	textureSet = Assets.playerSwimming;
-        } else if (upgrade == upgrade.GUN) {
+        } else if (upgrade == Upgrade.GUN) {
         	textureSet = Assets.playerGun;
         } else {
         	textureSet = Assets.playerNormal;

@@ -68,6 +68,7 @@ public class DuckGame extends Game {
 	/**
 	 * Stores the current round that is being rendered using the gameScreen
 	 */
+	@SuppressWarnings("unused")
 	private Round roundOne,roundTwo,roundThree,roundFour,roundFive,roundSix,roundSeven,roundEight;
 	
 	/**
@@ -184,7 +185,6 @@ public class DuckGame extends Game {
 	public static void loadSettings(){
 		FileHandle handle;
 
-		String extRoot = Gdx.files.getExternalStoragePath();
 		boolean fileExistance = Gdx.files.external("Saves/Settings.ini").exists();
 
 		//if the file doesn't exit, make it

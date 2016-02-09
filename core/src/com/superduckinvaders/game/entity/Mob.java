@@ -21,10 +21,7 @@ public class Mob extends Character {
      */
     private AI ai;
     
-    /**
-     * checks whether mob should be updated
-     */
-    private boolean active = false;
+    
     /**
      * speed of the mob in pixels per second
      */
