@@ -24,6 +24,8 @@ import com.superduckinvaders.game.entity.Entity;
 import com.superduckinvaders.game.entity.Player;
 import com.superduckinvaders.game.entity.item.Powerup;
 
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 
 /**
@@ -238,7 +240,9 @@ public class GameScreen implements Screen {
 				} else if (obstaclesLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
 					cellColor = 0x108239FF;
 				}else if (baseLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
-					if (baseLayer.getCell(i+minimapXOffset, j+minimapYOffset).getTile().getId()==3){
+					int cellID=baseLayer.getCell(i+minimapXOffset, j+minimapYOffset).getTile().getId();
+					//if the cell is not one of the grass cells then it must be a path cell
+					if (cellID!=1 && cellID!=2 && cellID!=11 && cellID!=12 && cellID!=13 && cellID!=21 && cellID!=22 && cellID!=26 && cellID!=31 && cellID!=33 && cellID!=51 && cellID!=52 && cellID!=53 && cellID!=228 ){
 						cellColor = 0xE8B969FF;
 					}
 					
