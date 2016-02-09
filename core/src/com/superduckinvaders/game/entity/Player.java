@@ -219,10 +219,12 @@ public class Player extends Character {
         // Only apply damage if we don't have the invulnerability powerup.
         if (!powerupIsActive(Powerup.INVULNERABLE)) {
             super.damage(health);
-            Assets.quack.play(DuckGame.MasterVol*DuckGame.SfxVol);
+            DuckGame.playSoundEffect(Assets.quack, 1);
+            
         }
         else{
-        	Assets.shieldHit.play(DuckGame.MasterVol*DuckGame.SfxVol);
+        	DuckGame.playSoundEffect(Assets.shieldHit, 1);
+        	
         }
         
         

@@ -114,7 +114,7 @@ public class Projectile extends Entity {
 			// If entity is character and we have hit it, damage it and then delete myself.
 			if (entity instanceof Character && entity.intersects(x, y, getWidth(), getHeight())) {
 				((Character) entity).damage(damage);
-				Assets.enemyDeath.play(DuckGame.MasterVol*DuckGame.SfxVol);
+				DuckGame.playSoundEffect(Assets.enemyDeath, 1);
 				removed = true;
 			}
 		}
