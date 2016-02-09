@@ -97,7 +97,7 @@ public class StartScreen implements Screen {
 
             public void clicked(InputEvent event, float x, float y) {
             	DuckGame.playSoundEffect(Assets.buttonPress, 1);
-            	DuckGame.newGame();
+            	DuckGame.loadSettings();
                 parent.showSettingsScreen();
             }
         });

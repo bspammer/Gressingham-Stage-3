@@ -26,6 +26,7 @@ public class SettingsScreen implements Screen {
 	private int masterVol;
 	private int sfxVol;
 	private int musicVol;
+	private String levelsComplete;
 
 	/**
 	 * The DuckGame this StartScreen belongs to.
@@ -52,9 +53,11 @@ public class SettingsScreen implements Screen {
 	 */
 	@Override
 	public void show() {
+		
 		masterVol=(int) (DuckGame.MasterVol*100);
 		sfxVol=(int) (DuckGame.SfxVol*100);
 		musicVol=(int) (DuckGame.MusicVol*100);
+		levelsComplete=DuckGame.levelsComplete;
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
@@ -305,6 +308,7 @@ public class SettingsScreen implements Screen {
 		DuckGame.MasterVol=(float)masterVol/100;
 		DuckGame.SfxVol=(float)sfxVol/100;
 		DuckGame.MusicVol=(float)musicVol/100;
+		DuckGame.levelsComplete=levelsComplete;
 		DuckGame.saveSettings();
 	}
 }

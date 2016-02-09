@@ -37,7 +37,7 @@ public class LevelSelectScreen implements Screen {
 	 */
 	public LevelSelectScreen(DuckGame parent) {
 		this.parent = parent;
-		DuckGame.loadSettings();
+		
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class LevelSelectScreen implements Screen {
 	public void show() {
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
-
+		DuckGame.loadSettings();
 
 		//Formatting for buttons and labels
 		Drawable button = new TextureRegionDrawable(Assets.button);
@@ -382,6 +382,7 @@ public class LevelSelectScreen implements Screen {
 	 */
 	@Override
 	public void dispose() {
+		
 	}
 }
 
