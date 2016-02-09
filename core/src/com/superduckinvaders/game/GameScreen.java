@@ -229,11 +229,17 @@ public class GameScreen implements Screen {
 				TiledMapTileLayer baseLayer = (TiledMapTileLayer) layers.get("Base");
 				TiledMapTileLayer collisionLayer = (TiledMapTileLayer) layers.get("Collision");
 				TiledMapTileLayer obstaclesLayer = round.getObstaclesLayer();
-				
+				TiledMapTileLayer overhangLayer = (TiledMapTileLayer) layers.get("Overhang");
 				
 				if (playerX - minimapXOffset == i && playerY - minimapYOffset == j) {
 					cellColor = 0xFFFFFFFF;
-				} else if (waterLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
+				} else if (overhangLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null){
+					int cellID=overhangLayer.getCell(i+minimapXOffset, j+minimapYOffset).getTile().getId();
+					if (cellID ==9 ||cellID ==10 ||cellID ==29 ||cellID ==30){
+						cellColor = 0x386D38FF;
+						
+					}
+				}else if (waterLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
 					cellColor = 0x6983E8FF;
 				} else if (collisionLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
 					cellColor = 0xA2693EFF;
@@ -255,7 +261,9 @@ public class GameScreen implements Screen {
 						cellColor = 0xE8B969FF;
 					}
 					
+					
 				}
+				
 				
 				for (int k=0; k<minimapScale; k++) {
 					for (int l=0; l<minimapScale; l++) {
