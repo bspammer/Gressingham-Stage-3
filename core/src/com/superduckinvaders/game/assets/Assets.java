@@ -16,11 +16,11 @@ import com.badlogic.gdx.utils.Array;
 public class Assets {
 
 
-	public static TextureRegion downButton;
+	/**
+	 * Buttons for menus
+	 */
+	public static TextureRegion upButton,backButton,downButton;
 
-	public static TextureRegion upButton;
-
-	public static TextureRegion backButton;
 	/**
 	 *  Player texture sets for normal, flying and swimming.
 	 */
@@ -121,6 +121,10 @@ public class Assets {
 	 */
 	public static Sound levelComplete;
 
+	public static Sound shieldHit;
+	public static Sound quack;
+	public static Sound enemyDeath;
+	
 	/**
 	 * gameOver noise
 	 */
@@ -149,7 +153,9 @@ public class Assets {
 		shot = loadSound("sound/shot.mp3");
 		levelComplete = loadSound("sound/levelComplete.mp3");
 		gameOver = loadSound("sound/gameOver.mp3");
-
+		shieldHit = loadSound("sound/shieldHit.mp3");
+		enemyDeath = loadSound("sound/enemyDeath.wav");
+		quack =loadSound("sound/quack.wav");
 		//hes west maps
 		levelOneMap = loadTiledMap("maps/map.tmx");
 		levelTwoMap = loadTiledMap("maps/map2.tmx");

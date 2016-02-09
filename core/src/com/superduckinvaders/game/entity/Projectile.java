@@ -1,6 +1,7 @@
 package com.superduckinvaders.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.superduckinvaders.game.DuckGame;
 import com.superduckinvaders.game.Round;
 import com.superduckinvaders.game.assets.Assets;
 
@@ -98,12 +99,11 @@ public class Projectile extends Entity {
 		// Check for collisions with blocked tiles and the map boundary.
 		if (collidesX(deltaX) || collidesY(deltaY) || x + deltaX < 0 || x + getWidth() + deltaX > parent.getMapWidth() || y + deltaY < 0 || y + getHeight() + deltaY > parent.getMapHeight()) {
 			// Create explosion particle effect.
-			parent.createParticle(x, y, 0.6, Assets.explosionAnimation);
 
 			removed = true;
 			return;
 		}
-
+		
 		// Otherwise check with collisions with every other entity.
 		for (Entity entity : parent.getEntities()) {
 			// Don't damage my owner.
@@ -114,6 +114,7 @@ public class Projectile extends Entity {
 			// If entity is character and we have hit it, damage it and then delete myself.
 			if (entity instanceof Character && entity.intersects(x, y, getWidth(), getHeight())) {
 				((Character) entity).damage(damage);
+				Assets.enemyDeath.play(DuckGame.MasterVol*DuckGame.SfxVol);
 				removed = true;
 			}
 		}

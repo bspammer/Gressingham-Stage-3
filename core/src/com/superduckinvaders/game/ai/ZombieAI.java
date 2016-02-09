@@ -4,6 +4,7 @@ package com.superduckinvaders.game.ai;
 import com.badlogic.gdx.graphics.g3d.particles.ParticleSorter.Distance;
 import com.badlogic.gdx.math.MathUtils;
 import com.superduckinvaders.game.Round;
+import com.superduckinvaders.game.assets.Assets;
 import com.superduckinvaders.game.entity.Mob;
 
 import java.util.ArrayList;
