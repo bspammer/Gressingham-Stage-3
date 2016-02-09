@@ -12,11 +12,25 @@ import com.superduckinvaders.game.assets.Assets;
 
 public class DuckGame extends Game {
 
-	public static float MasterVol;
-	public static float SfxVol;
-	public static float MusicVol;
+	/**
+	 * Volume values for the settings
+	 */
+	public static float MasterVol,SfxVol,MusicVol;
+	
+	/**
+	 * level progress for the settings file
+	 */
 	public static String levelsComplete;
+	
+	/**
+	 * required to efficiently dispose of sound files
+	 */
 	public static Sound currentMusic;
+	
+	
+	/**
+	 * required to efficiently dispose of settings Screen
+	 */
 	private SettingsScreen settingsScreen = null;
 	
 	/**
@@ -94,6 +108,7 @@ public class DuckGame extends Game {
 		roundSix = new Round(this, Assets.levelSixMap);
 		roundSeven = new Round(this, Assets.levelSevenMap);
 		roundEight = new Round(this, Assets.levelEightMap);
+		
 		showStartScreen();
 	}
 
@@ -108,7 +123,9 @@ public class DuckGame extends Game {
 		setScreen(startScreen = new StartScreen(this));
 	}
 
-
+	/**
+	 * Sets the current screen to the levelSelectScreen
+	 */
 	public void showLevelSelectScreen() {
 		if (levelSelectScreen != null) {
 			levelSelectScreen.dispose();
@@ -216,6 +233,9 @@ public class DuckGame extends Game {
 		totalScore = Integer.parseInt(lines[4].substring(6));
 	}
 
+	/**
+	 * saves the settings out to the settings.ini file
+	 */
 	public static void saveSettings(){
 		FileHandle handle;
 		handle = Gdx.files.external("Saves/Settings.ini");
@@ -226,6 +246,9 @@ public class DuckGame extends Game {
 				"\nScore="+Integer.toString(totalScore), false);
 	}
 
+	/**
+	 * creates a new save file with default values
+	 */
 	public static void newGame(){
 		FileHandle handle;
 
@@ -238,6 +261,10 @@ public class DuckGame extends Game {
 				"\nScore="+Integer.toString(totalScore), false);
 	}
 
+	/**
+	 * plays music files based on volumes in settings
+	 * @param music the music file to be played
+	 */
 	public static void playMusic(Sound music) {
 		if (MusicVol != 0 && MasterVol != 0) {
 			if (currentMusic != null) currentMusic.stop();
@@ -246,12 +273,20 @@ public class DuckGame extends Game {
 		}
 	}
 	
+	/**
+	 * plays sfx files based on volumes in settings
+	 * @param sound file to be played
+	 * @param volumeMultiplier can be used to increase sound of particularly quiet files
+	 */
 	public static void playSoundEffect(Sound sound, float volumeMultiplier) {
 		if (SfxVol != 0 && MasterVol != 0) {
 			sound.play(MasterVol*SfxVol*volumeMultiplier);
 		}
 	}
 	
+	/**
+	 * sets the current screen to the settings screen
+	 */
 	public void showSettingsScreen(){
 		if (settingsScreen != null) {
 			settingsScreen.dispose();
@@ -260,6 +295,9 @@ public class DuckGame extends Game {
 		setScreen(settingsScreen = new SettingsScreen(this));
 	}
 
+	/**
+	 * sets the current screen to the complete screen
+	 */
 	public void showCompleteScreen() {
 		if (completeScreen != null) {
 			completeScreen.dispose();
@@ -268,6 +306,10 @@ public class DuckGame extends Game {
 		setScreen(completeScreen = new CompleteScreen(this, totalScore));
 	}
 
+	/**
+	 * keeps a count of the total score
+	 * @param score score to add
+	 */
 	public void addScoreToTotal(int score) {
 		totalScore += score;
 	}

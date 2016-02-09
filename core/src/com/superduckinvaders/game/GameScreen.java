@@ -185,6 +185,10 @@ public class GameScreen implements Screen {
 		}
 	}
 
+	
+	/**
+	 * draws a minimap in the top right using coloured cells.
+	 */
 	private void drawMinimap() {
 		Player player = round.getPlayer();
 		MapLayers layers = round.getMap().getLayers();
@@ -216,7 +220,7 @@ public class GameScreen implements Screen {
 		}
 		Pixmap minimapData = new Pixmap(minimapWidth*minimapScale, minimapHeight*minimapScale, Pixmap.Format.RGBA8888);
 
-		
+		//defines the colour for specific cells
 		for (int i=0; i<minimapWidth; i++) {
 			for (int j=0; j<minimapHeight; j++) {
 				int cellColor = 0x7DC847FF;
@@ -292,6 +296,9 @@ public class GameScreen implements Screen {
 		minimapTexture.dispose();
 	}
 
+	/**
+	 * draws the countdown timers for powerups
+	 */
 	private void drawPlayerPowerupTimers() {
 		SpriteBatch powerupBatch = new SpriteBatch();
 		ShaderProgram.pedantic = false;
@@ -327,7 +334,9 @@ public class GameScreen implements Screen {
 
 	
 	
-	
+	/**
+	 * draws the players health
+	 */
 	private void drawPlayerHearts() {
 		int x = 0;
 		while(x < round.getPlayer().getMaximumHealth()) {
@@ -341,6 +350,9 @@ public class GameScreen implements Screen {
 		}
 	}
 
+	/**
+	 * draws the players stamina
+	 */
 	private void drawPlayerStaminaBar() {
 		// Draw stamina bar (for flight);
 		int staminaBarWidth = Assets.staminaEmpty.getRegionWidth();
@@ -361,6 +373,9 @@ public class GameScreen implements Screen {
 		uiBatch.draw(Assets.staminaFull, staminaBarX, staminaBarY);
 	}
 
+	/**
+	 * draws the objective text and score
+	 */
 	private void drawPlayerObjectiveAndScore() {
 		Assets.font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		Assets.font.draw(uiBatch, "Objective: " + round.getObjective().getObjectiveString(), 10, 100);

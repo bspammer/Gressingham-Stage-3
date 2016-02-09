@@ -72,16 +72,25 @@ public class Mob extends Character {
 
     }
     
+    /**
+     * gets texture width
+     */
     @Override
     public int getWidth() {
         return textureSet.getTexture(TextureSet.FACING_FRONT, 0).getRegionWidth();
     }
 
+    /**
+     * gets texture height
+     */
     @Override
     public int getHeight() {
         return textureSet.getTexture(TextureSet.FACING_FRONT, 0).getRegionHeight();
     }
 
+    /**
+     * updates mob
+     */
     @Override
     public void update(float delta) {
         ai.update(this, delta);
@@ -111,10 +120,17 @@ public class Mob extends Character {
         super.update(delta);
     }
     
+    /**
+     * set the direction of facing
+     * @param newFacing direction
+     */
     public void setFacing(int newFacing) {
     	facing = newFacing;
     }
 
+    /**
+     * renders the mob
+     */
     @Override
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.draw(textureSet.getTexture(facing, stateTime), (int) x, (int) y);

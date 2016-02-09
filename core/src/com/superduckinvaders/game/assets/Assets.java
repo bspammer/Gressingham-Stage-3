@@ -15,7 +15,9 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Assets {
 
-
+	/**
+	 * border textures for the minimap
+	 */
 	public static Texture horizontalBorder,verticalBorder;
 	
 	
@@ -124,14 +126,26 @@ public class Assets {
 	 */
 	public static Sound levelComplete;
 
+	/**
+	 * noise to play when player is hit with the shild powerup
+	 */
 	public static Sound shieldHit;
+	
+	/**
+	 * quack noise
+	 */
 	public static Sound quack;
+	
+	/**
+	 * noise to play on enemy death
+	 */
 	public static Sound enemyDeath;
 	
 	/**
 	 * gameOver noise
 	 */
 	public static Sound gameOver;
+	
 	/**
 	 * Responsible for loading maps.
 	 */

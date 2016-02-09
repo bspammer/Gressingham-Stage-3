@@ -19,9 +19,14 @@ import com.superduckinvaders.game.assets.Assets;
 
 public class SettingsScreen implements Screen {
 
-	private int masterVol;
-	private int sfxVol;
-	private int musicVol;
+	/**
+	 * volume variables
+	 */
+	private int masterVol,sfxVol,musicVol;
+	
+	/**
+	 * level progress string
+	 */
 	private String levelsComplete;
 
 	/**
@@ -41,7 +46,6 @@ public class SettingsScreen implements Screen {
 	 */
 	public SettingsScreen(DuckGame parent) {
 		this.parent = parent;
-
 	}
 
 	/**
@@ -299,7 +303,9 @@ public class SettingsScreen implements Screen {
 	public void dispose() {
 	}
 
-
+	/**
+	 * applys the settings values created here to the settings file
+	 */
 	public void applySettings(){
 		DuckGame.MasterVol=(float)masterVol/100;
 		DuckGame.SfxVol=(float)sfxVol/100;
