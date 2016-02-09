@@ -435,6 +435,7 @@ public final class Round {
 				Assets.music.stop();
 				DuckGame.playSoundEffect(Assets.levelComplete, 1);
 				
+				//if game not already completed
 				if(!DuckGame.levelsComplete.equals("11111111")) {
 					if(map.equals(Assets.levelOneMap)){
 						DuckGame.levelsComplete="1000000";
@@ -469,6 +470,7 @@ public final class Round {
 						parent.showWinScreen(player.getScore());
 					}
 					
+				//game already completed so don't record score and just display game complete screen
 				} else {
 					parent.showCompleteScreen();
 				}
