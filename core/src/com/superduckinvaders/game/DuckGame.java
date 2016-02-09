@@ -60,9 +60,19 @@ public class DuckGame extends Game {
 	private LoseScreen loseScreen = null;
 	
 	/**
+	 * Stores the Screen diplayed when the player completes the game.
+	 */
+	private CompleteScreen completeScreen = null;
+	
+	/**
 	 * Stores the current round that is being rendered using the gameScreen
 	 */
 	private Round roundOne,roundTwo,roundThree,roundFour,roundFive,roundSix,roundSeven,roundEight;
+	
+	/**
+	 * Combined score for all completed levels.
+	 */
+	private static int totalScore;
 
 	/**
 	 * Initialises the startScreen. Called by libGDX to set up the graphics.
@@ -71,8 +81,6 @@ public class DuckGame extends Game {
 	public void create() {
 
 		loadSettings();
-
-
 
 		Assets.load();
 
@@ -94,7 +102,6 @@ public class DuckGame extends Game {
 		if (startScreen != null) {
 			startScreen.dispose();
 		}
-
 
 		setScreen(startScreen = new StartScreen(this));
 	}
@@ -129,7 +136,6 @@ public class DuckGame extends Game {
 		if (winScreen != null) {
 			winScreen.dispose();
 		}
-
 
 		setScreen(winScreen = new WinScreen(this, score));
 	}
@@ -191,7 +197,7 @@ public class DuckGame extends Game {
 				f.createNewFile();
 				handle = Gdx.files.external("Saves/Settings.ini");
 				//creates defualt settings file
-				handle.writeString("levelsComplete=00000000\nMaster=1.0f\nSFX=1.0f\nMusic=1.0f", false);
+				handle.writeString("levelsComplete=00000000\nMaster=1.0f\nSFX=1.0f\nMusic=1.0f\nScore=0", false);
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -206,20 +212,29 @@ public class DuckGame extends Game {
 		MasterVol = Float.parseFloat(lines[1].substring(7));
 		SfxVol = Float.parseFloat(lines[2].substring(4));
 		MusicVol = Float.parseFloat(lines[3].substring(6));
+		totalScore = Integer.parseInt(lines[4].substring(6));
 	}
 
 	public static void saveSettings(){
 		FileHandle handle;
 		handle = Gdx.files.external("Saves/Settings.ini");
-		handle.writeString("levelsComplete="+levelsComplete+"\nMaster="+Float.toString(MasterVol)+"\nSFX="+Float.toString(SfxVol)+"\nMusic="+Float.toString(MusicVol),false);
+		handle.writeString("levelsComplete="+ levelsComplete +
+				"\nMaster="+Float.toString(MasterVol) + 
+				"\nSFX="+Float.toString(SfxVol) + 
+				"\nMusic="+Float.toString(MusicVol) + 
+				"\nScore="+Integer.toString(totalScore), false);
 	}
 
 	public static void newGame(){
 		FileHandle handle;
 
 		handle = Gdx.files.external("Saves/Settings.ini");
-		//creates defualt settings file
-		handle.writeString("levelsComplete=00000000\nMaster="+Float.toString(MasterVol)+"\nSFX="+Float.toString(SfxVol)+"\nMusic="+Float.toString(MusicVol),false);
+		//creates default settings file
+		handle.writeString("levelsComplete=00000000" +
+				"\nMaster="+Float.toString(MasterVol) + 
+				"\nSFX="+Float.toString(SfxVol) + 
+				"\nMusic="+Float.toString(MusicVol) + 
+				"\nScore="+Integer.toString(totalScore), false);
 	}
 
 	public static void playMusic(Sound music) {
@@ -242,5 +257,17 @@ public class DuckGame extends Game {
 		}
 
 		setScreen(settingsScreen = new SettingsScreen(this));
+	}
+
+	public void showCompleteScreen() {
+		if (completeScreen != null) {
+			completeScreen.dispose();
+		}
+		
+		setScreen(completeScreen = new CompleteScreen(this, totalScore));
+	}
+
+	public void addScoreToTotal(int score) {
+		totalScore += score;
 	}
 }

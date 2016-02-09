@@ -89,11 +89,11 @@ public final class Round {
 		// Choose which obstacles to use.
 		obstaclesLayer = chooseObstacles();
 
+		//create array of entities firstly so we can add the game entities to it after the fact.
+		entities = new ArrayList<Entity>(128);
+		
 		// Spawn player at map defined spawn point (default 0, 0)
 		spawnPlayer(testPowerups);
-
-		entities = new ArrayList<Entity>(128);
-		entities.add(player);
 
 		initObjective();
 
@@ -112,6 +112,7 @@ public final class Round {
 		int startX = Integer.parseInt(map.getProperties().get("StartX", "0", String.class)) * getTileWidth();
 		int startY = Integer.parseInt(map.getProperties().get("StartY", "0", String.class)) * getTileHeight();
 		player = new Player(this, startX, startY);
+		entities.add(player);
 		
 		if(testing) spawnTestingPowerups(startX, startY);
 	}
@@ -430,31 +431,51 @@ public final class Round {
 			objective.update(delta);
 
 			if (objective.getStatus() == Objective.OBJECTIVE_COMPLETED) {
+				
 				Assets.music.stop();
 				DuckGame.playSoundEffect(Assets.levelComplete, 1);
-				if(map.equals(Assets.levelOneMap)){
-					DuckGame.levelsComplete="1000000";
+				
+				if(!DuckGame.levelsComplete.equals("11111111")) {
+					if(map.equals(Assets.levelOneMap)){
+						DuckGame.levelsComplete="1000000";
+					}
+					else if(map.equals(Assets.levelTwoMap)){
+						DuckGame.levelsComplete="11000000";
+					}
+					else if(map.equals(Assets.levelThreeMap)){
+						DuckGame.levelsComplete="11100000";
+					}
+					else if(map.equals(Assets.levelFourMap)){
+						DuckGame.levelsComplete="11110000";
+					}
+					else if(map.equals(Assets.levelFiveMap)){
+						DuckGame.levelsComplete="11111000";
+					}
+					else if(map.equals(Assets.levelSixMap)){
+						DuckGame.levelsComplete="11111100";
+					}
+					else if(map.equals(Assets.levelSevenMap)){
+						DuckGame.levelsComplete="11111110";
+					}
+					else if(map.equals(Assets.levelEightMap)){
+						DuckGame.levelsComplete="11111111";
+					}
+					
+					parent.addScoreToTotal(player.getScore());
+					
+					if(DuckGame.levelsComplete.equals("11111111")) {
+						parent.showCompleteScreen();
+					} else {
+						parent.showWinScreen(player.getScore());
+					}
+					
+				} else {
+					parent.showCompleteScreen();
 				}
-				else if(map.equals(Assets.levelTwoMap)){
-					DuckGame.levelsComplete="11000000";
-				}
-				else if(map.equals(Assets.levelThreeMap)){
-					DuckGame.levelsComplete="11100000";
-				}
-				else if(map.equals(Assets.levelFourMap)){
-					DuckGame.levelsComplete="11110000";
-				}
-				else if(map.equals(Assets.levelFiveMap)){
-					DuckGame.levelsComplete="11111000";
-				}
-				else if(map.equals(Assets.levelSixMap)){
-					DuckGame.levelsComplete="11111100";
-				}
-				else if(map.equals(Assets.levelSevenMap)){
-					DuckGame.levelsComplete="11111110";
-				}
+				
+				//always save the settings
 				DuckGame.saveSettings();
-				parent.showWinScreen(player.getScore());
+				
 			} else if (player.isDead()) {
 				Assets.music.stop();
 				DuckGame.playSoundEffect(Assets.gameOver, 1);
