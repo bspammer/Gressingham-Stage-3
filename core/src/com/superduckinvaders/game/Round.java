@@ -138,7 +138,6 @@ public final class Round {
 	private void initObjective() {
 		//read map.tmx property value to determine which objective to create
 		int objectiveType = Integer.parseInt(map.getProperties().get("ObjectiveType", "0", String.class));
-		System.out.println(objectiveType);
 
 		//create appropriate objective as defined by map.tmx file in ObjectiveType property
 		switch(objectiveType) {

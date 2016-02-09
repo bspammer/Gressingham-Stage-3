@@ -197,7 +197,6 @@ public class GameScreen implements Screen {
 		
 		int playerX = (int) player.getX()/round.getTileWidth();
 		int playerY = (int) player.getY()/round.getTileHeight();
-		System.out.println("(" + playerX + ", " + playerY + ")");
 
 		// Odd numbers so player is centred
 		int minimapWidth = 51;
@@ -222,6 +221,7 @@ public class GameScreen implements Screen {
 		}
 		Pixmap minimapData = new Pixmap(minimapWidth*minimapScale, minimapHeight*minimapScale, Pixmap.Format.RGBA8888);
 
+		
 		for (int i=0; i<minimapWidth; i++) {
 			for (int j=0; j<minimapHeight; j++) {
 				int cellColor = 0x7DC847FF;
@@ -231,13 +231,16 @@ public class GameScreen implements Screen {
 				TiledMapTileLayer obstaclesLayer = round.getObstaclesLayer();
 				TiledMapTileLayer overhangLayer = (TiledMapTileLayer) layers.get("Overhang");
 				
-				if (playerX - minimapXOffset == i && playerY - minimapYOffset == j) {
+				if(Integer.parseInt(round.getMap().getProperties().get("ObjectiveX").toString())==i+minimapXOffset+1
+						&& Integer.parseInt(round.getMap().getProperties().get("ObjectiveY").toString())==j+minimapYOffset){
+					cellColor = 0xFF0000FF;
+				}
+				else if (playerX - minimapXOffset == i && playerY - minimapYOffset == j) {
 					cellColor = 0xFFFFFFFF;
 				} else if (overhangLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null){
 					int cellID=overhangLayer.getCell(i+minimapXOffset, j+minimapYOffset).getTile().getId();
 					if (cellID ==9 ||cellID ==10 ||cellID ==29 ||cellID ==30){
 						cellColor = 0x386D38FF;
-						
 					}
 				}else if (waterLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
 					cellColor = 0x6983E8FF;
