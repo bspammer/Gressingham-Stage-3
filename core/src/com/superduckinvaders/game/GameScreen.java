@@ -2,10 +2,14 @@ package com.superduckinvaders.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Random;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -17,6 +21,8 @@ import com.superduckinvaders.game.assets.Assets;
 import com.superduckinvaders.game.entity.Entity;
 import com.superduckinvaders.game.entity.Player;
 import com.superduckinvaders.game.entity.item.Powerup;
+
+import javax.imageio.ImageIO;
 
 /**
  * Screen for interaction with the game.
@@ -154,6 +160,8 @@ public class GameScreen implements Screen {
 		drawPlayerStaminaBar();
 
 		drawPlayerHearts();
+		
+		drawMinimap();
 		uiBatch.end();
 
 		//draw custom powerup icon timers
@@ -172,6 +180,38 @@ public class GameScreen implements Screen {
 				sr.line(0, y, mapWidth, y);
 			sr.end();
 		}
+	}
+	
+	private void drawMinimap() {
+		Player player = round.getPlayer();
+		int playerX = (int) player.getX();
+		int playerY = (int) player.getY();
+		
+		// Odd numbers so player is centred
+		int minimapWidth = 51;
+		int minimapHeight = 51;
+		int minimapScale = 4;
+		int minimapX = Gdx.graphics.getWidth() - minimapWidth*minimapScale - 5;
+		int minimapY = Gdx.graphics.getHeight() - minimapHeight*minimapScale - 5;
+		int minimapXOffset = playerX - minimapWidth/2;
+		int minimapYOffset = playerY - minimapHeight/2;
+		
+		if (playerX < minimapWidth/2) {
+			minimapXOffset = 0;
+		}
+		if (playerY < minimapHeight/2) {
+			minimapYOffset = 0;
+		}
+		Pixmap minimapData = new Pixmap(minimapWidth*minimapScale, minimapHeight*minimapScale, Pixmap.Format.RGBA8888);
+		
+		for (int i=0; i<minimapWidth; i++) {
+			for (int j=0; j<minimapHeight; j++) {
+				minimapData.setColor(Color.BLUE);
+				minimapData.drawRectangle(i*minimapScale, j*minimapScale, minimapScale+1, minimapScale+1);
+			}
+		}
+		
+		uiBatch.draw(new Texture(minimapData), minimapX, minimapY, minimapWidth*minimapScale, minimapHeight*minimapScale);
 	}
 
 	private void drawPlayerPowerupTimers() {
