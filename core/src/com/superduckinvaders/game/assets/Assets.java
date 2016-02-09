@@ -16,6 +16,9 @@ import com.badlogic.gdx.utils.Array;
 public class Assets {
 
 
+	public static Texture horizontalBorder,verticalBorder;
+	
+	
 	/**
 	 * Buttons for menus
 	 */
@@ -169,6 +172,9 @@ public class Assets {
 
 		font = loadFont("font/gamefont.fnt", "font/gamefont.png");
 
+		verticalBorder = loadTexture("textures/verticalBorder.png");
+		horizontalBorder = loadTexture("textures/horizontalBorder.png");
+		
 		Texture hearts = loadTexture("textures/hearts.png");
 		heartFull = new TextureRegion(hearts, 0, 0, 32, 28);
 		heartHalf = new TextureRegion(hearts, 32, 0, 32, 28);

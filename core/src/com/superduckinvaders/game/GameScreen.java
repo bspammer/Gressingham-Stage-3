@@ -110,6 +110,9 @@ public class GameScreen implements Screen {
 		uiBatch = new SpriteBatch();
 
 		mapRenderer = new OrthogonalTiledMapRenderer(round.getMap(), spriteBatch);
+
+		
+	
 	}
 
 	/**
@@ -129,7 +132,6 @@ public class GameScreen implements Screen {
 
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
-
 		// Render base and collision layers.
 		mapRenderer.setView(camera);
 		mapRenderer.renderTileLayer(round.getBaseLayer());
@@ -152,7 +154,7 @@ public class GameScreen implements Screen {
 		if (round.getOverhangLayer() != null) {
 			mapRenderer.renderTileLayer(round.getOverhangLayer());
 		}
-
+		
 		spriteBatch.end();
 
 		//draw main player UI elements
@@ -212,7 +214,7 @@ public class GameScreen implements Screen {
 
 		for (int i=0; i<minimapWidth; i++) {
 			for (int j=0; j<minimapHeight; j++) {
-				int cellColor = 0x00FF00FF;
+				int cellColor = 0x7DC847FF;
 				TiledMapTileLayer waterLayer = (TiledMapTileLayer) layers.get("Water");
 				TiledMapTileLayer collisionLayer = (TiledMapTileLayer) layers.get("Collision");
 				TiledMapTileLayer obstaclesLayer = round.getObstaclesLayer();
@@ -221,7 +223,7 @@ public class GameScreen implements Screen {
 				if (playerX == i && playerY == j) {
 					cellColor = 0xFFFFFFFF;
 				} else if (waterLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
-					cellColor = 0x0000FFFF;
+					cellColor = 0x6983E8FF;
 				} else if (collisionLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
 					cellColor = 0xA2693EFF;
 				} else if (obstaclesLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
@@ -236,10 +238,23 @@ public class GameScreen implements Screen {
 			}
 		}
 
+		//draws border for the minimap
+		uiBatch.draw(Assets.horizontalBorder,minimapX-1, minimapY-2);
+		uiBatch.draw(Assets.horizontalBorder,minimapX-1, minimapY+minimapHeight*minimapScale-1);
+		uiBatch.draw(Assets.verticalBorder,minimapX-2,minimapY-1);
+		uiBatch.draw(Assets.verticalBorder,minimapX+minimapWidth*minimapScale,minimapY-1);
+		
+		
 		Texture minimapTexture = new Texture(minimapData);
 		uiBatch.draw(minimapTexture, minimapX, minimapY, minimapWidth*minimapScale, minimapHeight*minimapScale);
+		
 		// Need to flush because we're about to dispose the texture
 		uiBatch.flush();
+		
+		
+		
+		
+		
 		minimapData.dispose();
 		minimapTexture.dispose();
 	}
@@ -277,6 +292,9 @@ public class GameScreen implements Screen {
 		powerupBatch.dispose();
 	}
 
+	
+	
+	
 	private void drawPlayerHearts() {
 		int x = 0;
 		while(x < round.getPlayer().getMaximumHealth()) {
