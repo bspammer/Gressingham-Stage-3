@@ -1,9 +1,6 @@
 package com.superduckinvaders.game;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 import com.badlogic.gdx.Game;
@@ -20,39 +17,48 @@ public class DuckGame extends Game {
 	public static String levelsComplete;
 	public static Sound currentMusic;
 	private SettingsScreen settingsScreen = null;
+	
 	/**
 	 * The width of the game window.
 	 */
 	public static final int GAME_WIDTH = 1200;
+	
 	/**
 	 * The height of the game window.
 	 */
 	public static final int GAME_HEIGHT = 720;
+	
 	/**
 	 * stores whether the game is in a main game state
 	 */
 	public boolean onGameScreen = false;
+	
 	/**
 	 * Stores the Screen displayed at the start of the game
 	 */
 	private StartScreen startScreen = null;
+	
 	/**
 	 * Stores the Screen displayed when a level has begun
 	 */
 	private GameScreen gameScreen = null;
+	
 	/**
 	 * Stores the Screen displayed for selecting levels
 	 */
 	private LevelSelectScreen levelSelectScreen = null;
+	
 
 	/**
 	 * Stores the Screen displayed when a level has been won
 	 */
 	private WinScreen winScreen = null;
+	
 	/**
 	 * Stores the Screen displayed when the player has lost the level
 	 */
 	private LoseScreen loseScreen = null;
+	
 	/**
 	 * Stores the current round that is being rendered using the gameScreen
 	 */

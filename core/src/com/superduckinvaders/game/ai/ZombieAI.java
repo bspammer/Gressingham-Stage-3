@@ -16,298 +16,309 @@ import java.util.PriorityQueue;
  */
 public class ZombieAI extends AI {
 
-    /**
-     * How many seconds between attacks?
-     */
-    public static final double ATTACK_DELAY = 1;
-    /**
-     * How many iterations to use in the pathfinding algorithm.
-     */
-    public final static int PATHFINDING_ITERATION_LIMIT = 20;
-    /**
-     * How often to update the AI.
-     */
-    public final static float PATHFINDING_RATE = (float) 0.2;
-    /**
-     * The random offset to be added or taken from the base pathfinding rate.
-     */
-    public final static float PATHFINDING_RATE_OFFSET = (float) 0.05;
-    /**
-     * Width of one tile in the map.
-     */
-    private int tileWidth;
-    /**
-     * Height of one tile in the map.
-     */
-    private int tileHeight;
-    /**
-     * Player's last X coordinate.
-     */
-    private int playerX;
-    /**
-     * Player's last Y coordinate.
-     */
-    private int playerY;
-    /**
-     * Used to calculate rate of pathfinding.
-     */
-    private float deltaOffsetLimit = 0;
-    /**
-     * Used to track when to recalculate AI.
-     */
-    private float currentOffset = 0;
-    /**
-     * How far away from the player this ZombieAI can attack.
-     */
-    private int attackRange;
-    /**
-     * How long before we can attack again.
-     */
-    private double attackTimer = 0;
+	/**
+	 * How many seconds between attacks?
+	 */
+	public static final double ATTACK_DELAY = 1;
 
-    /**
-     * Initialises this ZombieAI.
-     *
-     * @param round       the round the Mob this AI controls is a part of
-     * @param attackRange how far away from the player can this ZombieAI attack
-     */
-    public ZombieAI(Round round, int attackRange) {
-        super(round);
+	/**
+	 * How many iterations to use in the pathfinding algorithm.
+	 */
+	public final static int PATHFINDING_ITERATION_LIMIT = 20;
 
-        this.tileWidth = round.getTileWidth();
-        this.tileHeight = round.getTileHeight();
-        this.attackRange = attackRange;
-    }
+	/**
+	 * How often to update the AI.
+	 */
+	public final static float PATHFINDING_RATE = (float) 0.2;
 
-    /**
-     * Updates this ZombieAI with the player's last coordinates.
-     */
-    private void updatePlayerCoords() {
-        playerX = (int) round.getPlayer().getX();
-        playerY = (int) round.getPlayer().getY();
-    }
+	/**
+	 * The random offset to be added or taken from the base pathfinding rate.
+	 */
+	public final static float PATHFINDING_RATE_OFFSET = (float) 0.05;
 
-    /**
-     * Updates this ZombieAI.
-     *
-     * @param mob   pointer to the Mob using this AI
-     * @param delta time since the previous update
-     */
-    @Override
-    public void update(Mob mob, float delta) {
-        updatePlayerCoords();
+	/**
+	 * Width of one tile in the map.
+	 */
+	private int tileWidth;
 
-        double distanceX = mob.getX() - playerX;
-        double distanceY = mob.getY() - playerY;
-        double distanceFromPlayer = mob.distanceTo(playerX, playerY);
+	/**
+	 * Height of one tile in the map.
+	 */
+	private int tileHeight;
 
-        currentOffset += delta;
-        if (currentOffset >= deltaOffsetLimit && (int) distanceFromPlayer < 1280 / 4) {
-            deltaOffsetLimit = PATHFINDING_RATE + (MathUtils.random() % PATHFINDING_RATE_OFFSET);
-            currentOffset = 0;
-            
-            //Only find a path if we're not already close enough to the player
-            if (mob.distanceTo(playerX, playerY) > attackRange/1.5) {
-                Coordinate targetCoord = FindPath(mob);
-                Coordinate targetDir = new Coordinate((int) (targetCoord.x - mob.getX()), (int) (targetCoord.y - mob.getY()));
-                mob.setVelocity(targetDir.x, targetDir.y);
-            } else {
-            	mob.setVelocity(0, 0);
-            	mob.setFacing(mob.directionTo(playerX, playerY));
-            }
-        }
+	/**
+	 * Player's last X coordinate.
+	 */
+	private int playerX;
 
-        // Damage player.
-        if ((int) distanceFromPlayer < attackRange && attackTimer <= 0) {
-            round.getPlayer().damage(1);
-            attackTimer = ATTACK_DELAY;
-        } else if (attackTimer > 0) {
-            attackTimer -= delta;
-        }
-    }
+	/**
+	 * Player's last Y coordinate.
+	 */
+	private int playerY;
 
-    /**
-     * A variation of A* algorithm. Returns a meaningful target coordinate as a pair of integers.
-     * Recalculated every tick as player might move and change pathfinding coordinates.
-     *
-     * @param mob Mob that a path is being generated for
-     * @return Returns a Coordinate for the path finding
-     */
-    private Coordinate FindPath(Mob mob) {
-        Coordinate startCoord = new Coordinate((int) mob.getX(), (int) mob.getY());
-        Coordinate finalCoord = new Coordinate(playerX, playerY);
-        
-        boolean finalFound = false;
+	/**
+	 * Used to calculate rate of pathfinding.
+	 */
+	private float deltaOffsetLimit = 0;
 
-        PriorityQueue<Coordinate> fringe = new PriorityQueue<Coordinate>();
-        HashMap<Coordinate, SearchNode> visitedStates = new HashMap<Coordinate, SearchNode>();
-        fringe.add(startCoord);
-        visitedStates.put(startCoord, new SearchNode(null, 0));
+	/**
+	 * Used to track when to recalculate AI.
+	 */
+	private float currentOffset = 0;
 
-        while (!fringe.isEmpty()) {
+	/**
+	 * How far away from the player this ZombieAI can attack.
+	 */
+	private int attackRange;
 
-            Coordinate currentCoord = fringe.poll();
-            SearchNode currentState = visitedStates.get(currentCoord);
+	/**
+	 * How long before we can attack again.
+	 */
+	private double attackTimer = 0;
 
-            if (currentState.iteration >= PATHFINDING_ITERATION_LIMIT) {
-                continue;
-            }
+	/**
+	 * Initialises this ZombieAI.
+	 *
+	 * @param round       the round the Mob this AI controls is a part of
+	 * @param attackRange how far away from the player can this ZombieAI attack
+	 */
+	public ZombieAI(Round round, int attackRange) {
+		super(round);
 
-            //work out N, E, S, W permutations
-            Coordinate[] perm = new Coordinate[4];
-            perm[0] = new Coordinate(currentCoord.x, currentCoord.y + tileHeight/4);
-            perm[1] = new Coordinate(currentCoord.x + tileWidth, currentCoord.y);
-            perm[2] = new Coordinate(currentCoord.x, currentCoord.y - tileHeight/4);
-            perm[3] = new Coordinate(currentCoord.x - tileWidth, currentCoord.y);
+		this.tileWidth = round.getTileWidth();
+		this.tileHeight = round.getTileHeight();
+		this.attackRange = attackRange;
+	}
 
-            for (Coordinate currentPerm : perm) {
-                if (!(mob.collidesXfrom(currentPerm.x - currentCoord.x, currentCoord.x, currentCoord.y) ||
-                        mob.collidesYfrom(currentPerm.y - currentCoord.y, currentCoord.x, currentCoord.y) ||
-                        visitedStates.containsKey(currentPerm))) {
-                    fringe.add(currentPerm);
-                    visitedStates.put(currentPerm, new SearchNode(currentState, currentState.iteration + 1));
-                }
-                if (currentPerm.inSameTile(finalCoord)) {
-                    visitedStates.put(currentPerm, new SearchNode(currentState, currentState.iteration + 1));
-                    finalCoord = currentPerm;
-                    finalFound = true;
-                    break;
-                }
-            }
-            if (finalFound) break;
-        }
-        if (!finalFound) {
-            return startCoord;
-        } else {
-            SearchNode resultNode = null;
-            List<SearchNode> path = new ArrayList<SearchNode>();
-            path.add(visitedStates.get(finalCoord));
-            while (path.get(path.size() - 1) != visitedStates.get(startCoord)) {
-                path.add(path.get(path.size() - 1).predecessor);
-            }
-            switch (path.size()) {
-                case 1:
-                    resultNode = path.get(path.size() - 1);
-                    break;
-                default:
-                    resultNode = path.get(path.size() - 2);
-                    break;
-            }
-            //for loop below will terminate after at most 4 iterations
-            for (Coordinate key : visitedStates.keySet()) {
-                if (visitedStates.get(key) == resultNode)
-                    return key;
-            }
-        }
-        return startCoord;
-    }
+	/**
+	 * Updates this ZombieAI with the player's last coordinates.
+	 */
+	private void updatePlayerCoords() {
+		playerX = (int) round.getPlayer().getX();
+		playerY = (int) round.getPlayer().getY();
+	}
 
-    /**
-     * Represents a pair of coordinates.
-     */
-    class Coordinate implements Comparable<Coordinate> {
-        /**
-         * The X coordinate.
-         */
-        public int x;
-        /**
-         * The Y coordinate.
-         */
-        public int y;
+	/**
+	 * Updates this ZombieAI.
+	 *
+	 * @param mob   pointer to the Mob using this AI
+	 * @param delta time since the previous update
+	 */
+	@Override
+	public void update(Mob mob, float delta) {
+		updatePlayerCoords();
 
-        /**
-         * Initialises this Coordinate.
-         *
-         * @param x the x coordinate
-         * @param y the y coordinate
-         */
-        public Coordinate(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
+		double distanceX = mob.getX() - playerX;
+		double distanceY = mob.getY() - playerY;
+		double distanceFromPlayer = mob.distanceTo(playerX, playerY);
 
-        /**
-         * Compares this Coordinate to another Coordinate.
-         *
-         * @param o the coordinate to compare to
-         * @return the result of the comparison
-         */
-        @Override
-        public int compareTo(Coordinate o) {
-            Double playerDistanceA = Math.sqrt(Math.pow((x - playerX), 2) + Math.pow((y - playerY), 2));
-            Double playerDistanceB = Math.sqrt(Math.pow((o.x - playerX), 2) + Math.pow((o.y - playerY), 2));
-            return playerDistanceA.compareTo(playerDistanceB);
-        }
+		currentOffset += delta;
+		if (currentOffset >= deltaOffsetLimit && (int) distanceFromPlayer < 1280 / 4) {
+			deltaOffsetLimit = PATHFINDING_RATE + (MathUtils.random() % PATHFINDING_RATE_OFFSET);
+			currentOffset = 0;
 
-        /**
-         * Tests this Coordinate with another object for equality.
-         *
-         * @param o the object to compare to
-         * @return true of the objects are equal, false if not
-         */
-        @Override
-        public boolean equals(Object o) {
-            if (o == null) return false;
-            if (getClass() != o.getClass()) return false;
-            final Coordinate other = (Coordinate) o;
-            return (this.x == other.x && this.y == other.y);
-        }
+			//Only find a path if we're not already close enough to the player
+			if (mob.distanceTo(playerX, playerY) > attackRange/1.5) {
+				Coordinate targetCoord = findPath(mob);
+				Coordinate targetDir = new Coordinate((int) (targetCoord.x - mob.getX()), (int) (targetCoord.y - mob.getY()));
+				mob.setVelocity(targetDir.x, targetDir.y);
+			} else {
+				mob.setVelocity(0, 0);
+				mob.setFacing(mob.directionTo(playerX, playerY));
+			}
+		}
 
-        /**
-         * Gets a unique hash code for this coordinate.
-         *
-         * @return the hash code
-         */
-        @Override
-        public int hashCode() {
-            int hash = 17;
-            hash = hash * 31 + this.x;
-            hash = hash * 31 + this.y;
-            return hash;
-        }
+		// Damage player.
+		if ((int) distanceFromPlayer < attackRange && attackTimer <= 0) {
+			round.getPlayer().damage(1);
+			attackTimer = ATTACK_DELAY;
+		} else if (attackTimer > 0) {
+			attackTimer -= delta;
+		}
+	}
 
-        /**
-         * Gets whether this Coordinate is in the same map tile as another.
-         *
-         * @param b the coordinate to compare with
-         * @return true if the coordinates are in the same map tile, false if not
-         */
-        public boolean inSameTile(Coordinate b) {
-            return (this.x / tileWidth == b.x / tileWidth && this.y / tileHeight == b.y / tileHeight);
-        }
+	/**
+	 * A variation of A* algorithm. Returns a meaningful target coordinate as a pair of integers.
+	 * Recalculated every tick as player might move and change pathfinding coordinates.
+	 *
+	 * @param mob Mob that a path is being generated for
+	 * @return Returns a Coordinate for the path finding
+	 */
+	private Coordinate findPath(Mob mob) {
+		Coordinate startCoord = new Coordinate((int) mob.getX(), (int) mob.getY());
+		Coordinate finalCoord = new Coordinate(playerX, playerY);
 
-        /**
-         * Returns a string representation of this Coordinate.
-         *
-         * @return a string representation of this Coordinate
-         */
-        public String toString() {
-            return ("(" + Integer.toString(this.x) + ", " + Integer.toString(this.y) + ")");
-        }
-    }
+		boolean finalFound = false;
 
-    /**
-     * Represents a node in the A* search tree.
-     */
-    class SearchNode {
-        /**
-         * The predecessor node in the search tree.
-         */
-        public SearchNode predecessor;
-        /**
-         * The iteration this node is a part of.
-         */
-        public int iteration;
+		PriorityQueue<Coordinate> fringe = new PriorityQueue<Coordinate>();
+		HashMap<Coordinate, SearchNode> visitedStates = new HashMap<Coordinate, SearchNode>();
+		fringe.add(startCoord);
+		visitedStates.put(startCoord, new SearchNode(null, 0));
 
-        /**
-         * Initialises this SearchNode.
-         *
-         * @param predecessor the predecessor node
-         * @param iteration   the iteration of this node
-         */
-        public SearchNode(SearchNode predecessor, int iteration) {
-            this.predecessor = predecessor;
-            this.iteration = iteration;
-        }
-    }
+		while (!fringe.isEmpty()) {
+
+			Coordinate currentCoord = fringe.poll();
+			SearchNode currentState = visitedStates.get(currentCoord);
+
+			if (currentState.iteration >= PATHFINDING_ITERATION_LIMIT) {
+				continue;
+			}
+
+			//work out N, E, S, W permutations
+			Coordinate[] perm = new Coordinate[4];
+			perm[0] = new Coordinate(currentCoord.x, currentCoord.y + tileHeight/4);
+			perm[1] = new Coordinate(currentCoord.x + tileWidth, currentCoord.y);
+			perm[2] = new Coordinate(currentCoord.x, currentCoord.y - tileHeight/4);
+			perm[3] = new Coordinate(currentCoord.x - tileWidth, currentCoord.y);
+
+			for (Coordinate currentPerm : perm) {
+				if (!(mob.collidesXfrom(currentPerm.x - currentCoord.x, currentCoord.x, currentCoord.y) ||
+						mob.collidesYfrom(currentPerm.y - currentCoord.y, currentCoord.x, currentCoord.y) ||
+						visitedStates.containsKey(currentPerm))) {
+					fringe.add(currentPerm);
+					visitedStates.put(currentPerm, new SearchNode(currentState, currentState.iteration + 1));
+				}
+				if (currentPerm.inSameTile(finalCoord)) {
+					visitedStates.put(currentPerm, new SearchNode(currentState, currentState.iteration + 1));
+					finalCoord = currentPerm;
+					finalFound = true;
+					break;
+				}
+			}
+			if (finalFound) break;
+		}
+		if (!finalFound) {
+			return startCoord;
+		} else {
+			SearchNode resultNode = null;
+			List<SearchNode> path = new ArrayList<SearchNode>();
+			path.add(visitedStates.get(finalCoord));
+			while (path.get(path.size() - 1) != visitedStates.get(startCoord)) {
+				path.add(path.get(path.size() - 1).predecessor);
+			}
+			switch (path.size()) {
+			case 1:
+				resultNode = path.get(path.size() - 1);
+				break;
+			default:
+				resultNode = path.get(path.size() - 2);
+				break;
+			}
+			//for loop below will terminate after at most 4 iterations
+			for (Coordinate key : visitedStates.keySet()) {
+				if (visitedStates.get(key) == resultNode)
+					return key;
+			}
+		}
+		return startCoord;
+	}
+
+	/**
+	 * Represents a pair of coordinates.
+	 */
+	class Coordinate implements Comparable<Coordinate> {
+		/**
+		 * The X coordinate.
+		 */
+		public int x;
+		/**
+		 * The Y coordinate.
+		 */
+		public int y;
+
+		/**
+		 * Initialises this Coordinate.
+		 *
+		 * @param x the x coordinate
+		 * @param y the y coordinate
+		 */
+		public Coordinate(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		/**
+		 * Compares this Coordinate to another Coordinate.
+		 *
+		 * @param o the coordinate to compare to
+		 * @return the result of the comparison
+		 */
+		@Override
+		public int compareTo(Coordinate o) {
+			Double playerDistanceA = Math.sqrt(Math.pow((x - playerX), 2) + Math.pow((y - playerY), 2));
+			Double playerDistanceB = Math.sqrt(Math.pow((o.x - playerX), 2) + Math.pow((o.y - playerY), 2));
+			return playerDistanceA.compareTo(playerDistanceB);
+		}
+
+		/**
+		 * Tests this Coordinate with another object for equality.
+		 *
+		 * @param o the object to compare to
+		 * @return true of the objects are equal, false if not
+		 */
+		@Override
+		public boolean equals(Object o) {
+			if (o == null) return false;
+			if (getClass() != o.getClass()) return false;
+			final Coordinate other = (Coordinate) o;
+			return (this.x == other.x && this.y == other.y);
+		}
+
+		/**
+		 * Gets a unique hash code for this coordinate.
+		 *
+		 * @return the hash code
+		 */
+		@Override
+		public int hashCode() {
+			int hash = 17;
+			hash = hash * 31 + this.x;
+			hash = hash * 31 + this.y;
+			return hash;
+		}
+
+		/**
+		 * Gets whether this Coordinate is in the same map tile as another.
+		 *
+		 * @param b the coordinate to compare with
+		 * @return true if the coordinates are in the same map tile, false if not
+		 */
+		public boolean inSameTile(Coordinate b) {
+			return (this.x / tileWidth == b.x / tileWidth && this.y / tileHeight == b.y / tileHeight);
+		}
+
+		/**
+		 * Returns a string representation of this Coordinate.
+		 *
+		 * @return a string representation of this Coordinate
+		 */
+		public String toString() {
+			return ("(" + Integer.toString(this.x) + ", " + Integer.toString(this.y) + ")");
+		}
+	}
+
+	/**
+	 * Represents a node in the A* search tree.
+	 */
+	class SearchNode {
+		/**
+		 * The predecessor node in the search tree.
+		 */
+		public SearchNode predecessor;
+		/**
+		 * The iteration this node is a part of.
+		 */
+		public int iteration;
+
+		/**
+		 * Initialises this SearchNode.
+		 *
+		 * @param predecessor the predecessor node
+		 * @param iteration   the iteration of this node
+		 */
+		public SearchNode(SearchNode predecessor, int iteration) {
+			this.predecessor = predecessor;
+			this.iteration = iteration;
+		}
+	}
 }

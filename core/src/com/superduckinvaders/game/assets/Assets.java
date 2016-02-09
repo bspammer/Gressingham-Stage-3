@@ -15,333 +15,333 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Assets {
 
-	
+
 	public static TextureRegion downButton;
 
 	public static TextureRegion upButton;
-	
+
 	public static TextureRegion backButton;
-    /**
-     *  Player texture sets for normal, flying and swimming.
-     */
-    public static TextureSet playerNormal, playerGun, playerFlying, playerSwimming;
+	/**
+	 *  Player texture sets for normal, flying and swimming.
+	 */
+	public static TextureSet playerNormal, playerGun, playerFlying, playerSwimming;
 
-    /**
-     *  Bad guy texture set.
-     */
-    public static TextureSet badGuyNormal;
+	/**
+	 *  Bad guy texture set.
+	 */
+	public static TextureSet badGuyNormal;
 
-    /**
-     *  Texture for Projectile.
-     */
-    public static TextureRegion projectile;
-    
-    /**
-     *  Textures for Hearts
-     */
-    public static TextureRegion heartFull, heartHalf, heartEmpty;
+	/**
+	 *  Texture for Projectile.
+	 */
+	public static TextureRegion projectile;
 
-    /**
-     *  Textures for stamina.
-     */
-    public static TextureRegion staminaFull, staminaEmpty;
+	/**
+	 *  Textures for Hearts
+	 */
+	public static TextureRegion heartFull, heartHalf, heartEmpty;
 
-    /**
-     * Texture for powerup backboard.
-     */
-    public static Texture powerupBackboard;
+	/**
+	 *  Textures for stamina.
+	 */
+	public static TextureRegion staminaFull, staminaEmpty;
 
-    /**
-     *  Animation for explosion.
-     */
-    public static Animation explosionAnimation;
+	/**
+	 * Texture for powerup backboard.
+	 */
+	public static Texture powerupBackboard;
 
-    /**
-     *  Tile map for level one.
-     */
-    public static TiledMap levelOneMap,levelTwoMap,levelThreeMap,levelFourMap,levelFiveMap,levelSixMap,levelSevenMap,levelEightMap;
+	/**
+	 *  Animation for explosion.
+	 */
+	public static Animation explosionAnimation;
 
-    /**
-     *  The font for the UI.
-     */
-    public static BitmapFont font;
+	/**
+	 *  Tile map for level one.
+	 */
+	public static TiledMap levelOneMap,levelTwoMap,levelThreeMap,levelFourMap,levelFiveMap,levelSixMap,levelSevenMap,levelEightMap;
 
-    /**
-     * The texture for the button.
-     */
-    public static TextureRegion button;
+	/**
+	 *  The font for the UI.
+	 */
+	public static BitmapFont font;
 
-    /**
-     *  Textures for floor items.
-     */
-    public static TextureRegion floorItemGun, floorItemSpeed, floorItemInvulnerable, floorItemScore, floorItemFireRate, floorItemRegeneration;
+	/**
+	 * The texture for the button.
+	 */
+	public static TextureRegion button;
 
-    /**
-     *  Texture for objective flag.
-     */
-    public static TextureRegion flag;
+	/**
+	 *  Textures for floor items.
+	 */
+	public static TextureRegion floorItemGun, floorItemSpeed, floorItemInvulnerable, floorItemScore, floorItemFireRate, floorItemRegeneration;
 
-    /**
-     *  Texture for the game logo.
-     */
-    public static TextureRegion logo;
-  
-    /**
-     * music for the game
-     */
-    public static Sound music;
-    
-    /**
-     * texture for buttonLocked
-     */
-    public static TextureRegion buttonLocked;
-    
-    /**
-     * button noise
-     */
-    public static Sound buttonPress;
-    
-    /**
-     * collectable noise
-     */
-    public static Sound collect;
-    
-    /**
-     * gun pickup noise
-     */
-    public static Sound gunPickup;
-    
-    /**
-     * gunshot noise
-     */
-    public static Sound shot;
-    
-    /**
-     * levelComplete noise
-     */
-    public static Sound levelComplete;
-    
-    /**
-     * gameOver noise
-     */
-    public static Sound gameOver;
-    /**
-     * Responsible for loading maps.
-     */
-    private static TmxMapLoader mapLoader = new TmxMapLoader();
+	/**
+	 *  Texture for objective flag.
+	 */
+	public static TextureRegion flag;
 
-    /**
-     * Loads all assets.
-     */
-    public static void load() {
-        loadPlayerTextureSets();
-        loadBadGuyTextureSet();
-        loadFloorItems();
+	/**
+	 *  Texture for the game logo.
+	 */
+	public static TextureRegion logo;
 
-        projectile = new TextureRegion(loadTexture("textures/projectile.png"));
+	/**
+	 * music for the game
+	 */
+	public static Sound music;
 
-        explosionAnimation = loadAnimation("textures/explosion.png", 2, 32, 0.3f);
+	/**
+	 * texture for buttonLocked
+	 */
+	public static TextureRegion buttonLocked;
 
-        music = loadSound("sound/levelMusic.mp3");
-        buttonPress = loadSound("sound/button.mp3");
-        collect = loadSound("sound/collect.mp3");
-        gunPickup = loadSound("sound/gun.mp3");
-        shot = loadSound("sound/shot.mp3");
-        levelComplete = loadSound("sound/levelComplete.mp3");
-        gameOver = loadSound("sound/gameOver.mp3");
-        
-        //load multiple levels
-        levelOneMap = loadTiledMap("maps/map.tmx");
-        //loads temp map1
-        levelTwoMap = loadTiledMap("maps/map2.tmx");
-        levelThreeMap = loadTiledMap("maps/map3.tmx");
-        levelFourMap = loadTiledMap("maps/map4.tmx");
-        levelFiveMap = loadTiledMap("maps/map5.tmx");
-        levelSixMap = loadTiledMap("maps/map.tmx");
-        levelSevenMap = loadTiledMap("maps/map.tmx");
-        levelEightMap = loadTiledMap("maps/map.tmx");
+	/**
+	 * button noise
+	 */
+	public static Sound buttonPress;
 
-        font = loadFont("font/gamefont.fnt", "font/gamefont.png");
+	/**
+	 * collectable noise
+	 */
+	public static Sound collect;
 
-        Texture hearts = loadTexture("textures/hearts.png");
-        heartFull = new TextureRegion(hearts, 0, 0, 32, 28);
-        heartHalf = new TextureRegion(hearts, 32, 0, 32, 28);
-        heartEmpty = new TextureRegion(hearts, 64, 0, 32, 28);
+	/**
+	 * gun pickup noise
+	 */
+	public static Sound gunPickup;
 
-        Texture stamina = loadTexture("textures/stamina.png");
-        staminaFull = new TextureRegion(stamina, 0, 0, stamina.getWidth(), stamina.getHeight()/2);
-        staminaEmpty = new TextureRegion(stamina, 0, stamina.getHeight()/2, stamina.getWidth(), stamina.getHeight()/2);
+	/**
+	 * gunshot noise
+	 */
+	public static Sound shot;
 
-        powerupBackboard = new Texture("textures/powerupBackboard.png");
-        button = new TextureRegion(loadTexture("textures/button.png"));
-        buttonLocked = new TextureRegion(loadTexture("textures/buttonLocked.png"));
-        downButton = new TextureRegion(loadTexture("textures/down.png"));
-        upButton = new TextureRegion(loadTexture("textures/down.png"));
-        upButton.flip(true, false);
-        backButton = new TextureRegion(loadTexture("textures/esc.png"));
+	/**
+	 * levelComplete noise
+	 */
+	public static Sound levelComplete;
 
-        flag = new TextureRegion(loadTexture("textures/flag.png"));
-        logo = new TextureRegion(loadTexture("textures/logo.png"));
-    }
+	/**
+	 * gameOver noise
+	 */
+	public static Sound gameOver;
+	/**
+	 * Responsible for loading maps.
+	 */
+	private static TmxMapLoader mapLoader = new TmxMapLoader();
 
-    /**
-     * Loads assets relating to the player in the normal state.
-     * If you change the player texture size, be sure to change the values here.
-     */
-    private static void loadPlayerTextureSets() {
-        // Load idle texture map.
-        Texture playerIdle = loadTexture("textures/player_idle.png");
+	/**
+	 * Loads all assets.
+	 */
+	public static void load() {
+		loadPlayerTextureSets();
+		loadBadGuyTextureSet();
+		loadFloorItems();
 
-        // Cut idle textures from texture map.
-        TextureRegion front = new TextureRegion(playerIdle, 0*14, 0, 14, 18);
-        TextureRegion back = new TextureRegion(playerIdle, 1*14, 0, 14, 18);
-        TextureRegion left = new TextureRegion(playerIdle, 2*14, 0, 14, 18);
-        TextureRegion right = new TextureRegion(playerIdle, 3*14, 0, 14, 18);
-        
-        // Load walking animations.
-        Animation walkingFront = loadAnimation("textures/player_walking_front.png", 4, 12, 0.2f);
-        Animation walkingBack = loadAnimation("textures/player_walking_back.png", 4, 12, 0.2f);
-        Animation walkingLeft = loadAnimation("textures/player_walking_left.png", 4, 14, 0.2f);
-        Animation walkingRight = loadAnimation("textures/player_walking_right.png", 4, 14, 0.2f);
-        
-        
-        // Load idle with gun texture map.
-        Texture playerIdleGun = loadTexture("textures/player_gun_idle.png");
-        
-        // Cut idle with gun textures from texture map.
-        TextureRegion frontGun = new TextureRegion(playerIdleGun, 0*18, 0, 18, 18);
-        TextureRegion backGun = new TextureRegion(playerIdleGun, 1*18, 0, 18, 18);
-        TextureRegion leftGun = new TextureRegion(playerIdleGun, 2*18, 0, 18, 18);
-        TextureRegion rightGun = new TextureRegion(playerIdleGun, 3*18, 0, 18, 18);
-        
-        // Load walking with gun animations.
-        Animation walkingFrontGun = loadAnimation("textures/player_gun_walking_front.png", 4, 18, 0.2f);
-        Animation walkingBackGun = loadAnimation("textures/player_gun_walking_back.png", 4, 18, 0.2f);
-        Animation walkingLeftGun = loadAnimation("textures/player_gun_walking_left.png", 4, 18, 0.2f);
-        Animation walkingRightGun = loadAnimation("textures/player_gun_walking_right.png", 4, 18, 0.2f);
-        
-        
-        // Load swimming texture map.
-        Texture swimmingIdle = new Texture("textures/player_swimming_idle.png");
-        
-        // Cut idle swimming textures from texture map.
-        TextureRegion swimmingIdleFront = new TextureRegion(swimmingIdle, 0*14, 0, 14, 17);
-        TextureRegion swimmingIdleBack = new TextureRegion(swimmingIdle, 1*14, 0, 14, 17);
-        TextureRegion swimmingIdleLeft = new TextureRegion(swimmingIdle, 2*14, 0, 14, 17);
-        TextureRegion swimmingIdleRight = new TextureRegion(swimmingIdle, 3*14, 0, 14, 17);
-        
-        //Load swimming animations.
-        Animation swimmingFront = loadAnimation("textures/player_swimming_front.png", 2, 14, 0.2f);
-        Animation swimmingBack = loadAnimation("textures/player_swimming_back.png", 2, 14, 0.2f);
-        Animation swimmingLeft = loadAnimation("textures/player_swimming_left.png", 2, 14, 0.2f);
-        Animation swimmingRight = loadAnimation("textures/player_swimming_right.png", 2, 14, 0.2f);
+		projectile = new TextureRegion(loadTexture("textures/projectile.png"));
 
-        // Load flying animations.
-        Animation flyingFront = loadAnimation("textures/player_flying_front.png", 2, 18, 0.2f);
-        Animation flyingBack = loadAnimation("textures/player_flying_back.png", 2, 18, 0.2f);
-        Animation flyingLeft = loadAnimation("textures/player_flying_left.png", 2, 21, 0.2f);
-        Animation flyingRight = loadAnimation("textures/player_flying_right.png", 2, 21, 0.2f);
+		explosionAnimation = loadAnimation("textures/explosion.png", 2, 32, 0.3f);
 
-        playerNormal = new TextureSet(front, back, left, right, walkingFront, walkingBack, walkingLeft, walkingRight);
-        playerGun = new TextureSet(frontGun, backGun, leftGun, rightGun, walkingFrontGun, walkingBackGun, walkingLeftGun, walkingRightGun);
-        playerFlying = new TextureSet(front, back, left, right, flyingFront, flyingBack, flyingLeft, flyingRight);
-        playerSwimming = new TextureSet(swimmingIdleFront, swimmingIdleBack, swimmingIdleLeft, swimmingIdleRight,
-        									swimmingFront, swimmingBack, swimmingLeft, swimmingRight);
-    }
+		music = loadSound("sound/levelMusic.mp3");
+		buttonPress = loadSound("sound/button.mp3");
+		collect = loadSound("sound/collect.mp3");
+		gunPickup = loadSound("sound/gun.mp3");
+		shot = loadSound("sound/shot.mp3");
+		levelComplete = loadSound("sound/levelComplete.mp3");
+		gameOver = loadSound("sound/gameOver.mp3");
 
-    /**
-     * Loads the textures from the bad guy textures file.
-     */
-    private static void loadBadGuyTextureSet() {
-        // Load idle texture map.
-        Texture badGuyIdle = loadTexture("textures/badguy_idle.png");
+		//hes west maps
+		levelOneMap = loadTiledMap("maps/map.tmx");
+		levelTwoMap = loadTiledMap("maps/map2.tmx");
+		levelThreeMap = loadTiledMap("maps/map3.tmx");
+		levelFourMap = loadTiledMap("maps/map4.tmx");
+		levelFiveMap = loadTiledMap("maps/map5.tmx");
+		//hes east maps
+		levelSixMap = loadTiledMap("maps/map6.tmx");
+		levelSevenMap = loadTiledMap("maps/map.tmx");
+		levelEightMap = loadTiledMap("maps/map.tmx");
 
-        // Cut idle textures from texture map.
-        TextureRegion front = new TextureRegion(badGuyIdle, 0, 0, 21, 24);
-        TextureRegion back = new TextureRegion(badGuyIdle, 21, 0, 21, 24);
-        TextureRegion left = new TextureRegion(badGuyIdle, 42, 0, 21, 24);
-        TextureRegion right = new TextureRegion(badGuyIdle, 63, 0, 21, 24);
+		font = loadFont("font/gamefont.fnt", "font/gamefont.png");
 
-        // Load walking animations.
-        Animation walkingFront = loadAnimation("textures/badguy_walking_front.png", 4, 21, 0.2f);
-        Animation walkingBack = loadAnimation("textures/badguy_walking_back.png", 4, 21, 0.2f);
-        Animation walkingLeft = loadAnimation("textures/badguy_walking_left.png", 4, 16, 0.2f);
-        Animation walkingRight = loadAnimation("textures/badguy_walking_right.png", 4, 16, 0.2f);
+		Texture hearts = loadTexture("textures/hearts.png");
+		heartFull = new TextureRegion(hearts, 0, 0, 32, 28);
+		heartHalf = new TextureRegion(hearts, 32, 0, 32, 28);
+		heartEmpty = new TextureRegion(hearts, 64, 0, 32, 28);
 
-        badGuyNormal = new TextureSet(front, back, left, right, walkingFront, walkingBack, walkingLeft, walkingRight);
-    }
+		Texture stamina = loadTexture("textures/stamina.png");
+		staminaFull = new TextureRegion(stamina, 0, 0, stamina.getWidth(), stamina.getHeight()/2);
+		staminaEmpty = new TextureRegion(stamina, 0, stamina.getHeight()/2, stamina.getWidth(), stamina.getHeight()/2);
 
-    /**
-     * Loads the texture from the floor items file.
-     */
-    public static void loadFloorItems() {
-        Texture floorItems = loadTexture("textures/floor_items.png");
+		powerupBackboard = new Texture("textures/powerupBackboard.png");
+		button = new TextureRegion(loadTexture("textures/button.png"));
+		buttonLocked = new TextureRegion(loadTexture("textures/buttonLocked.png"));
+		downButton = new TextureRegion(loadTexture("textures/down.png"));
+		upButton = new TextureRegion(loadTexture("textures/down.png"));
+		upButton.flip(true, false);
+		backButton = new TextureRegion(loadTexture("textures/esc.png"));
 
-        floorItemGun = new TextureRegion(floorItems, 0*15, 0, 15, 15);
-        floorItemSpeed = new TextureRegion(floorItems, 1*15, 0, 15, 15);
-        floorItemInvulnerable = new TextureRegion(floorItems, 2*15, 0, 15, 15);
-        floorItemScore = new TextureRegion(floorItems, 3*15, 0, 15, 15);
-        floorItemFireRate = new TextureRegion(floorItems, 4*15, 0, 15, 15);
-        floorItemRegeneration = new TextureRegion(floorItems, 5*15, 0, 15, 15);
-    }
+		flag = new TextureRegion(loadTexture("textures/flag.png"));
+		logo = new TextureRegion(loadTexture("textures/logo.png"));
+	}
 
-    /**
-     * Loads the texture from the specified file.
-     *
-     * @param file the file to load from
-     * @return the texture
-     */
-    public static Texture loadTexture(String file) {
-        return new Texture(Gdx.files.internal(file));
-    }
+	/**
+	 * Loads assets relating to the player in the normal state.
+	 * If you change the player texture size, be sure to change the values here.
+	 */
+	private static void loadPlayerTextureSets() {
+		// Load idle texture map.
+		Texture playerIdle = loadTexture("textures/player_idle.png");
 
-    /**
-     * Loads the tile map from the specifed file.
-     *
-     * @param file the file to load from
-     * @return the tile map
-     */
-    public static TiledMap loadTiledMap(String file) {
-        return mapLoader.load(file);
-    }
+		// Cut idle textures from texture map.
+		TextureRegion front = new TextureRegion(playerIdle, 0*14, 0, 14, 18);
+		TextureRegion back = new TextureRegion(playerIdle, 1*14, 0, 14, 18);
+		TextureRegion left = new TextureRegion(playerIdle, 2*14, 0, 14, 18);
+		TextureRegion right = new TextureRegion(playerIdle, 3*14, 0, 14, 18);
 
-    /**
-     * Loads the animation from the specified file.
-     *
-     * @param file          the file to load from
-     * @param count         how many frames are in the file
-     * @param frameWidth    how wide each frame is in the file
-     * @param frameDuration how long each frame should be shown for in seconds
-     * @return the animation
-     */
-    public static Animation loadAnimation(String file, int count, int frameWidth, float frameDuration) {
-        Texture texture = loadTexture(file);
-        Array<TextureRegion> keyFrames = new Array<TextureRegion>();
+		// Load walking animations.
+		Animation walkingFront = loadAnimation("textures/player_walking_front.png", 4, 12, 0.2f);
+		Animation walkingBack = loadAnimation("textures/player_walking_back.png", 4, 12, 0.2f);
+		Animation walkingLeft = loadAnimation("textures/player_walking_left.png", 4, 14, 0.2f);
+		Animation walkingRight = loadAnimation("textures/player_walking_right.png", 4, 14, 0.2f);
 
-        for (int i = 0; i < count; i++) {
-            keyFrames.add(new TextureRegion(texture, i * frameWidth, 0, frameWidth, texture.getHeight()));
-        }
 
-        return new Animation(frameDuration, keyFrames);
-    }
+		// Load idle with gun texture map.
+		Texture playerIdleGun = loadTexture("textures/player_gun_idle.png");
 
-    /**
-     * Loads the bitmap font from the specified files.
-     *
-     * @param fontFile  the file containing information about the glyphs stored on the image file
-     * @param imageFile the file containing the actual glyphs
-     * @return the bitmap font
-     */
-    public static BitmapFont loadFont(String fontFile, String imageFile) {
-        return new BitmapFont(Gdx.files.internal(fontFile), Gdx.files.internal(imageFile), false);
-    }
+		// Cut idle with gun textures from texture map.
+		TextureRegion frontGun = new TextureRegion(playerIdleGun, 0*18, 0, 18, 18);
+		TextureRegion backGun = new TextureRegion(playerIdleGun, 1*18, 0, 18, 18);
+		TextureRegion leftGun = new TextureRegion(playerIdleGun, 2*18, 0, 18, 18);
+		TextureRegion rightGun = new TextureRegion(playerIdleGun, 3*18, 0, 18, 18);
 
-    /**
-     * Loads sound files based on a given path
-     * @param path the path of the file
-     * @return the gdx sound object
-     */
-    public static Sound loadSound(String path){
-    	return Gdx.audio.newSound(Gdx.files.internal(path));
-    }
+		// Load walking with gun animations.
+		Animation walkingFrontGun = loadAnimation("textures/player_gun_walking_front.png", 4, 18, 0.2f);
+		Animation walkingBackGun = loadAnimation("textures/player_gun_walking_back.png", 4, 18, 0.2f);
+		Animation walkingLeftGun = loadAnimation("textures/player_gun_walking_left.png", 4, 18, 0.2f);
+		Animation walkingRightGun = loadAnimation("textures/player_gun_walking_right.png", 4, 18, 0.2f);
+
+
+		// Load swimming texture map.
+		Texture swimmingIdle = new Texture("textures/player_swimming_idle.png");
+
+		// Cut idle swimming textures from texture map.
+		TextureRegion swimmingIdleFront = new TextureRegion(swimmingIdle, 0*14, 0, 14, 17);
+		TextureRegion swimmingIdleBack = new TextureRegion(swimmingIdle, 1*14, 0, 14, 17);
+		TextureRegion swimmingIdleLeft = new TextureRegion(swimmingIdle, 2*14, 0, 14, 17);
+		TextureRegion swimmingIdleRight = new TextureRegion(swimmingIdle, 3*14, 0, 14, 17);
+
+		//Load swimming animations.
+		Animation swimmingFront = loadAnimation("textures/player_swimming_front.png", 2, 14, 0.2f);
+		Animation swimmingBack = loadAnimation("textures/player_swimming_back.png", 2, 14, 0.2f);
+		Animation swimmingLeft = loadAnimation("textures/player_swimming_left.png", 2, 14, 0.2f);
+		Animation swimmingRight = loadAnimation("textures/player_swimming_right.png", 2, 14, 0.2f);
+
+		// Load flying animations.
+		Animation flyingFront = loadAnimation("textures/player_flying_front.png", 2, 18, 0.2f);
+		Animation flyingBack = loadAnimation("textures/player_flying_back.png", 2, 18, 0.2f);
+		Animation flyingLeft = loadAnimation("textures/player_flying_left.png", 2, 21, 0.2f);
+		Animation flyingRight = loadAnimation("textures/player_flying_right.png", 2, 21, 0.2f);
+
+		playerNormal = new TextureSet(front, back, left, right, walkingFront, walkingBack, walkingLeft, walkingRight);
+		playerGun = new TextureSet(frontGun, backGun, leftGun, rightGun, walkingFrontGun, walkingBackGun, walkingLeftGun, walkingRightGun);
+		playerFlying = new TextureSet(front, back, left, right, flyingFront, flyingBack, flyingLeft, flyingRight);
+		playerSwimming = new TextureSet(swimmingIdleFront, swimmingIdleBack, swimmingIdleLeft, swimmingIdleRight,
+				swimmingFront, swimmingBack, swimmingLeft, swimmingRight);
+	}
+
+	/**
+	 * Loads the textures from the bad guy textures file.
+	 */
+	private static void loadBadGuyTextureSet() {
+		// Load idle texture map.
+		Texture badGuyIdle = loadTexture("textures/badguy_idle.png");
+
+		// Cut idle textures from texture map.
+		TextureRegion front = new TextureRegion(badGuyIdle, 0, 0, 21, 24);
+		TextureRegion back = new TextureRegion(badGuyIdle, 21, 0, 21, 24);
+		TextureRegion left = new TextureRegion(badGuyIdle, 42, 0, 21, 24);
+		TextureRegion right = new TextureRegion(badGuyIdle, 63, 0, 21, 24);
+
+		// Load walking animations.
+		Animation walkingFront = loadAnimation("textures/badguy_walking_front.png", 4, 21, 0.2f);
+		Animation walkingBack = loadAnimation("textures/badguy_walking_back.png", 4, 21, 0.2f);
+		Animation walkingLeft = loadAnimation("textures/badguy_walking_left.png", 4, 16, 0.2f);
+		Animation walkingRight = loadAnimation("textures/badguy_walking_right.png", 4, 16, 0.2f);
+
+		badGuyNormal = new TextureSet(front, back, left, right, walkingFront, walkingBack, walkingLeft, walkingRight);
+	}
+
+	/**
+	 * Loads the texture from the floor items file.
+	 */
+	public static void loadFloorItems() {
+		Texture floorItems = loadTexture("textures/floor_items.png");
+
+		floorItemGun = new TextureRegion(floorItems, 0*15, 0, 15, 15);
+		floorItemSpeed = new TextureRegion(floorItems, 1*15, 0, 15, 15);
+		floorItemInvulnerable = new TextureRegion(floorItems, 2*15, 0, 15, 15);
+		floorItemScore = new TextureRegion(floorItems, 3*15, 0, 15, 15);
+		floorItemFireRate = new TextureRegion(floorItems, 4*15, 0, 15, 15);
+		floorItemRegeneration = new TextureRegion(floorItems, 5*15, 0, 15, 15);
+	}
+
+	/**
+	 * Loads the texture from the specified file.
+	 *
+	 * @param file the file to load from
+	 * @return the texture
+	 */
+	public static Texture loadTexture(String file) {
+		return new Texture(Gdx.files.internal(file));
+	}
+
+	/**
+	 * Loads the tile map from the specifed file.
+	 *
+	 * @param file the file to load from
+	 * @return the tile map
+	 */
+	public static TiledMap loadTiledMap(String file) {
+		return mapLoader.load(file);
+	}
+
+	/**
+	 * Loads the animation from the specified file.
+	 *
+	 * @param file          the file to load from
+	 * @param count         how many frames are in the file
+	 * @param frameWidth    how wide each frame is in the file
+	 * @param frameDuration how long each frame should be shown for in seconds
+	 * @return the animation
+	 */
+	public static Animation loadAnimation(String file, int count, int frameWidth, float frameDuration) {
+		Texture texture = loadTexture(file);
+		Array<TextureRegion> keyFrames = new Array<TextureRegion>();
+
+		for (int i = 0; i < count; i++) {
+			keyFrames.add(new TextureRegion(texture, i * frameWidth, 0, frameWidth, texture.getHeight()));
+		}
+
+		return new Animation(frameDuration, keyFrames);
+	}
+
+	/**
+	 * Loads the bitmap font from the specified files.
+	 *
+	 * @param fontFile  the file containing information about the glyphs stored on the image file
+	 * @param imageFile the file containing the actual glyphs
+	 * @return the bitmap font
+	 */
+	public static BitmapFont loadFont(String fontFile, String imageFile) {
+		return new BitmapFont(Gdx.files.internal(fontFile), Gdx.files.internal(imageFile), false);
+	}
+
+	/**
+	 * Loads sound files based on a given path
+	 * @param path the path of the file
+	 * @return the gdx sound object
+	 */
+	public static Sound loadSound(String path){
+		return Gdx.audio.newSound(Gdx.files.internal(path));
+	}
 }
