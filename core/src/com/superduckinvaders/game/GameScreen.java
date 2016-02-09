@@ -211,7 +211,12 @@ public class GameScreen implements Screen {
 			}
 		}
 		
-		uiBatch.draw(new Texture(minimapData), minimapX, minimapY, minimapWidth*minimapScale, minimapHeight*minimapScale);
+		Texture minimapTexture = new Texture(minimapData);
+		uiBatch.draw(minimapTexture, minimapX, minimapY, minimapWidth*minimapScale, minimapHeight*minimapScale);
+		// Need to flush because we're about to dispose the texture
+		uiBatch.flush();
+		minimapData.dispose();
+		minimapTexture.dispose();
 	}
 
 	private void drawPlayerPowerupTimers() {
@@ -244,6 +249,7 @@ public class GameScreen implements Screen {
 			}
 		}
 		powerupBatch.end();
+		powerupBatch.dispose();
 	}
 
 	private void drawPlayerHearts() {
