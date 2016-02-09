@@ -26,6 +26,10 @@ public class Player extends Character {
      */
     public static int PLAYER_SPEED = 200;
     /**
+     * Determines whether to show the minimap
+     */
+    public static boolean minimapOn = true;
+    /**
      * Player's standard attack delay (how many seconds between attacks).
      */
     public static final float PLAYER_ATTACK_DELAY = 0.2f;
@@ -297,6 +301,11 @@ public class Player extends Character {
             flyingTimer = -PLAYER_FLIGHT_TIME;
             velocityX *= PLAYER_FLIGHT_SPEED_MULTIPLIER;
             velocityY *= PLAYER_FLIGHT_SPEED_MULTIPLIER;
+        }
+        
+        // Press tab to toggle minimap.
+        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+        	minimapOn = !minimapOn;
         }
 
         // Only allow movement via keys if not flying.

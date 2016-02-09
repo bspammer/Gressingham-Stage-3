@@ -163,7 +163,9 @@ public class GameScreen implements Screen {
 
 		drawPlayerHearts();
 
-		drawMinimap();
+		if (Player.minimapOn) {
+			drawMinimap();
+		}
 		uiBatch.end();
 
 		//draw custom powerup icon timers
@@ -199,14 +201,20 @@ public class GameScreen implements Screen {
 		int minimapScale = 4;
 		int minimapX = Gdx.graphics.getWidth() - minimapWidth*minimapScale - 5;
 		int minimapY = Gdx.graphics.getHeight() - minimapHeight*minimapScale - 5;
-		int minimapXOffset = playerX - minimapWidth/2;
-		int minimapYOffset = playerY - minimapHeight/2;
+		int minimapXOffset = playerX - minimapWidth/2 - 1;
+		int minimapYOffset = playerY - minimapHeight/2 - 1;
 
 		if (playerX < minimapWidth/2) {
 			minimapXOffset = 0;
 		}
 		if (playerY < minimapHeight/2) {
 			minimapYOffset = 0;
+		}
+		if (playerX > round.getMapWidth()/round.getTileWidth() - minimapWidth/2) {
+			minimapXOffset = round.getMapWidth()/round.getTileWidth() - minimapWidth;
+		}
+		if (playerY > round.getMapHeight()/round.getTileHeight() - minimapHeight/2) {
+			minimapYOffset = round.getMapHeight()/round.getTileHeight() - minimapHeight;
 		}
 		Pixmap minimapData = new Pixmap(minimapWidth*minimapScale, minimapHeight*minimapScale, Pixmap.Format.RGBA8888);
 
@@ -218,7 +226,7 @@ public class GameScreen implements Screen {
 				TiledMapTileLayer obstaclesLayer = round.getObstaclesLayer();
 				
 				
-				if (playerX == i && playerY == j) {
+				if (playerX - minimapXOffset == i && playerY - minimapYOffset == j) {
 					cellColor = 0xFFFFFFFF;
 				} else if (waterLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
 					cellColor = 0x0000FFFF;
