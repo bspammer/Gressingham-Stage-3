@@ -25,6 +25,11 @@ import java.util.List;
  * Represents a round of the game played on one level with a single objective.
  */
 public final class Round {
+	
+	/**
+	 * Boolean indicating whether or not to spawn testing powerups next to player at start of round.
+	 */
+	private boolean testPowerups = true;
 
 	/**
 	 * Boolean indicating if the player is swimming or not (in water).
@@ -84,25 +89,52 @@ public final class Round {
 		// Choose which obstacles to use.
 		obstaclesLayer = chooseObstacles();
 
-		// Determine starting coordinates for player (0, 0 default).
-		int startX = Integer.parseInt(map.getProperties().get("StartX", "0", String.class)) * getTileWidth();
-		int startY = Integer.parseInt(map.getProperties().get("StartY", "0", String.class)) * getTileHeight();
-
-		player = new Player(this, startX, startY);
-
-		//set collect objective
-		//        // Determine where to spawn the objective.
-		//        int objectiveX = Integer.parseInt(map.getProperties().get("ObjectiveX", "10", String.class)) * getTileWidth();
-		//        int objectiveY = Integer.parseInt(map.getProperties().get("ObjectiveY", "10", String.class)) * getTileHeight();
-		//
-		//        Item objective = new Item(this, objectiveX, objectiveY, Assets.flag);
-		//        setObjective(new CollectObjective(this, objective));
-
-		//set survival objective
+		// Spawn player at map defined spawn point (default 0, 0)
+		spawnPlayer(testPowerups);
 
 		entities = new ArrayList<Entity>(128);
 		entities.add(player);
 
+		initObjective();
+
+		spawnRandomMobs(100, 200, 200, 1000, 1000);
+	}
+
+	/**
+	 * Handles the spawning of the player.
+	 * Retrieves spawn point location from map file, defaults to (0, 0).
+	 * 
+	 * Also spawns testing powerups next to player depending on boolean parameter value.
+	 * @param testing spawn testing powerups (yes/no).
+	 */
+	private void spawnPlayer(boolean testing) {
+		// Determine starting coordinates for player (0, 0 default).
+		int startX = Integer.parseInt(map.getProperties().get("StartX", "0", String.class)) * getTileWidth();
+		int startY = Integer.parseInt(map.getProperties().get("StartY", "0", String.class)) * getTileHeight();
+		player = new Player(this, startX, startY);
+		
+		if(testing) spawnTestingPowerups(startX, startY);
+	}
+
+	/**
+	 * Spawns one of each powerup next to player spawn point.
+	 * @param playerSpawnX player spawn point x coord.
+	 * @param playerSpawnY player spawn point y coord.
+	 */
+	private void spawnTestingPowerups(int playerSpawnX, int playerSpawnY) {
+		//Development code to spawn powerups for testing.
+		createUpgrade(playerSpawnX + 20, playerSpawnY, Player.Upgrade.GUN);
+		createPowerup(playerSpawnX + 40, playerSpawnY, Player.Powerup.RATE_OF_FIRE);
+		createPowerup(playerSpawnX + 60, playerSpawnY, Player.Powerup.INVULNERABLE);
+		createPowerup(playerSpawnX + 80, playerSpawnY, Player.Powerup.SCORE_MULTIPLIER);
+		createPowerup(playerSpawnX + 100, playerSpawnY, Player.Powerup.SUPER_SPEED);
+		createPowerup(playerSpawnX + 120, playerSpawnY, Player.Powerup.REGENERATION);
+	}
+
+	/**
+	 * Initialises the map's objective depending on it's specified ObjectiveType property.
+	 */
+	private void initObjective() {
 		//read map.tmx property value to determine which objective to create
 		int objectiveType = Integer.parseInt(map.getProperties().get("ObjectiveType", "0", String.class));
 		System.out.println(objectiveType);
@@ -113,28 +145,19 @@ public final class Round {
 			// set collect objective
 			// Determine where to spawn the objective.
 			int objectiveX = Integer.parseInt(map.getProperties().get("ObjectiveX", "10", String.class)) * getTileWidth();
-		int objectiveY = Integer.parseInt(map.getProperties().get("ObjectiveY", "10", String.class)) * getTileHeight();
+			int objectiveY = Integer.parseInt(map.getProperties().get("ObjectiveY", "10", String.class)) * getTileHeight();
 
-		Item objective = new Item(this, objectiveX, objectiveY, Assets.flag);
-		setObjective(new CollectObjective(this, objective));
+			Item objective = new Item(this, objectiveX, objectiveY, Assets.flag);
+			setObjective(new CollectObjective(this, objective));
 
-		entities.add(objective);
-		break;
+			entities.add(objective);
+			break;
 
 		case(Objective.SURVIVE_OBJECTIVE):
 			// set survival objective with time 100 seconds
 			setObjective(new SurviveObjective(this, 100));
-		break;
+			break;
 		}
-
-		//Development code to spawn powerups for testing.
-		createUpgrade(startX + 20, startY, Player.Upgrade.GUN);
-		createPowerup(startX + 40, startY, Player.Powerup.RATE_OF_FIRE);
-		createPowerup(startX + 60, startY, Player.Powerup.INVULNERABLE);
-		createPowerup(startX + 80, startY, Player.Powerup.SCORE_MULTIPLIER);
-		createPowerup(startX + 100, startY, Player.Powerup.SUPER_SPEED);
-		createPowerup(startX + 120, startY, Player.Powerup.REGENERATION);
-		spawnRandomMobs(100, 200, 200, 1000, 1000);
 	}
 
 	/**

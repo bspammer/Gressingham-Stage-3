@@ -48,7 +48,6 @@ public class SurviveObjective extends Objective {
 
 		accum += delta;
 		if (accum >= 1) {
-			System.out.println(time);
 			time--;
 			accum = 0;
 		}
