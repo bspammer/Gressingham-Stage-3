@@ -62,22 +62,27 @@ public class Player extends Character {
      * Player's current score.
      */
     private int points = 0;
+    
     /**
      * Relates each powerup to its time left for the player to use it. 0.0 encodes not active
      */
     private HashMap<Powerup, Double> powerupRemainingTimes = new HashMap<Powerup, Double>();
+    
     /**
      * Player's upgrade.
      */
     private Upgrade upgrade = Upgrade.NONE;
+    
     /**
      * Shows if a player is flying. If less than 0, player is flying for -flyingTimer seconds. If less than PLAYER_FLIGHT_COOLDOWN, flying is on cooldown.
      */
     private double flyingTimer = 5;
+    
     /**
      * How long it has been since the Player last attacked.
      */
     private double attackTimer = 0;
+    
     /**
      * Time until next regen (only used with regeneration powerup).
      */
