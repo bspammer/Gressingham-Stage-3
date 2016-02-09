@@ -238,7 +238,16 @@ public class GameScreen implements Screen {
 				} else if (collisionLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
 					cellColor = 0xA2693EFF;
 				} else if (obstaclesLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
+					int cellID=obstaclesLayer.getCell(i+minimapXOffset, j+minimapYOffset).getTile().getId();
+					if (cellID==8){
+						cellColor = 0x42AA52FF;
+					}
+					else if (cellID ==49 || cellID ==50){
+						cellColor = 0x4E3A21FF;
+					}
+					else{
 					cellColor = 0x108239FF;
+					}
 				}else if (baseLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
 					int cellID=baseLayer.getCell(i+minimapXOffset, j+minimapYOffset).getTile().getId();
 					//if the cell is not one of the grass cells then it must be a path cell
