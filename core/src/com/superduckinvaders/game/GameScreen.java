@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Rando
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -33,7 +35,7 @@ public class GameScreen implements Screen {
 	 * Draw map gridlines for debug purposes.
 	 */
 	private boolean gridlines=false;
-	
+
 	/**
 	 * The game camera.
 	 */
@@ -160,7 +162,7 @@ public class GameScreen implements Screen {
 		drawPlayerStaminaBar();
 
 		drawPlayerHearts();
-		
+
 		drawMinimap();
 		uiBatch.end();
 
@@ -181,12 +183,16 @@ public class GameScreen implements Screen {
 			sr.end();
 		}
 	}
-	
+
 	private void drawMinimap() {
 		Player player = round.getPlayer();
-		int playerX = (int) player.getX();
-		int playerY = (int) player.getY();
+		MapLayers layers = round.getMap().getLayers();
 		
+		
+		int playerX = (int) player.getX()/round.getTileWidth();
+		int playerY = (int) player.getY()/round.getTileHeight();
+		System.out.println("(" + playerX + ", " + playerY + ")");
+
 		// Odd numbers so player is centred
 		int minimapWidth = 51;
 		int minimapHeight = 51;
@@ -195,7 +201,7 @@ public class GameScreen implements Screen {
 		int minimapY = Gdx.graphics.getHeight() - minimapHeight*minimapScale - 5;
 		int minimapXOffset = playerX - minimapWidth/2;
 		int minimapYOffset = playerY - minimapHeight/2;
-		
+
 		if (playerX < minimapWidth/2) {
 			minimapXOffset = 0;
 		}
@@ -203,14 +209,33 @@ public class GameScreen implements Screen {
 			minimapYOffset = 0;
 		}
 		Pixmap minimapData = new Pixmap(minimapWidth*minimapScale, minimapHeight*minimapScale, Pixmap.Format.RGBA8888);
-		
+
 		for (int i=0; i<minimapWidth; i++) {
 			for (int j=0; j<minimapHeight; j++) {
-				minimapData.setColor(Color.BLUE);
-				minimapData.drawRectangle(i*minimapScale, j*minimapScale, minimapScale+1, minimapScale+1);
+				int cellColor = 0x00FF00FF;
+				TiledMapTileLayer waterLayer = (TiledMapTileLayer) layers.get("Water");
+				TiledMapTileLayer collisionLayer = (TiledMapTileLayer) layers.get("Collision");
+				TiledMapTileLayer obstaclesLayer = round.getObstaclesLayer();
+				
+				
+				if (playerX == i && playerY == j) {
+					cellColor = 0xFFFFFFFF;
+				} else if (waterLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
+					cellColor = 0x0000FFFF;
+				} else if (collisionLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
+					cellColor = 0xA2693EFF;
+				} else if (obstaclesLayer.getCell(i+minimapXOffset, j+minimapYOffset) != null) {
+					cellColor = 0x108239FF;
+				}
+				
+				for (int k=0; k<minimapScale; k++) {
+					for (int l=0; l<minimapScale; l++) {
+						minimapData.drawPixel(i*minimapScale+k, minimapHeight*minimapScale-(j*minimapScale+l), cellColor);
+					}
+				}
 			}
 		}
-		
+
 		Texture minimapTexture = new Texture(minimapData);
 		uiBatch.draw(minimapTexture, minimapX, minimapY, minimapWidth*minimapScale, minimapHeight*minimapScale);
 		// Need to flush because we're about to dispose the texture
