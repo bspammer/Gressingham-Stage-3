@@ -445,7 +445,6 @@ public class GameScreen implements Screen {
 		Assets.music.stop();
 		mapRenderer.dispose();
 		spriteBatch.dispose();
-		spriteBatch.dispose();
 	}
 
 }
