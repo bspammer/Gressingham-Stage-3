@@ -199,8 +199,6 @@ public class GameScreen implements Screen {
 		int mapHeight = round.getMapHeight();
 		int playerX = (int) player.getX()/tileWidth;
 		int playerY = (int) player.getY()/tileHeight;
-        System.out.println("(" + playerX + ", " + playerY + ")");
-
 
 		// Odd numbers so player is centred
 		int minimapWidth = 51;
@@ -216,7 +214,6 @@ public class GameScreen implements Screen {
 		TiledMapTileLayer collisionLayer = (TiledMapTileLayer) layers.get("Collision");
 		TiledMapTileLayer obstaclesLayer = round.getObstaclesLayer();
 		TiledMapTileLayer overhangLayer = (TiledMapTileLayer) layers.get("Overhang");
-		System.out.println(baseLayer.getCell(36, 29).getTile().getId());
 
 		if (playerX < minimapWidth/2) {
 			minimapXOffset = 0;
