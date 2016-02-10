@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.superduckinvaders.game.assets.Assets;
 import com.superduckinvaders.game.entity.Entity;
@@ -36,7 +37,7 @@ public class GameScreen implements Screen {
 	/**
 	 * The game camera.
 	 */
-	private OrthographicCamera camera;
+	private OrthographicCamera gameCam;
 
 	/**
 	 * The renderer for the tile map.
@@ -46,7 +47,7 @@ public class GameScreen implements Screen {
 	/**
 	 * The sprite batches for rendering.
 	 */
-	private SpriteBatch spriteBatch, uiBatch;
+	private SpriteBatch spriteBatch;
 
 	/**
 	 * The Round this GameScreen renders.
@@ -65,6 +66,12 @@ public class GameScreen implements Screen {
 	private int prevWindowWidth;
 
 	/**
+	 * Stores current window height.
+	 * Useful for positioning UI elements.
+	 */
+	private int prevWindowHeight;
+
+	/**
 	 * Initialises this GameScreen for the specified round.
 	 *
 	 * @param round the round to be displayed
@@ -72,6 +79,8 @@ public class GameScreen implements Screen {
 	public GameScreen(Round round) {
 		this.round = round;
 		this.prevWindowWidth = Gdx.graphics.getWidth();
+		this.prevWindowHeight = Gdx.graphics.getHeight();
+		
 		DuckGame.playMusic(Assets.music);
 	}
 
@@ -83,7 +92,7 @@ public class GameScreen implements Screen {
 	 * @return a Vector3 containing the world coordinates (x and y)
 	 */
 	public Vector3 unproject(int x, int y) {
-		return camera.unproject(new Vector3(x, y, 0));
+		return gameCam.unproject(new Vector3(x, y, 0));
 	}
 
 	/**
@@ -100,16 +109,12 @@ public class GameScreen implements Screen {
 	public void show() {
 		Gdx.input.setInputProcessor(null);
 
-		camera = new OrthographicCamera(DuckGame.GAME_WIDTH, DuckGame.GAME_HEIGHT);
-		camera.zoom -= 0.5;
+		gameCam = new OrthographicCamera(DuckGame.GAME_WIDTH, DuckGame.GAME_HEIGHT);
+		gameCam.zoom -= 0.5;
 
 		spriteBatch = new SpriteBatch();
-		uiBatch = new SpriteBatch();
 
 		mapRenderer = new OrthogonalTiledMapRenderer(round.getMap(), spriteBatch);
-
-
-
 	}
 
 	/**
@@ -124,13 +129,13 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// Centre the camera on the player.
-		camera.position.set((int) round.getPlayer().getX() + round.getPlayer().getWidth() / 2, (int) round.getPlayer().getY() + round.getPlayer().getHeight() / 2, 0);
-		camera.update();
+		gameCam.position.set((int) round.getPlayer().getX() + round.getPlayer().getWidth() / 2, (int) round.getPlayer().getY() + round.getPlayer().getHeight() / 2, 0);
+		gameCam.update();
 
-		spriteBatch.setProjectionMatrix(camera.combined);
+		spriteBatch.setProjectionMatrix(gameCam.combined);
 		spriteBatch.begin();
 		// Render base and collision layers.
-		mapRenderer.setView(camera);
+		mapRenderer.setView(gameCam);
 		mapRenderer.renderTileLayer(round.getBaseLayer());
 		mapRenderer.renderTileLayer(round.getCollisionLayer());
 
@@ -151,21 +156,21 @@ public class GameScreen implements Screen {
 		if (round.getOverhangLayer() != null) {
 			mapRenderer.renderTileLayer(round.getOverhangLayer());
 		}
-
-		spriteBatch.end();
-
-		//draw main player UI elements
-		uiBatch.begin();
+		
+		//set batch to draw UI
+		Matrix4 uiMatrix = gameCam.combined.cpy();
+		uiMatrix.setToOrtho2D(0, 0, DuckGame.GAME_WIDTH, DuckGame.GAME_HEIGHT);
+		spriteBatch.setProjectionMatrix(uiMatrix);
+		
+		//draw main UI elements
 		drawPlayerObjectiveAndScore();
-
 		drawPlayerStaminaBar();
-
 		drawPlayerHearts();
-
 		if (Player.minimapOn) {
 			drawMinimap();
 		}
-		uiBatch.end();
+
+		spriteBatch.end();
 
 		//draw custom powerup icon timers
 		drawPlayerPowerupTimers();
@@ -175,7 +180,7 @@ public class GameScreen implements Screen {
 			ShapeRenderer sr = new ShapeRenderer();
 			int tileWidth = map.getProperties().get("tilewidth", Integer.class), tileHeight = map.getProperties().get("tileheight", Integer.class);
 			int mapWidth = map.getProperties().get("width", Integer.class) * tileWidth, mapHeight = map.getProperties().get("height", Integer.class) * tileHeight;
-			sr.setProjectionMatrix(camera.combined);
+			sr.setProjectionMatrix(gameCam.combined);
 			sr.begin(ShapeType.Line);
 			for(int y = 0; y < mapWidth; y += tileWidth)
 				sr.line(y, 0, y, mapHeight);
@@ -204,8 +209,13 @@ public class GameScreen implements Screen {
 		int minimapWidth = 51;
 		int minimapHeight = 51;
 		int minimapScale = 4;
-		int minimapX = Gdx.graphics.getWidth() - minimapWidth*minimapScale - 5;
-		int minimapY = Gdx.graphics.getHeight() - minimapHeight*minimapScale - 5;
+		
+		//calculate offset for positioning of stamina bar
+		int resizeOffsetX = (Gdx.graphics.getWidth() - prevWindowWidth ) == 0 ? minimapWidth*minimapScale : (minimapWidth*minimapScale + (Gdx.graphics.getWidth() - prevWindowWidth));
+		int resizeOffsetY = (Gdx.graphics.getHeight() - prevWindowHeight ) == 0 ? minimapHeight*minimapScale : (minimapHeight*minimapScale + (Gdx.graphics.getHeight() - prevWindowHeight));
+		
+		int minimapX = Gdx.graphics.getWidth() - resizeOffsetX - 85;
+		int minimapY = Gdx.graphics.getHeight() - resizeOffsetY - 5;
 		int minimapXOffset = playerX - minimapWidth/2;
 		int minimapYOffset = playerY - minimapHeight/2;
 		Pixmap minimapData = new Pixmap(minimapWidth*minimapScale, minimapHeight*minimapScale, Pixmap.Format.RGBA8888);
@@ -303,10 +313,10 @@ public class GameScreen implements Screen {
 		minimapData.drawRectangle(minimapData.getWidth()-2, 0, 2, minimapData.getHeight());
 		
 		Texture minimapTexture = new Texture(minimapData);
-		uiBatch.draw(minimapTexture, minimapX, minimapY, minimapWidth*minimapScale, minimapHeight*minimapScale);
+		spriteBatch.draw(minimapTexture, minimapX, minimapY, minimapWidth*minimapScale, minimapHeight*minimapScale);
 
 		// Need to flush because we're about to dispose the texture
-		uiBatch.flush();
+		spriteBatch.flush();
 		minimapData.dispose();
 		minimapTexture.dispose();
 	}
@@ -356,11 +366,11 @@ public class GameScreen implements Screen {
 		int x = 0;
 		while(x < round.getPlayer().getMaximumHealth()) {
 			if(x+2 <= round.getPlayer().getCurrentHealth())
-				uiBatch.draw(Assets.heartFull, x * 18 + 10, 10);
+				spriteBatch.draw(Assets.heartFull, x * 18 + 10, 10);
 			else if(x+1 <= round.getPlayer().getCurrentHealth())
-				uiBatch.draw(Assets.heartHalf, x * 18 + 10, 10);
+				spriteBatch.draw(Assets.heartHalf, x * 18 + 10, 10);
 			else
-				uiBatch.draw(Assets.heartEmpty, x * 18 + 10, 10);
+				spriteBatch.draw(Assets.heartEmpty, x * 18 + 10, 10);
 			x += 2;
 		}
 	}
@@ -376,16 +386,16 @@ public class GameScreen implements Screen {
 		//calculate offset for positioning of stamina bar
 		int resizeOffset = (Gdx.graphics.getWidth() - prevWindowWidth ) == 0 ? staminaBarWidth : (staminaBarWidth + (Gdx.graphics.getWidth() - prevWindowWidth));
 
-		int staminaBarX = Gdx.graphics.getWidth() - resizeOffset - 10;
+		int staminaBarX = Gdx.graphics.getWidth() - resizeOffset - 85;
 		int staminaBarY = 10;
 		// TODO Stamina bar does not draw in correct position on window resize
-		uiBatch.draw(Assets.staminaEmpty, staminaBarX, staminaBarY, staminaBarWidth, staminaBarHeight);
+		spriteBatch.draw(Assets.staminaEmpty, staminaBarX, staminaBarY, staminaBarWidth, staminaBarHeight);
 		if (round.getPlayer().getFlyingTimer() > 0) {
 			Assets.staminaFull.setRegionWidth((int) Math.max(0, Math.min(staminaBarWidth, round.getPlayer().getFlyingTimer() / Player.PLAYER_FLIGHT_COOLDOWN * staminaBarWidth)));
 		} else {
 			Assets.staminaFull.setRegionWidth(0);
 		}
-		uiBatch.draw(Assets.staminaFull, staminaBarX, staminaBarY);
+		spriteBatch.draw(Assets.staminaFull, staminaBarX, staminaBarY);
 	}
 
 	/**
@@ -393,9 +403,9 @@ public class GameScreen implements Screen {
 	 */
 	private void drawPlayerObjectiveAndScore() {
 		Assets.font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		Assets.font.draw(uiBatch, "Objective: " + round.getObjective().getObjectiveString(), 10, 100);
-		Assets.font.draw(uiBatch, "Score: " + round.getPlayer().getScore(), 10,80);
-		Assets.font.draw(uiBatch, Gdx.graphics.getFramesPerSecond() + " FPS", 10, 60);
+		Assets.font.draw(spriteBatch, "Objective: " + round.getObjective().getObjectiveString(), 10, 100);
+		Assets.font.draw(spriteBatch, "Score: " + round.getPlayer().getScore(), 10,80);
+		Assets.font.draw(spriteBatch, Gdx.graphics.getFramesPerSecond() + " FPS", 10, 60);
 	}
 
 	/**
@@ -435,7 +445,7 @@ public class GameScreen implements Screen {
 		Assets.music.stop();
 		mapRenderer.dispose();
 		spriteBatch.dispose();
-		uiBatch.dispose();
+		spriteBatch.dispose();
 	}
 
 }
