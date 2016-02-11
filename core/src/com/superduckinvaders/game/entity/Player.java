@@ -196,6 +196,13 @@ public class Player extends Character {
     public boolean isSwimming() {
     	return Round.isSwimming;
     }
+    
+    /**
+     * Returns if the player is currently in mud
+     */
+    public boolean isInMud() {
+    	return Round.isInMud;
+    }
 
     /**
      * @return the width of this Player
@@ -244,6 +251,13 @@ public class Player extends Character {
         // Decrement powerup timer for each powerup.
     	if(Round.isSwimming){
     		PLAYER_SPEED=100;
+    	}
+    	else {
+    		PLAYER_SPEED=200;
+    	}
+    	
+    	if(Round.isInMud){
+    		PLAYER_SPEED=50;
     	}
     	else {
     		PLAYER_SPEED=200;
