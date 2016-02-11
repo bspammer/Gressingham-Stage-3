@@ -34,6 +34,11 @@ public final class Round {
 	 * Boolean indicating if the player is swimming or not (in water).
 	 */
 	public static boolean isSwimming = false;
+	
+	/**
+	 * Boolean indicating if the player is in mud or not).
+	 */
+	public static boolean isInMud=false;
 
 	/**
 	 * used to display tiles
@@ -494,6 +499,16 @@ public final class Round {
 		else{
 			isSwimming=false;
 		}
+		
+		TiledMapTileLayer mud = (TiledMapTileLayer) map.getLayers().get("Mud");
+        
+		if (mud.getCell(PlayerX,PlayerY) != null){
+        		isInMud = true;
+        	}
+        	else{
+        		isInMud=false;
+        	}
+        
 
 
 
