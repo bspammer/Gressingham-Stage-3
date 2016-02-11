@@ -29,6 +29,7 @@ import com.superduckinvaders.game.entity.item.Powerup;
  */
 public class GameScreen implements Screen {
 
+
 	/**
 	 * Draw map gridlines for debug purposes.
 	 */
@@ -70,6 +71,8 @@ public class GameScreen implements Screen {
 	 * Useful for positioning UI elements.
 	 */
 	private int prevWindowHeight;
+	
+	private Minimap miniMap;
 
 	/**
 	 * Initialises this GameScreen for the specified round.
@@ -80,6 +83,7 @@ public class GameScreen implements Screen {
 		this.round = round;
 		this.prevWindowWidth = Gdx.graphics.getWidth();
 		this.prevWindowHeight = Gdx.graphics.getHeight();
+		
 		
 		DuckGame.playMusic(Assets.music);
 	}
@@ -113,8 +117,9 @@ public class GameScreen implements Screen {
 		gameCam.zoom -= 0.5;
 
 		spriteBatch = new SpriteBatch();
-
+		
 		mapRenderer = new OrthogonalTiledMapRenderer(round.getMap(), spriteBatch);
+		this.miniMap = new Minimap(round,spriteBatch);
 	}
 
 	/**
@@ -167,7 +172,7 @@ public class GameScreen implements Screen {
 		drawPlayerStaminaBar();
 		drawPlayerHearts();
 		if (Player.minimapOn) {
-			drawMinimap();
+			miniMap.drawMinimap(prevWindowWidth,prevWindowHeight);
 		}
 
 		spriteBatch.end();
@@ -191,135 +196,7 @@ public class GameScreen implements Screen {
 	}
 
 
-	/**
-	 * draws a minimap in the top right using coloured cells.
-	 */
-	private void drawMinimap() {
-		Player player = round.getPlayer();
-		MapLayers layers = round.getMap().getLayers();
-
-		int tileWidth = round.getTileWidth();
-		int tileHeight = round.getTileHeight();
-		int mapWidth = round.getMapWidth();
-		int mapHeight = round.getMapHeight();
-		int playerX = (int) player.getX()/tileWidth;
-		int playerY = (int) player.getY()/tileHeight;
-
-		// Odd numbers so player is centred
-		int minimapWidth = 51;
-		int minimapHeight = 51;
-		int minimapScale = 4;
-		
-		//calculate offset for positioning of stamina bar
-		int resizeOffsetX = (Gdx.graphics.getWidth() - prevWindowWidth ) == 0 ? minimapWidth*minimapScale : (minimapWidth*minimapScale + (Gdx.graphics.getWidth() - prevWindowWidth));
-		int resizeOffsetY = (Gdx.graphics.getHeight() - prevWindowHeight ) == 0 ? minimapHeight*minimapScale : (minimapHeight*minimapScale + (Gdx.graphics.getHeight() - prevWindowHeight));
-		
-		int minimapX = Gdx.graphics.getWidth() - resizeOffsetX - 85;
-		int minimapY = Gdx.graphics.getHeight() - resizeOffsetY - 5;
-		int minimapXOffset = playerX - minimapWidth/2;
-		int minimapYOffset = playerY - minimapHeight/2;
-		Pixmap minimapData = new Pixmap(minimapWidth*minimapScale, minimapHeight*minimapScale, Pixmap.Format.RGBA8888);
-		TiledMapTileLayer waterLayer = (TiledMapTileLayer) layers.get("Water");
-		TiledMapTileLayer baseLayer = (TiledMapTileLayer) layers.get("Base");
-		TiledMapTileLayer collisionLayer = (TiledMapTileLayer) layers.get("Collision");
-		TiledMapTileLayer obstaclesLayer = round.getObstaclesLayer();
-		TiledMapTileLayer overhangLayer = (TiledMapTileLayer) layers.get("Overhang");
-
-		if (playerX < minimapWidth/2) {
-			minimapXOffset = 0;
-		}
-		if (playerY < minimapHeight/2) {
-			minimapYOffset = 0;
-		}
-		if (playerX >= mapWidth/tileWidth - minimapWidth/2) {
-			minimapXOffset = mapWidth/tileWidth - minimapWidth;
-		}
-		if (playerY >= mapHeight/tileHeight - minimapHeight/2) {
-			minimapYOffset = mapHeight/tileHeight - minimapHeight;
-		}
-		
-		// Defines the colour for each cell
-		for (int i=0; i<minimapWidth; i++) {
-			for (int j=0; j<minimapHeight; j++) {
-				// Default green grass colour
-				int cellColor = 0x7DC847FF;
-				int absoluteX = i + minimapXOffset;
-				int absoluteY = j + minimapYOffset;
-
-				// Cell is on the base layer
-				if (baseLayer.getCell(absoluteX, absoluteY) != null) {
-					int cellID = baseLayer.getCell(absoluteX, absoluteY).getTile().getId();
-					//if the cell is not one of the grass cells then it must be a path cell
-					if (cellID!=1 && cellID!=2 && cellID!=11 && cellID!=12 && cellID!=13 && cellID!=21 && cellID!=22 && cellID!=26 && cellID!=31 && cellID!=33 && cellID!=51 && cellID!=52 && cellID!=53 && cellID!=228){
-						cellColor = 0xE8B969FF;
-					}
-				}
-				// Cell is on the water layer
-				if (waterLayer.getCell(absoluteX, absoluteY) != null) {
-					cellColor = 0x6983E8FF;
-				}
-				// Cell is in the collision layer 
-				if (collisionLayer.getCell(absoluteX, absoluteY) != null) {
-					int cellID = collisionLayer.getCell(absoluteX, absoluteY).getTile().getId();
-					if (cellID == 8) {
-						cellColor = 0x42AA52FF;
-					} else {
-						cellColor = 0xA2693EFF;
-					}
-				}
-				// Cell is on the obstacles layer (bushes)
-				if (obstaclesLayer.getCell(absoluteX, absoluteY) != null) {
-					int cellID = obstaclesLayer.getCell(absoluteX, absoluteY).getTile().getId();
-					if (cellID == 8) {
-						cellColor = 0x42AA52FF;
-					}
-					else if (cellID ==49 || cellID ==50) {
-						cellColor = 0x4E3A21FF;
-					}
-					else {
-						cellColor = 0x108239FF;
-					}
-				}
-				// Cell contains objective
-				if (Integer.parseInt(round.getMap().getProperties().get("ObjectiveX").toString())==i+minimapXOffset+1
-						&& Integer.parseInt(round.getMap().getProperties().get("ObjectiveY").toString())==j+minimapYOffset) {
-					cellColor = 0xFF0000FF;
-				}
-				// Cell contains player
-				if (playerX - minimapXOffset == i && playerY - minimapYOffset == j) {
-					cellColor = 0xFFFFFFFF;
-				}
-				// Cell contains an overhang
-				if (overhangLayer.getCell(absoluteX, absoluteY) != null){
-					int cellID = overhangLayer.getCell(absoluteX, absoluteY).getTile().getId();
-					if (cellID == 9 || cellID == 10 || cellID == 29 || cellID == 30){
-						cellColor = 0x386D38FF;
-					}
-				}
-				
-				for (int k=0; k<minimapScale; k++) {
-					for (int l=0; l<minimapScale; l++) {
-						minimapData.drawPixel(i*minimapScale+k, minimapHeight*minimapScale-(j*minimapScale+l), cellColor);
-					}
-				}
-			}
-		}
-
-		// Draw minimap border
-		minimapData.setColor(0x000000FF);
-		minimapData.drawRectangle(0, 0, minimapData.getWidth(), 2);
-		minimapData.drawRectangle(0, 0, 2, minimapData.getHeight());
-		minimapData.drawRectangle(0, minimapData.getHeight()-2, minimapData.getWidth(), 2);
-		minimapData.drawRectangle(minimapData.getWidth()-2, 0, 2, minimapData.getHeight());
-		
-		Texture minimapTexture = new Texture(minimapData);
-		spriteBatch.draw(minimapTexture, minimapX, minimapY, minimapWidth*minimapScale, minimapHeight*minimapScale);
-
-		// Need to flush because we're about to dispose the texture
-		spriteBatch.flush();
-		minimapData.dispose();
-		minimapTexture.dispose();
-	}
+	
 
 	/**
 	 * draws the countdown timers for powerups

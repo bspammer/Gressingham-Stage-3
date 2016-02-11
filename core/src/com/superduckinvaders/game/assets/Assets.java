@@ -15,11 +15,6 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Assets {
 
-	/**
-	 * border textures for the minimap
-	 */
-	public static Texture horizontalBorder,verticalBorder;
-	
 	
 	/**
 	 * Buttons for menus
@@ -186,8 +181,7 @@ public class Assets {
 
 		font = loadFont("font/gamefont.fnt", "font/gamefont.png");
 
-		verticalBorder = loadTexture("textures/verticalBorder.png");
-		horizontalBorder = loadTexture("textures/horizontalBorder.png");
+		
 		
 		Texture hearts = loadTexture("textures/hearts.png");
 		heartFull = new TextureRegion(hearts, 0, 0, 32, 28);
