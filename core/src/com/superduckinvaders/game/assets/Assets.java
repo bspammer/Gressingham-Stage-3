@@ -27,9 +27,9 @@ public class Assets {
 	public static TextureSet playerNormal, playerGun, playerFlying, playerSwimming;
 
 	/**
-	 *  Bad guy texture set.
+	 *  Bad guy texture sets.
 	 */
-	public static TextureSet badGuyNormal;
+	public static TextureSet badGuyNormal,badGuySwimming;
 
 	/**
 	 *  Texture for Projectile.
@@ -151,7 +151,7 @@ public class Assets {
 	 */
 	public static void load() {
 		loadPlayerTextureSets();
-		loadBadGuyTextureSet();
+		loadBadGuyTextureSets();
 		loadFloorItems();
 
 		projectile = new TextureRegion(loadTexture("textures/projectile.png"));
@@ -272,7 +272,7 @@ public class Assets {
 	/**
 	 * Loads the textures from the bad guy textures file.
 	 */
-	private static void loadBadGuyTextureSet() {
+	private static void loadBadGuyTextureSets() {
 		// Load idle texture map.
 		Texture badGuyIdle = loadTexture("textures/badguy_idle.png");
 
@@ -289,6 +289,23 @@ public class Assets {
 		Animation walkingRight = loadAnimation("textures/badguy_walking_right.png", 4, 16, 0.2f);
 
 		badGuyNormal = new TextureSet(front, back, left, right, walkingFront, walkingBack, walkingLeft, walkingRight);
+		
+		// Load idle texture map.
+		Texture badGuySwimmingIdle = loadTexture("textures/badguy_idle_swimming.png");
+
+		// Cut idle textures from texture map.
+		TextureRegion swimmingIdleFront = new TextureRegion(badGuySwimmingIdle, 0, 0, 21, 24);
+		TextureRegion swimmingIdleBack = new TextureRegion(badGuySwimmingIdle, 21, 0, 21, 24);
+		TextureRegion swimmingIdleLeft = new TextureRegion(badGuySwimmingIdle, 42, 0, 21, 24);
+		TextureRegion swimmingIdleRight = new TextureRegion(badGuySwimmingIdle, 63, 0, 21, 24);
+
+		// Load walking animations.
+		Animation swimmingFront = loadAnimation("textures/badguy_swimming_front.png", 4, 21, 0.2f);
+		Animation swimmingBack = loadAnimation("textures/badguy_swimming_back.png", 4, 21, 0.2f);
+		Animation swimmingLeft = loadAnimation("textures/badguy_swimming_left.png", 4, 16, 0.2f);
+		Animation swimmingRight = loadAnimation("textures/badguy_swimming_right.png", 4, 16, 0.2f);
+
+		badGuySwimming = new TextureSet(swimmingIdleFront, swimmingIdleBack, swimmingIdleLeft, swimmingIdleRight, swimmingFront, swimmingBack, swimmingLeft, swimmingRight);
 	}
 
 	/**

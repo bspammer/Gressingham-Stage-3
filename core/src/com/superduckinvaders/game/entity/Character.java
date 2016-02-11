@@ -1,5 +1,6 @@
 package com.superduckinvaders.game.entity;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.superduckinvaders.game.Round;
 import com.superduckinvaders.game.assets.TextureSet;
 
@@ -8,6 +9,14 @@ import com.superduckinvaders.game.assets.TextureSet;
  */
 public abstract class Character extends Entity {
 
+	
+	
+	
+	/**
+	 * whether or not the character is swimming
+	 */
+	protected boolean isSwimming = false;
+	
     /**
      * The direction the Character is facing.
      */
@@ -141,7 +150,22 @@ public abstract class Character extends Entity {
             }
         }
     }
+    
+    public void checkSwimming(){
+    	int tileWidth = parent.getTileWidth();
+    	TiledMapTileLayer water = (TiledMapTileLayer) parent.getMap().getLayers().get("Water");
+		if (water.getCell((int)x/tileWidth,(int)y/tileWidth) != null){
+			isSwimming = true;
+		}
+		else{
+			isSwimming=false;
+		}
+    }
 
+    public boolean getSwimming(){
+    	return isSwimming;
+    }
+    
     /**
      * Updates the state of this Character.
      *
@@ -149,6 +173,10 @@ public abstract class Character extends Entity {
      */
     @Override
     public void update(float delta) {
+    	
+    	checkSwimming();
+    	
+ 
         // Update Character facing.
         if (velocityX < 0) {
             facing = TextureSet.FACING_LEFT;
@@ -162,6 +190,7 @@ public abstract class Character extends Entity {
             facing = TextureSet.FACING_BACK;
         }
 
+        
         // Update animation state time.
         if (velocityX != 0 || velocityY != 0) {
             stateTime += delta;

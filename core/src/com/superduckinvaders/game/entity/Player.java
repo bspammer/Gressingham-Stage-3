@@ -190,12 +190,6 @@ public class Player extends Character {
         return flyingTimer <= 0;
     }
     
-    /**
-     * Returns if the player is currently swimming
-     */
-    public boolean isSwimming() {
-    	return Round.isSwimming;
-    }
     
     /**
      * Returns if the player is currently in mud
@@ -249,19 +243,19 @@ public class Player extends Character {
     @Override
     public void update(float delta) {
         // Decrement powerup timer for each powerup.
-    	if(Round.isSwimming){
+    	if(this.getSwimming()){
     		PLAYER_SPEED=100;
     	}
     	else {
     		PLAYER_SPEED=200;
     	}
     	
-    	if(Round.isInMud){
-    		PLAYER_SPEED=50;
-    	}
-    	else {
-    		PLAYER_SPEED=200;
-    	}
+//    	if(Round.isInMud){
+//    		PLAYER_SPEED=50;
+//    	}
+//    	else {
+//    		PLAYER_SPEED=200;
+//    	}
     	
     	for (Player.Powerup key : powerupRemainingTimes.keySet()) {
     		if (powerupIsActive(key)) {
@@ -282,7 +276,7 @@ public class Player extends Character {
             if (attackTimer >= PLAYER_ATTACK_DELAY * (powerupIsActive(Powerup.RATE_OF_FIRE) ? PLAYER_ATTACK_DELAY_MULTIPLIER : 1)) {
                 attackTimer = 0;
 
-                if (upgrade == Upgrade.GUN && !isSwimming()) {
+                if (upgrade == Upgrade.GUN && !this.getSwimming()) {
                 	DuckGame.playSoundEffect(Assets.shot, 0.3f);
                     Vector3 target = parent.unproject(Gdx.input.getX(), Gdx.input.getY());
 
@@ -367,7 +361,7 @@ public class Player extends Character {
         TextureSet textureSet;
         if (isFlying()) {
         	textureSet = Assets.playerFlying;
-        } else if (isSwimming()) {
+        } else if (this.getSwimming()) {
         	textureSet = Assets.playerSwimming;
         } else if (upgrade == Upgrade.GUN) {
         	textureSet = Assets.playerGun;

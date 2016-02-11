@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.superduckinvaders.game.Round;
 import com.superduckinvaders.game.ai.AI;
 import com.superduckinvaders.game.ai.DummyAI;
+import com.superduckinvaders.game.assets.Assets;
 import com.superduckinvaders.game.assets.TextureSet;
 
 public class Mob extends Character {
@@ -95,6 +96,12 @@ public class Mob extends Character {
     public void update(float delta) {
         ai.update(this, delta);
 
+        if(this.getSwimming()){
+    		speed=50;
+    	}
+    	else {
+    		speed=100;
+    	}
         // Chance of spawning a random powerup.
         if (isDead()) {
             float random = MathUtils.random();
@@ -133,6 +140,14 @@ public class Mob extends Character {
      */
     @Override
     public void render(SpriteBatch spriteBatch) {
+    	if (this.getSwimming()) {
+    		//CHANGE ME
+        	textureSet = Assets.badGuySwimming;
+        } 
+        else {
+        	textureSet = Assets.badGuyNormal;
+        }
+    	
         spriteBatch.draw(textureSet.getTexture(facing, stateTime), (int) x, (int) y);
     }
 }

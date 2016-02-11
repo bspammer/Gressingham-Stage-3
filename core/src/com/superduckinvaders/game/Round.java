@@ -488,17 +488,9 @@ public final class Round {
 			}
 		}
 
-		int PlayerX = (int)player.getX()/32;
-		int PlayerY = (int) player.getY()/32;
+		
 
-		TiledMapTileLayer water = (TiledMapTileLayer) map.getLayers().get("Water");
-
-		if (water.getCell(PlayerX,PlayerY) != null){
-			isSwimming = true;
-		}
-		else{
-			isSwimming=false;
-		}
+		
 //		
 //		TiledMapTileLayer mud = (TiledMapTileLayer) map.getLayers().get("Mud");
 //        
