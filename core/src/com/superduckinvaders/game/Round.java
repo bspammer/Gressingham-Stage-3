@@ -499,16 +499,16 @@ public final class Round {
 		else{
 			isSwimming=false;
 		}
-		
-		TiledMapTileLayer mud = (TiledMapTileLayer) map.getLayers().get("Mud");
-        
-		if (mud.getCell(PlayerX,PlayerY) != null){
-        		isInMud = true;
-        	}
-        	else{
-        		isInMud=false;
-        	}
-        
+//		
+//		TiledMapTileLayer mud = (TiledMapTileLayer) map.getLayers().get("Mud");
+//        
+//		if (mud.getCell(PlayerX,PlayerY) != null){
+//        		isInMud = true;
+//        	}
+//        	else{
+//        		isInMud=false;
+//        	}
+//        
 
 
 
