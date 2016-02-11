@@ -151,6 +151,9 @@ public abstract class Character extends Entity {
         }
     }
     
+    /**
+     * checks whether the character is swimming and sets isSwimming appropriately
+     */
     public void checkSwimming(){
     	int tileWidth = parent.getTileWidth();
     	TiledMapTileLayer water = (TiledMapTileLayer) parent.getMap().getLayers().get("Water");
@@ -162,6 +165,10 @@ public abstract class Character extends Entity {
 		}
     }
 
+    /**
+     * getter for the isSwimming var
+     * @return bool
+     */
     public boolean getSwimming(){
     	return isSwimming;
     }
@@ -174,6 +181,7 @@ public abstract class Character extends Entity {
     @Override
     public void update(float delta) {
     	
+    	//update isSwimming 
     	checkSwimming();
     	
  
