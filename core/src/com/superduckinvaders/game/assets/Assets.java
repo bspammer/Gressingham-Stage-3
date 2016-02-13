@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Assets {
 
-	
 	/**
 	 * Buttons for menus
 	 */
@@ -29,7 +28,7 @@ public class Assets {
 	/**
 	 *  Bad guy texture sets.
 	 */
-	public static TextureSet badGuyNormal,badGuySwimming;
+	public static TextureSet badGuyNormal, badGuySwimming, badGuyGun;
 
 	/**
 	 *  Texture for Projectile.
@@ -125,22 +124,22 @@ public class Assets {
 	 * noise to play when player is hit with the shild powerup
 	 */
 	public static Sound shieldHit;
-	
+
 	/**
 	 * quack noise
 	 */
 	public static Sound quack;
-	
+
 	/**
 	 * noise to play on enemy death
 	 */
 	public static Sound enemyDeath;
-	
+
 	/**
 	 * gameOver noise
 	 */
 	public static Sound gameOver;
-	
+
 	/**
 	 * Responsible for loading maps.
 	 */
@@ -181,8 +180,8 @@ public class Assets {
 
 		font = loadFont("font/gamefont.fnt", "font/gamefont.png");
 
-		
-		
+
+
 		Texture hearts = loadTexture("textures/hearts.png");
 		heartFull = new TextureRegion(hearts, 0, 0, 32, 28);
 		heartHalf = new TextureRegion(hearts, 32, 0, 32, 28);
@@ -277,10 +276,10 @@ public class Assets {
 		Texture badGuyIdle = loadTexture("textures/badguy_idle.png");
 
 		// Cut idle textures from texture map.
-		TextureRegion front = new TextureRegion(badGuyIdle, 0, 0, 21, 24);
-		TextureRegion back = new TextureRegion(badGuyIdle, 21, 0, 21, 24);
-		TextureRegion left = new TextureRegion(badGuyIdle, 42, 0, 21, 24);
-		TextureRegion right = new TextureRegion(badGuyIdle, 63, 0, 21, 24);
+		TextureRegion front = new TextureRegion(badGuyIdle, 0*21, 0, 21, 24);
+		TextureRegion back = new TextureRegion(badGuyIdle, 1*21, 0, 21, 24);
+		TextureRegion left = new TextureRegion(badGuyIdle, 2*21, 0, 21, 24);
+		TextureRegion right = new TextureRegion(badGuyIdle, 3*21, 0, 21, 24);
 
 		// Load walking animations.
 		Animation walkingFront = loadAnimation("textures/badguy_walking_front.png", 4, 21, 0.2f);
@@ -289,15 +288,15 @@ public class Assets {
 		Animation walkingRight = loadAnimation("textures/badguy_walking_right.png", 4, 16, 0.2f);
 
 		badGuyNormal = new TextureSet(front, back, left, right, walkingFront, walkingBack, walkingLeft, walkingRight);
-		
+
 		// Load idle texture map.
 		Texture badGuySwimmingIdle = loadTexture("textures/badguy_idle_swimming.png");
 
 		// Cut idle textures from texture map.
-		TextureRegion swimmingIdleFront = new TextureRegion(badGuySwimmingIdle, 0, 0, 21, 24);
-		TextureRegion swimmingIdleBack = new TextureRegion(badGuySwimmingIdle, 21, 0, 21, 24);
-		TextureRegion swimmingIdleLeft = new TextureRegion(badGuySwimmingIdle, 42, 0, 21, 24);
-		TextureRegion swimmingIdleRight = new TextureRegion(badGuySwimmingIdle, 63, 0, 21, 24);
+		TextureRegion swimmingIdleFront = new TextureRegion(badGuySwimmingIdle, 0*21, 0, 21, 24);
+		TextureRegion swimmingIdleBack = new TextureRegion(badGuySwimmingIdle, 1*21, 0, 21, 24);
+		TextureRegion swimmingIdleLeft = new TextureRegion(badGuySwimmingIdle, 2*21, 0, 21, 24);
+		TextureRegion swimmingIdleRight = new TextureRegion(badGuySwimmingIdle, 3*21, 0, 21, 24);
 
 		// Load walking animations.
 		Animation swimmingFront = loadAnimation("textures/badguy_swimming_front.png", 4, 21, 0.2f);
@@ -306,6 +305,23 @@ public class Assets {
 		Animation swimmingRight = loadAnimation("textures/badguy_swimming_right.png", 4, 16, 0.2f);
 
 		badGuySwimming = new TextureSet(swimmingIdleFront, swimmingIdleBack, swimmingIdleLeft, swimmingIdleRight, swimmingFront, swimmingBack, swimmingLeft, swimmingRight);
+
+		// Load idle texture map.
+		Texture badGuyGunIdle = loadTexture("textures/badguy_gun_idle.png");
+
+		// Cut idle textures from texture map.
+		TextureRegion gunFront = new TextureRegion(badGuyGunIdle, 0*21, 0, 21, 24);
+		TextureRegion gunBack = new TextureRegion(badGuyGunIdle, 1*21, 0, 21, 24);
+		TextureRegion gunLeft = new TextureRegion(badGuyGunIdle, 2*21, 0, 21, 24);
+		TextureRegion gunRight = new TextureRegion(badGuyGunIdle, 3*21, 0, 21, 24);
+
+		// Load walking animations.
+		Animation gunWalkingFront = loadAnimation("textures/badguy_gun_walking_front.png", 4, 21, 0.3f);
+		Animation gunWalkingBack = loadAnimation("textures/badguy_gun_walking_back.png", 4, 21, 0.3f);
+		Animation gunWalkingLeft = loadAnimation("textures/badguy_gun_walking_left.png", 4, 16, 0.3f);
+		Animation gunWalkingRight = loadAnimation("textures/badguy_gun_walking_right.png", 4, 16, 0.3f);
+
+		badGuyGun = new TextureSet(gunFront, gunBack, gunLeft, gunRight, gunWalkingFront, gunWalkingBack, gunWalkingLeft, gunWalkingRight);
 	}
 
 	/**

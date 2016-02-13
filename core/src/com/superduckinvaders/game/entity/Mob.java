@@ -180,7 +180,9 @@ public class Mob extends Character {
     		//CHANGE ME
         	textureSet = Assets.badGuySwimming;
         } 
-        else {
+        else if (this.isRanged()) {
+        	textureSet = Assets.badGuyGun;
+        } else {
         	textureSet = Assets.badGuyNormal;
         }
     	
