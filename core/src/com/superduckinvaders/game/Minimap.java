@@ -3,6 +3,7 @@ package com.superduckinvaders.game;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,7 +13,7 @@ import com.superduckinvaders.game.entity.Player;
 import com.superduckinvaders.game.Round;
 
 public class Minimap {
-	
+	private static final int BORDER_WIDTH = 2;
 	
 	private Round round;
 	private SpriteBatch spriteBatch;
@@ -71,11 +72,12 @@ public class Minimap {
 		int resizeOffsetX = (Gdx.graphics.getWidth() - prevWindowWidth ) == 0 ? minimapWidth*minimapScale : (minimapWidth*minimapScale + (Gdx.graphics.getWidth() - prevWindowWidth));
 		int resizeOffsetY = (Gdx.graphics.getHeight() - prevWindowHeight ) == 0 ? minimapHeight*minimapScale : (minimapHeight*minimapScale + (Gdx.graphics.getHeight() - prevWindowHeight));
 		
-		int minimapX = Gdx.graphics.getWidth() - resizeOffsetX - 85;
-		int minimapY = Gdx.graphics.getHeight() - resizeOffsetY - 5;
+		int minimapX = Gdx.graphics.getWidth() - resizeOffsetX - 88;
+		int minimapY = Gdx.graphics.getHeight() - resizeOffsetY - 8;
 		int minimapXOffset = playerX - minimapWidth/2;
 		int minimapYOffset = playerY - minimapHeight/2;
-		Pixmap minimapData = new Pixmap(minimapWidth*minimapScale, minimapHeight*minimapScale, Pixmap.Format.RGBA8888);
+		// +2 pixels for the border
+		Pixmap minimapData = new Pixmap(minimapWidth*minimapScale+2*BORDER_WIDTH, minimapHeight*minimapScale+2*BORDER_WIDTH, Pixmap.Format.RGBA8888);
 		TiledMapTileLayer waterLayer = (TiledMapTileLayer) layers.get("Water");
 		TiledMapTileLayer baseLayer = (TiledMapTileLayer) layers.get("Base");
 		TiledMapTileLayer collisionLayer = (TiledMapTileLayer) layers.get("Collision");
@@ -161,21 +163,21 @@ public class Minimap {
 				
 				for (int k=0; k<minimapScale; k++) {
 					for (int l=0; l<minimapScale; l++) {
-						minimapData.drawPixel(i*minimapScale+k, minimapHeight*minimapScale-(j*minimapScale+l), cellColor);
+						minimapData.drawPixel(i*minimapScale+k+BORDER_WIDTH, -(j*minimapScale+l)+minimapHeight*minimapScale+BORDER_WIDTH-1, cellColor);
 					}
 				}
 			}
 		}
 
 		// Draw minimap border
-		minimapData.setColor(0x000000FF);
-		minimapData.drawRectangle(0, 0, minimapData.getWidth(), 2);
-		minimapData.drawRectangle(0, 0, 2, minimapData.getHeight());
-		minimapData.drawRectangle(0, minimapData.getHeight()-2, minimapData.getWidth(), 2);
-		minimapData.drawRectangle(minimapData.getWidth()-2, 0, 2, minimapData.getHeight());
+		minimapData.setColor(Color.BLACK);
+		minimapData.fillRectangle(0, 0, minimapData.getWidth(), BORDER_WIDTH);;
+		minimapData.fillRectangle(0, 0, BORDER_WIDTH, minimapData.getHeight());
+		minimapData.fillRectangle(0, minimapData.getHeight()-BORDER_WIDTH, minimapData.getWidth(), BORDER_WIDTH);
+		minimapData.fillRectangle(minimapData.getWidth()-BORDER_WIDTH, 0, BORDER_WIDTH, minimapData.getHeight());
 		
 		Texture minimapTexture = new Texture(minimapData);
-		spriteBatch.draw(minimapTexture, minimapX, minimapY, minimapWidth*minimapScale, minimapHeight*minimapScale);
+		spriteBatch.draw(minimapTexture, minimapX, minimapY);
 
 		// Need to flush because we're about to dispose the texture
 		spriteBatch.flush();
