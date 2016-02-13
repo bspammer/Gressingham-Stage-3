@@ -11,7 +11,6 @@ import com.superduckinvaders.game.assets.TextureSet;
 
 public class Mob extends Character {
 
-    // TODO: finish me
     /**
      * The texture set to use for this Mob.
      */
@@ -22,22 +21,48 @@ public class Mob extends Character {
      */
     private AI ai;
     
-    
     /**
-     * speed of the mob in pixels per second
+     * Speed of the mob in pixels per second
      */
     private int speed;
-
-    public Mob(Round parent, double x, double y, int health, TextureSet textureSet, int speed, AI ai) {
+    
+    /**
+     * Boolean indicating whether or not the mob is a ranged mob.
+     */
+    private boolean ranged;
+    
+    /**
+     * Doubles indicating the position x,y of the ranged mob target.
+     */
+    private double targetX, targetY;
+    
+    /**
+     * Double indicating the chance a mob has to fire a projectile.
+     */
+    private static double MOB_FIRERATE = 0.005;
+    
+    /**
+     * Constructor for a Mob character.
+     * @param parent The round the mob is created in.
+     * @param x Mobs position in x
+     * @param y Mobs position in y
+     * @param health The mobs health
+     * @param textureSet The textureSet of the mob.
+     * @param speed The speed of the mob.
+     * @param ai Which AI to spawn the mob with.
+     * @param ranged Is the mob ranged or not.
+     */
+    public Mob(Round parent, double x, double y, int health, TextureSet textureSet, int speed, AI ai, boolean ranged) {
         super(parent, x, y, health);
 
         this.textureSet = textureSet;
         this.speed = speed;
         this.ai = ai;
+        this.ranged = ranged;
     }
 
     public Mob(Round parent, int x, int y, int health, TextureSet textureSet, int speed) {
-        this(parent, x, y, health, textureSet, speed, new DummyAI(parent));
+        this(parent, x, y, health, textureSet, speed, new DummyAI(parent), false);
     }
     
     /**
@@ -88,13 +113,24 @@ public class Mob extends Character {
     public int getHeight() {
         return textureSet.getTexture(TextureSet.FACING_FRONT, 0).getRegionHeight();
     }
+    
+    public void updateTargetPosition(double x, double y) {
+    	targetX = x;
+    	targetY = y;
+    }
 
     /**
-     * updates mob
+     * Updates mob
      */
     @Override
     public void update(float delta) {
         ai.update(this, delta);
+        float random = MathUtils.random();
+        
+        //if mob is ranged, fire projectile with given probability.
+        if (random < MOB_FIRERATE && ranged) {
+        	fireAt(targetX, targetY, 300, 1);
+        }
 
         if(this.getSwimming()){
     		speed=50;
@@ -104,7 +140,7 @@ public class Mob extends Character {
     	}
         // Chance of spawning a random powerup.
         if (isDead()) {
-            float random = MathUtils.random();
+            //float random = MathUtils.random();
             Player.Powerup powerup = null;
 
             if (random < 0.05) {
@@ -128,7 +164,7 @@ public class Mob extends Character {
     }
     
     /**
-     * set the direction of facing
+     * Set the direction of facing
      * @param newFacing direction
      */
     public void setFacing(int newFacing) {
@@ -136,7 +172,7 @@ public class Mob extends Character {
     }
 
     /**
-     * renders the mob
+     * Renders the mob
      */
     @Override
     public void render(SpriteBatch spriteBatch) {
@@ -149,5 +185,13 @@ public class Mob extends Character {
         }
     	
         spriteBatch.draw(textureSet.getTexture(facing, stateTime), (int) x, (int) y);
+    }
+    
+    /**
+     * Determine if the mob is ranged or not.
+     * @return boolean indicating if mob is ranged or not.
+     */
+    public boolean isRanged() {
+    	return ranged;
     }
 }

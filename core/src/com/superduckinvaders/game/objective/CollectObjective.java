@@ -32,7 +32,7 @@ public class CollectObjective extends Objective {
 	 */
 	@Override
 	public String getObjectiveString() {
-		return "Collect the red flag somewhere in the level";
+		return "Locate and collect the red flag!";
 	}
 
 	/**

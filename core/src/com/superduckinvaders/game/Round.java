@@ -50,6 +50,8 @@ public final class Round {
 	 */
 	public static final int UPDATE_DISTANCE = DuckGame.GAME_WIDTH / 2;
 
+	private static final double RANGED_MOB_SPAWNRATE = 0.005;
+
 	/**
 	 * The GameTest instance this Round belongs to.
 	 */
@@ -405,7 +407,15 @@ public final class Round {
 	 * @return true if the mob was successfully added, false if there was an intersection and the mob wasn't added
 	 */
 	public boolean createMob(double x, double y, int health, TextureSet textureSet, int speed) {
-		Mob mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32));
+		float random = MathUtils.random();
+		Mob mob;
+		
+		//spawn mobs as ranged mobs with probability of RANGED_MOB_SPAWNRATE
+		if (random < RANGED_MOB_SPAWNRATE) {
+			mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), true);
+		} else {
+			mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), false);
+		}
 
 		// Check mob isn't out of bounds.
 		if (x < 0 || x > getMapWidth() - textureSet.getWidth() || y < 0 || y > getMapHeight() - textureSet.getHeight()) {
@@ -508,6 +518,13 @@ public final class Round {
 
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
+			
+			// for each entity update target position x and y with player x and y.
+			if (entity instanceof Mob) {
+				if ((boolean) ((Mob) entity).isRanged()) {
+					((Mob) entity).updateTargetPosition(player.getX(), player.getY());
+				}
+			}
 
 			if (entity.isRemoved()) {
 				if (entity instanceof Mob && ((Mob) entity).isDead()) {

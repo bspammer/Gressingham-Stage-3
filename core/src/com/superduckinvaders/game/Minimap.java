@@ -13,6 +13,7 @@ import com.superduckinvaders.game.entity.Player;
 import com.superduckinvaders.game.Round;
 
 public class Minimap {
+	
 	private static final int BORDER_WIDTH = 2;
 	
 	private Round round;
@@ -29,6 +30,7 @@ public class Minimap {
 		OBJECTIVE,
 		PLAYER
 	}
+	
 	private static HashMap<minimapColors, Integer> colorDictionary = new HashMap<minimapColors, Integer>();
 	static {
 		colorDictionary.put(minimapColors.GRASS, 0x7DC847FF);
