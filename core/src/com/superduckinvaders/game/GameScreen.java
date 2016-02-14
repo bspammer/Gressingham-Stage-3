@@ -1,5 +1,7 @@
 package com.superduckinvaders.game;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,6 +20,7 @@ import com.superduckinvaders.game.assets.Assets;
 import com.superduckinvaders.game.entity.Entity;
 import com.superduckinvaders.game.entity.Player;
 import com.superduckinvaders.game.entity.item.Powerup;
+import com.superduckinvaders.game.objective.AnimatedText;
 
 
 
@@ -69,7 +72,15 @@ public class GameScreen implements Screen {
 	 */
 	private int prevWindowHeight;
 	
+	/**
+	 * Minimap for the current screen
+	 */
 	private Minimap miniMap;
+	
+	/**
+	 * List of AnimatedText objects to draw
+	 */
+	private ArrayList<AnimatedText> animatedTextToDraw = new ArrayList<AnimatedText>();
 
 	/**
 	 * Initialises this GameScreen for the specified round.
@@ -79,8 +90,7 @@ public class GameScreen implements Screen {
 	public GameScreen(Round round) {
 		this.round = round;
 		this.prevWindowWidth = Gdx.graphics.getWidth();
-		this.prevWindowHeight = Gdx.graphics.getHeight();
-		
+		this.prevWindowHeight = Gdx.graphics.getHeight();		
 		
 		DuckGame.playMusic(Assets.music);
 	}
@@ -118,6 +128,28 @@ public class GameScreen implements Screen {
 		mapRenderer = new OrthogonalTiledMapRenderer(round.getMap(), spriteBatch);
 		this.miniMap = new Minimap(round,spriteBatch);
 	}
+	
+	/**
+	 * Creates and adds an AnimatedText object to the list of AnimatedTexts to be drawn
+	 * @param text The text for the AnimatedText
+	 * @param x The x position for the AnimatedText
+	 * @param y The initial y position (will change over its lifetime) for the AnimatedText
+	 */
+	public void addAnimatedText(String text, float x, float y) {
+		AnimatedText animatedText = new AnimatedText(text, x, y);
+		boolean added = false;
+		for (int i=0; i<animatedTextToDraw.size(); i++) {
+			// Overwrite null entries
+			if (animatedTextToDraw.get(i) == null) {
+				animatedTextToDraw.set(i, animatedText);
+				added = true;
+				break;
+			}
+		}
+		if (!added) {
+			animatedTextToDraw.add(animatedText);
+		}
+	}
 
 	/**
 	 * Main game loop.
@@ -153,6 +185,9 @@ public class GameScreen implements Screen {
 		for (Entity entity : round.getEntities()) {
 			entity.render(spriteBatch);
 		}
+		
+		// Draw animated text
+		drawAnimatedText(delta);
 
 		// Render overhang layer (draws over the player).
 		if (round.getOverhangLayer() != null) {
@@ -280,6 +315,20 @@ public class GameScreen implements Screen {
 		Assets.font.draw(spriteBatch, "Objective: " + round.getObjective().getObjectiveString(), 10, 100);
 		Assets.font.draw(spriteBatch, "Score: " + round.getPlayer().getScore(), 10,80);
 		Assets.font.draw(spriteBatch, Gdx.graphics.getFramesPerSecond() + " FPS", 10, 60);
+	}
+	
+	/**
+	 * Draw each individual animated text to the SpriteBatch
+	 * @param delta Time since last render
+	 */
+	private void drawAnimatedText(float delta) {
+		for (int i=0; i<animatedTextToDraw.size(); i++) {
+			AnimatedText animatedText = animatedTextToDraw.get(i);
+			if (animatedText == null) continue;
+			boolean timerNotFinished = animatedText.draw(spriteBatch, delta);
+			// If timer on text is finished set it to null to allow it to be picked up by the garbage collector
+			if (!timerNotFinished) animatedTextToDraw.set(i, null);
+		}
 	}
 
 	/**

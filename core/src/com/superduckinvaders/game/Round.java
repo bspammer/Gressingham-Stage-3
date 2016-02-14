@@ -1,5 +1,6 @@
 package com.superduckinvaders.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -528,7 +529,9 @@ public final class Round {
 
 			if (entity.isRemoved()) {
 				if (entity instanceof Mob && ((Mob) entity).isDead()) {
-					player.addScore((int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1)));
+					int scoreToAdd = (int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
+					player.addScore(scoreToAdd);
+					parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) entity.getX(), (float) entity.getY() + entity.getHeight());
 				}
 
 				entities.remove(i);
