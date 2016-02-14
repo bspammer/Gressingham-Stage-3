@@ -542,7 +542,13 @@ public final class Round {
 					int scoreToAdd = (int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
 					player.addScore(scoreToAdd);
 					//create an animated text to show added score
-                    parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) entity.getX(), (float) entity.getY() + entity.getHeight());
+					Color textColor;
+					if (scoreToAdd <= 10) {
+						textColor = Color.WHITE;
+					} else {
+						textColor = Color.RED;
+					}
+                    parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) entity.getX(), (float) entity.getY() + entity.getHeight(), textColor);
 					//respawn killed enemies on SurviveObjective
 					if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE) {
 						spawnRandomMobs(1, 50, 50, 100, 100);

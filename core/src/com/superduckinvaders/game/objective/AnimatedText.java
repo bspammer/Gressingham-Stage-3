@@ -17,11 +17,6 @@ public class AnimatedText {
 	private float currentX, currentY;
 	private float displayTimer = MAX_SCREEN_TIME;
 	private Color color;
-
-	
-	public AnimatedText(String text, float x, float y) {
-		this(text, x, y, Color.WHITE);
-	}
 	
 	public AnimatedText(String text, float x, float y, Color color) {
 		this.text = text;
