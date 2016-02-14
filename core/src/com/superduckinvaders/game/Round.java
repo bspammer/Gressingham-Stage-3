@@ -17,9 +17,7 @@ import com.superduckinvaders.game.entity.item.Upgrade;
 import com.superduckinvaders.game.objective.CollectObjective;
 import com.superduckinvaders.game.objective.Objective;
 import com.superduckinvaders.game.objective.SurviveObjective;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

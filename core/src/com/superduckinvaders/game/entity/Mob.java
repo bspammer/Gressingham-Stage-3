@@ -31,6 +31,9 @@ public class Mob extends Character {
      */
     private boolean ranged;
     
+    
+ 
+    
     /**
      * Doubles indicating the position x,y of the ranged mob target.
      */
@@ -54,7 +57,6 @@ public class Mob extends Character {
      */
     public Mob(Round parent, double x, double y, int health, TextureSet textureSet, int speed, AI ai, boolean ranged) {
         super(parent, x, y, health);
-
         this.textureSet = textureSet;
         this.speed = speed;
         this.ai = ai;
@@ -128,10 +130,12 @@ public class Mob extends Character {
         float random = MathUtils.random();
         
         //if mob is ranged, fire projectile with given probability.
+        //mobs can't fire in water (balance decision)
         if (random < MOB_FIRERATE && ranged && !this.isSwimming) {
         	fireAt(targetX, targetY, 300, 1);
         }
 
+        
         if(this.getSwimming()){
     		speed=50;
     	}

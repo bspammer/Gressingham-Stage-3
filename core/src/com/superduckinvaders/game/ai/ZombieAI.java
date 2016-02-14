@@ -33,7 +33,7 @@ public class ZombieAI extends AI {
 	/**
 	 * The random offset to be added or taken from the base pathfinding rate.
 	 */
-	public final static float PATHFINDING_RATE_OFFSET = (float) 0.05;
+	public final static float PATHFINDING_RATE_OFFSET = (float) 0.15;
 
 	/**
 	 * Width of one tile in the map.
@@ -111,6 +111,7 @@ public class ZombieAI extends AI {
 		double distanceFromPlayer = mob.distanceTo(playerX, playerY);
 
 		currentOffset += delta;
+		// what is 1280/4 is that hardcoded based on the screen width? 
 		if (currentOffset >= deltaOffsetLimit && (int) distanceFromPlayer < 1280 / 4) {
 			deltaOffsetLimit = PATHFINDING_RATE + (MathUtils.random() % PATHFINDING_RATE_OFFSET);
 			currentOffset = 0;
