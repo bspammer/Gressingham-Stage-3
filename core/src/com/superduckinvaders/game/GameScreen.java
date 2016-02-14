@@ -69,6 +69,9 @@ public class GameScreen implements Screen {
 	 */
 	private int prevWindowHeight;
 	
+	/**
+	 * The minimap for the current round.
+	 */
 	private Minimap miniMap;
 
 	/**
@@ -126,7 +129,10 @@ public class GameScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
+		//update the round game logic.
 		round.update(delta);
+		
+		//clear the screen with absolute transparency.
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -136,6 +142,7 @@ public class GameScreen implements Screen {
 
 		spriteBatch.setProjectionMatrix(gameCam.combined);
 		spriteBatch.begin();
+		
 		// Render base and collision layers.
 		mapRenderer.setView(gameCam);
 		mapRenderer.renderTileLayer(round.getBaseLayer());
@@ -196,7 +203,7 @@ public class GameScreen implements Screen {
 	
 
 	/**
-	 * draws the countdown timers for powerups
+	 * Draws the radial countdown timers for the player acquired powerups.
 	 */
 	private void drawPlayerPowerupTimers() {
 		SpriteBatch powerupBatch = new SpriteBatch();
@@ -234,7 +241,7 @@ public class GameScreen implements Screen {
 
 
 	/**
-	 * draws the players health
+	 * Draws the players health as three hearts.
 	 */
 	private void drawPlayerHearts() {
 		int x = 0;
@@ -250,7 +257,7 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * draws the players stamina
+	 * Draws the players stamina bar.
 	 */
 	private void drawPlayerStaminaBar() {
 		// Draw stamina bar (for flight);
@@ -273,7 +280,7 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * draws the objective text and score
+	 * Draws the players current objective and round score.
 	 */
 	private void drawPlayerObjectiveAndScore() {
 		Assets.font.setColor(1.0f, 1.0f, 1.0f, 1.0f);

@@ -197,7 +197,7 @@ public class DuckGame extends Game {
 	}
 
 	/**
-	 * Loads settings from an external file
+	 * Loads settings from an external file located in your user home directory, under Saves/Settings.ini.
 	 */
 	public static void loadSettings(){
 		FileHandle handle;
@@ -226,6 +226,8 @@ public class DuckGame extends Game {
 		handle = Gdx.files.external("Saves/Settings.ini");
 		String text = handle.readString();
 		String lines[] = text.split("\\r?\\n");
+		
+		//extract levels, score and volumes.
 		levelsComplete = lines[0].substring(15);
 		MasterVol = Float.parseFloat(lines[1].substring(7));
 		SfxVol = Float.parseFloat(lines[2].substring(4));
@@ -234,7 +236,7 @@ public class DuckGame extends Game {
 	}
 
 	/**
-	 * saves the settings out to the settings.ini file
+	 * Saves settings to an external file located in your user home directory, under Saves/Settings.ini.
 	 */
 	public static void saveSettings(){
 		FileHandle handle;
@@ -258,7 +260,7 @@ public class DuckGame extends Game {
 				"\nMaster="+Float.toString(MasterVol) + 
 				"\nSFX="+Float.toString(SfxVol) + 
 				"\nMusic="+Float.toString(MusicVol) + 
-				"\nScore="+Integer.toString(totalScore), false);
+				"\nScore=0", false);
 	}
 
 	/**

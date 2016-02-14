@@ -19,7 +19,9 @@ import com.superduckinvaders.game.objective.Objective;
 import com.superduckinvaders.game.objective.SurviveObjective;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
 /**
  * Represents a round of the game played on one level with a single objective.
  */
@@ -50,7 +52,10 @@ public final class Round {
 	 */
 	public static final int UPDATE_DISTANCE = DuckGame.GAME_WIDTH / 2;
 
-	private static final double RANGED_MOB_SPAWNRATE = 0.005;
+	/**
+	 * Double indicating the chance of spawning a ranged mob.
+	 */
+	private static final double RANGED_MOB_SPAWNRATE = 0.05;
 
 	/**
 	 * The GameTest instance this Round belongs to.
@@ -82,6 +87,8 @@ public final class Round {
 	 */
 	private Objective objective;
 
+	private int mobCount;
+
 	/**
 	 * Initialises a new Round with the specified map.
 	 *
@@ -103,6 +110,7 @@ public final class Round {
 
 		initObjective();
 
+		this.mobCount = 0;
 		spawnRandomMobs(100, 200, 200, 1000, 1000);
 	}
 
@@ -124,7 +132,7 @@ public final class Round {
 	}
 
 	/**
-	 * Spawns one of each powerup next to player spawn point.
+	 * Spawns one of each powerup next to player spawn point for testing purposes.
 	 * @param playerSpawnX player spawn point x coord.
 	 * @param playerSpawnY player spawn point y coord.
 	 */
@@ -137,13 +145,17 @@ public final class Round {
 		createPowerup(playerSpawnX + 100, playerSpawnY, Player.Powerup.SUPER_SPEED);
 		createPowerup(playerSpawnX + 120, playerSpawnY, Player.Powerup.REGENERATION);
 	}
+	
+	private int getObjectiveType() {
+		return Integer.parseInt(map.getProperties().get("ObjectiveType", "0", String.class));
+	}
 
 	/**
 	 * Initialises the map's objective depending on it's specified ObjectiveType property.
 	 */
 	private void initObjective() {
 		//read map.tmx property value to determine which objective to create
-		int objectiveType = Integer.parseInt(map.getProperties().get("ObjectiveType", "0", String.class));
+		int objectiveType = getObjectiveType();
 
 		//create appropriate objective as defined by map.tmx file in ObjectiveType property
 		switch(objectiveType) {
@@ -196,11 +208,14 @@ public final class Round {
 	 * @param maxY the maximum y distance from the player to spawn the mobs
 	 */
 	private void spawnRandomMobs(int amount, int minX, int minY, int maxX, int maxY) {
-		while(amount > 0) {
-			int x = MathUtils.random(minX, maxX) * (MathUtils.randomBoolean() ? -1 : 1);
-			int y = MathUtils.random(minY, maxY) * (MathUtils.randomBoolean() ? -1 : 1);
-
-			amount -= createMob(getPlayer().getX() + x, getPlayer().getY() + y, 100, Assets.badGuyNormal, 100) ? 1 : 0;
+		for (int maxAttempts = 200; maxAttempts >= 0; maxAttempts--) {
+			if (mobCount < 100) {
+				int x = MathUtils.random(minX, maxX) * (MathUtils.randomBoolean() ? -1 : 1);
+				int y = MathUtils.random(minY, maxY) * (MathUtils.randomBoolean() ? -1 : 1);
+				mobCount += createMob(getPlayer().getX() + x, getPlayer().getY() + y, 100, Assets.badGuyNormal, 100) ? 1 : 0;
+			} else {
+				break;
+			}
 		}
 	}
 
@@ -322,7 +337,6 @@ public final class Round {
 	 *
 	 * @param newEntity new entity of any type
 	 */
-	// TODO: remove this once tests are complete
 	public void addEntity(Entity newEntity) {
 		entities.add(newEntity);
 	}
@@ -440,6 +454,8 @@ public final class Round {
 	 * @param delta the time elapsed since the last update
 	 */
 	public void update(float delta) {
+		
+		// TODO Fix bug where replaying previously completed level wipes game progress.
 		if (objective != null) {
 			objective.update(delta);
 
@@ -497,9 +513,6 @@ public final class Round {
 				parent.showLoseScreen();
 			}
 		}
-
-		
-
 		
 //		
 //		TiledMapTileLayer mud = (TiledMapTileLayer) map.getLayers().get("Mud");
@@ -510,11 +523,6 @@ public final class Round {
 //        	else{
 //        		isInMud=false;
 //        	}
-//        
-
-
-
-
 
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
@@ -528,9 +536,18 @@ public final class Round {
 
 			if (entity.isRemoved()) {
 				if (entity instanceof Mob && ((Mob) entity).isDead()) {
+					//decrement mob count
+					mobCount--;
+					System.out.println(mobCount + "-");
+					//add score to player
 					player.addScore((int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1)));
+					//respawn killed enemies on SurviveObjective
+					if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE) {
+						spawnRandomMobs(1, 50, 50, 100, 100);
+					}
+					System.out.println(mobCount);
 				}
-
+				
 				entities.remove(i);
 			} else if (entity.distanceTo(player.getX(), player.getY()) < UPDATE_DISTANCE){
 				// Don't bother updating entities that aren't on screen.

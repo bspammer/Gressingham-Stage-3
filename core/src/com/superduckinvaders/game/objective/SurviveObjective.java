@@ -45,7 +45,7 @@ public class SurviveObjective extends Objective {
 	 */
 	@Override
 	public void update(float delta) {
-
+		
 		accum += delta;
 		if (accum >= 1) {
 			time--;
@@ -56,6 +56,7 @@ public class SurviveObjective extends Objective {
 		if(time <= 0) {
 			status = OBJECTIVE_COMPLETED;
 		}
+		
 	}
 
 }
