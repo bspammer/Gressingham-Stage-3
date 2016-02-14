@@ -29,6 +29,12 @@ public class Assets {
 	 *  Bad guy texture sets.
 	 */
 	public static TextureSet badGuyNormal, badGuySwimming, badGuyGun;
+	
+	
+	/**
+	 * Boss texture sets
+	 */
+	public static TextureSet bossNormal,bossSwimming;
 
 	/**
 	 *  Texture for Projectile.
@@ -151,6 +157,7 @@ public class Assets {
 	public static void load() {
 		loadPlayerTextureSets();
 		loadBadGuyTextureSets();
+		loadBossTextureSets();
 		loadFloorItems();
 
 		projectile = new TextureRegion(loadTexture("textures/projectile.png"));
@@ -268,6 +275,48 @@ public class Assets {
 				swimmingFront, swimmingBack, swimmingLeft, swimmingRight);
 	}
 
+	
+	private static void loadBossTextureSets(){
+		
+		// Load idle texture map.
+		Texture playerIdle = loadTexture("textures/player_idle.png");
+
+		// Cut idle textures from texture map.
+		TextureRegion front = new TextureRegion(playerIdle, 0*14, 0, 14, 18);
+		TextureRegion back = new TextureRegion(playerIdle, 1*14, 0, 14, 18);
+		TextureRegion left = new TextureRegion(playerIdle, 2*14, 0, 14, 18);
+		TextureRegion right = new TextureRegion(playerIdle, 3*14, 0, 14, 18);
+
+		// Load walking animations.
+		Animation walkingFront = loadAnimation("textures/player_walking_front.png", 4, 12, 0.2f);
+		Animation walkingBack = loadAnimation("textures/player_walking_back.png", 4, 12, 0.2f);
+		Animation walkingLeft = loadAnimation("textures/player_walking_left.png", 4, 14, 0.2f);
+		Animation walkingRight = loadAnimation("textures/player_walking_right.png", 4, 14, 0.2f);
+
+		
+		// Load swimming texture map.
+		Texture swimmingIdle = new Texture("textures/player_swimming_idle.png");
+
+		// Cut idle swimming textures from texture map.
+		TextureRegion swimmingIdleFront = new TextureRegion(swimmingIdle, 0*14, 0, 14, 17);
+		TextureRegion swimmingIdleBack = new TextureRegion(swimmingIdle, 1*14, 0, 14, 17);
+		TextureRegion swimmingIdleLeft = new TextureRegion(swimmingIdle, 2*14, 0, 14, 17);
+		TextureRegion swimmingIdleRight = new TextureRegion(swimmingIdle, 3*14, 0, 14, 17);
+
+		//Load swimming animations.
+		Animation swimmingFront = loadAnimation("textures/player_swimming_front.png", 2, 14, 0.2f);
+		Animation swimmingBack = loadAnimation("textures/player_swimming_back.png", 2, 14, 0.2f);
+		Animation swimmingLeft = loadAnimation("textures/player_swimming_left.png", 2, 14, 0.2f);
+		Animation swimmingRight = loadAnimation("textures/player_swimming_right.png", 2, 14, 0.2f);
+		
+		
+		bossNormal = new TextureSet(front, back, left, right, walkingFront, walkingBack, walkingLeft, walkingRight);
+		
+		bossSwimming = new TextureSet(swimmingIdleFront, swimmingIdleBack, swimmingIdleLeft, swimmingIdleRight,
+				swimmingFront, swimmingBack, swimmingLeft, swimmingRight);
+	}
+	
+	
 	/**
 	 * Loads the textures from the bad guy textures file.
 	 */
@@ -322,8 +371,13 @@ public class Assets {
 		Animation gunWalkingRight = loadAnimation("textures/badguy_gun_walking_right.png", 4, 16, 0.3f);
 
 		badGuyGun = new TextureSet(gunFront, gunBack, gunLeft, gunRight, gunWalkingFront, gunWalkingBack, gunWalkingLeft, gunWalkingRight);
+	
+		
+	
 	}
 
+	
+	
 	/**
 	 * Loads the texture from the floor items file.
 	 */
