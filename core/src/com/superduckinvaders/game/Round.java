@@ -55,7 +55,7 @@ public final class Round {
 	/**
 	 * Double indicating the chance of spawning a ranged mob.
 	 */
-	private static final double RANGED_MOB_SPAWNRATE = 0.05;
+	private static final double RANGED_MOB_SPAWNRATE = 0.1;
 
 	/**
 	 * The GameTest instance this Round belongs to.

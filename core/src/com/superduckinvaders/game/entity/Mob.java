@@ -128,7 +128,7 @@ public class Mob extends Character {
         float random = MathUtils.random();
         
         //if mob is ranged, fire projectile with given probability.
-        if (random < MOB_FIRERATE && ranged) {
+        if (random < MOB_FIRERATE && ranged && !this.isSwimming) {
         	fireAt(targetX, targetY, 300, 1);
         }
 
