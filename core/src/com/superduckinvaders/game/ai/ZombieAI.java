@@ -1,6 +1,7 @@
 
 package com.superduckinvaders.game.ai;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.superduckinvaders.game.Round;
 import com.superduckinvaders.game.entity.Mob;
@@ -111,8 +112,7 @@ public class ZombieAI extends AI {
 		double distanceFromPlayer = mob.distanceTo(playerX, playerY);
 
 		currentOffset += delta;
-		// what is 1280/4 is that hardcoded based on the screen width? 
-		if (currentOffset >= deltaOffsetLimit && (int) distanceFromPlayer < 1280 / 4) {
+		if (currentOffset >= deltaOffsetLimit && (int) distanceFromPlayer < Gdx.graphics.getWidth()/4) {
 			deltaOffsetLimit = PATHFINDING_RATE + (MathUtils.random() % PATHFINDING_RATE_OFFSET);
 			currentOffset = 0;
 

@@ -209,14 +209,11 @@ public final class Round {
 	 * @param maxY the maximum y distance from the player to spawn the mobs
 	 */
 	private void spawnRandomMobs(int amount, int minX, int minY, int maxX, int maxY) {
-		for (int maxAttempts = NUMBER_OF_MOBS * 2; maxAttempts >= 0; maxAttempts--) {
-			if (mobCount < NUMBER_OF_MOBS) {
+		for (int maxAttempts = amount; maxAttempts >= 0; maxAttempts--) {
 				int x = MathUtils.random(minX, maxX) * (MathUtils.randomBoolean() ? -1 : 1);
 				int y = MathUtils.random(minY, maxY) * (MathUtils.randomBoolean() ? -1 : 1);
 				mobCount += createMob(getPlayer().getX() + x, getPlayer().getY() + y, 100, Assets.badGuyNormal, 100) ? 1 : 0;
-			} else {
-				break;
-			}
+			
 		}
 	}
 
@@ -515,7 +512,9 @@ public final class Round {
 			}
 
 			if (entity.isRemoved()) {
-				if (entity instanceof Mob && ((Mob) entity).isDead()) {
+				entities.remove(i);
+				if (entity instanceof Mob) {
+					
 					//decrement mob count
 					mobCount--;
 					//add score to player
@@ -533,10 +532,11 @@ public final class Round {
 					//respawn killed enemies on SurviveObjective
 					if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE) {
 						spawnRandomMobs(1, 100, 100, 300, 300);
+						System.out.println(mobCount);
 					}
 				}
 				
-				entities.remove(i);
+				
 			} else if (entity.distanceTo(player.getX(), player.getY()) < UPDATE_DISTANCE){
 				// Don't bother updating entities that aren't on screen.
 				entity.update(delta);

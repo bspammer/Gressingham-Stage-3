@@ -189,7 +189,7 @@ public abstract class Entity {
 		int tileX = x / parent.getTileWidth();
 		int tileY = y / parent.getTileHeight();
 
-		//allows the player to fly over bushes
+		//allows the player to fly over bushes (and only the player)
 		if (this instanceof Player && parent.getPlayer().isFlying()){
 			return parent.getCollisionLayer().getCell(tileX, tileY) != null;
 		}

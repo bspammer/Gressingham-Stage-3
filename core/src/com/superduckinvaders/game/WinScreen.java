@@ -49,7 +49,16 @@ public class WinScreen implements Screen {
      */
     public WinScreen(DuckGame parent, int score) {
         this.parent = parent;
-        this.score = score;
+        //bonus 100 points for finishing with max hp
+        if (parent.getRound().getPlayer().getCurrentHealth()==6){
+        	this.score = score+100;
+        }
+        else {
+        	this.score = score;
+        }
+        
+       
+
     }
 
     /**
