@@ -529,7 +529,7 @@ public final class Round {
 						textColor = Color.RED;
 					}
 					//score pop up text
-                    parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) entity.getX(), (float) entity.getY() + entity.getHeight(), textColor);
+                    parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) (entity.getX() - entity.getWidth()/2), (float) entity.getY() + entity.getHeight(), textColor);
 					//respawn killed enemies on SurviveObjective
 					if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE) {
 						spawnRandomMobs(1, 100, 100, 300, 300);
