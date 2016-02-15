@@ -85,7 +85,10 @@ public class Minimap {
 		int minimapHeight = 51;
 		int minimapScale = 4;
 		
-		//calculate offset for positioning of stamina bar
+		//calculate offset for positioning of minimap
+	
+		
+		
 		int resizeOffsetX = (Gdx.graphics.getWidth() - prevWindowWidth ) == 0 ? minimapWidth*minimapScale : (minimapWidth*minimapScale + (Gdx.graphics.getWidth() - prevWindowWidth));
 		int resizeOffsetY = (Gdx.graphics.getHeight() - prevWindowHeight ) == 0 ? minimapHeight*minimapScale : (minimapHeight*minimapScale + (Gdx.graphics.getHeight() - prevWindowHeight));
 		

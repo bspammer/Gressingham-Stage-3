@@ -87,8 +87,9 @@ public class GameScreen implements Screen {
 	 */
 	public GameScreen(Round round) {
 		this.round = round;
-		this.prevWindowWidth = Gdx.graphics.getWidth();
-		this.prevWindowHeight = Gdx.graphics.getHeight();		
+		//Must match the desktoplauncher dimensions
+		this.prevWindowWidth = 1280;
+		this.prevWindowHeight = 720;		
 		
 		DuckGame.playMusic(Assets.music);
 	}
