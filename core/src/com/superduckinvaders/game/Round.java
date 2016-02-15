@@ -54,7 +54,7 @@ public final class Round {
 	private static final double RANGED_MOB_SPAWNRATE = 0.1;
 	
 	/**
-	 * Total number of mobs to spawn at start of round, and number to maintain in SurviveObjective.
+	 * Total number of mobs to spawn at start of round
 	 */
 	private static final int NUMBER_OF_MOBS = 200;
 
@@ -209,16 +209,14 @@ public final class Round {
 	 * @param maxY the maximum y distance from the player to spawn the mobs
 	 */
 	private void spawnRandomMobs(int amount, int minX, int minY, int maxX, int maxY) {
-		for (int maxAttempts = NUMBER_OF_MOBS * 2; maxAttempts >= 0; maxAttempts--) {
-			if (mobCount < NUMBER_OF_MOBS) {
+		for (int i=0;i<amount; i++) {
 				int x = MathUtils.random(minX, maxX) * (MathUtils.randomBoolean() ? -1 : 1);
 				int y = MathUtils.random(minY, maxY) * (MathUtils.randomBoolean() ? -1 : 1);
-				mobCount += createMob(getPlayer().getX() + x, getPlayer().getY() + y, 100, Assets.badGuyNormal, 100) ? 1 : 0;
-			} else {
-				break;
-			}
+				createMob(getPlayer().getX() + x, getPlayer().getY() + y, 100, Assets.badGuyNormal, 100);
+				mobCount +=  1;
+			} 
 		}
-	}
+	
 
 	/**
 	 * Gets the current map
@@ -415,9 +413,9 @@ public final class Round {
 		
 		//spawn mobs as ranged mobs with probability of RANGED_MOB_SPAWNRATE
 		if (random < RANGED_MOB_SPAWNRATE) {
-			mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), true);
+			mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), true,false);
 		} else {
-			mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), false);
+			mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), false,false);
 		}
 
 		// Check mob isn't out of bounds.
@@ -433,6 +431,33 @@ public final class Round {
 			}
 		}
 
+		entities.add(mob);
+		return true;
+	}
+	
+	/**
+	 * Creates a boss mob at the given coordinates
+	 * @param x the initial x coordinate
+	 * @param y the initial y coordinate
+	 * @param health the initial health of the mob
+	 * @param textureSet the texture set to use
+	 * @param speed how fast the mob moves in pixels per second
+	 * @return true if the mob was successfully added, false if there was an intersection and the mob wasn't added
+	 */
+	public boolean createBoss(double x, double y, int health, TextureSet textureSet, int speed) {
+		Mob mob;
+		mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), false,true);
+		// Check mob isn't out of bounds.
+		if (x < 0 || x > getMapWidth() - textureSet.getWidth() || y < 0 || y > getMapHeight() - textureSet.getHeight()) {
+			return false;
+		}
+		// Check mob doesn't intersect anything.
+		for (Entity entity : entities) {
+			if (entity instanceof Character
+					&& (mob.intersects(entity.getX(), entity.getY(), entity.getWidth(), entity.getHeight()) || mob.collidesX(0) || mob.collidesY(0))) {
+				return false;
+			}
+		}
 		entities.add(mob);
 		return true;
 	}
@@ -515,7 +540,9 @@ public final class Round {
 			}
 
 			if (entity.isRemoved()) {
-				if (entity instanceof Mob && ((Mob) entity).isDead()) {
+				entities.remove(i);
+				if (entity instanceof Mob) {
+					
 					//decrement mob count
 					mobCount--;
 					//add score to player
@@ -532,11 +559,14 @@ public final class Round {
                     parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) (entity.getX() - entity.getWidth()/2), (float) entity.getY() + entity.getHeight(), textColor);
 					//respawn killed enemies on SurviveObjective
 					if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE) {
-						spawnRandomMobs(1, 100, 100, 300, 300);
+						
+						//spawns 2 mobs for every 1 you kill. Levels get progressivley harder
+						spawnRandomMobs(2, 100, 100, 300, 300);
+						System.out.println(mobCount);
 					}
 				}
 				
-				entities.remove(i);
+				
 			} else if (entity.distanceTo(player.getX(), player.getY()) < UPDATE_DISTANCE){
 				// Don't bother updating entities that aren't on screen.
 				entity.update(delta);
