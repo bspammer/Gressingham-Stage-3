@@ -8,15 +8,15 @@ public class AnimatedText {
 	/**
 	 * Time the text will be on the screen in seconds
 	 */
-	private static final float MAX_SCREEN_TIME = 1f;
+	private static final float LIFETIME = 1f;
 	/**
 	 * Value to control how much the text moves upwards over its lifetime
 	 */
 	private static final float MOVEMENT_AMOUNT = 20;
 	private String text;
 	private float currentX, currentY;
-	private float displayTimer = MAX_SCREEN_TIME;
-	private Color color;
+	private float displayTimer;
+	private Color colour;
 	
 	/**
 	 * Initialises an instance of AnimatedText with given parameters.
@@ -29,7 +29,8 @@ public class AnimatedText {
 		this.text = text;
 		this.currentX = x;
 		this.currentY = y;
-		this.color = colour;
+		this.colour = colour;
+		this.displayTimer = LIFETIME;
 	}
 
 	/**
@@ -40,10 +41,10 @@ public class AnimatedText {
 	 */
 	public boolean draw(SpriteBatch spriteBatch, float delta) {
 		if (displayTimer > 0) {
-			currentY += MOVEMENT_AMOUNT * delta/MAX_SCREEN_TIME;
+			currentY += MOVEMENT_AMOUNT * delta/LIFETIME;
 			
 			Color temp = Assets.font.getColor();
-			Assets.font.setColor(color);
+			Assets.font.setColor(colour);
 			Assets.font.draw(spriteBatch, text, currentX, currentY);
 			Assets.font.setColor(temp);
 			displayTimer -= delta;
