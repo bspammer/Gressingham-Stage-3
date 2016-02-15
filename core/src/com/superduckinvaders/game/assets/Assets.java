@@ -294,26 +294,26 @@ public class Assets {
 		Animation walkingRight = loadAnimation("textures/badguy_boss_walking_right.png", 4, 14, 0.2f);
 
 		
-//		// Load swimming texture map.
-//		Texture swimmingIdle = new Texture("textures/player_swimming_idle.png");
-//
-//		// Cut idle swimming textures from texture map.
-//		TextureRegion swimmingIdleFront = new TextureRegion(swimmingIdle, 0*14, 0, 14, 17);
-//		TextureRegion swimmingIdleBack = new TextureRegion(swimmingIdle, 1*14, 0, 14, 17);
-//		TextureRegion swimmingIdleLeft = new TextureRegion(swimmingIdle, 2*14, 0, 14, 17);
-//		TextureRegion swimmingIdleRight = new TextureRegion(swimmingIdle, 3*14, 0, 14, 17);
-//
-//		//Load swimming animations.
-//		Animation swimmingFront = loadAnimation("textures/player_swimming_front.png", 2, 14, 0.2f);
-//		Animation swimmingBack = loadAnimation("textures/player_swimming_back.png", 2, 14, 0.2f);
-//		Animation swimmingLeft = loadAnimation("textures/player_swimming_left.png", 2, 14, 0.2f);
-//		Animation swimmingRight = loadAnimation("textures/player_swimming_right.png", 2, 14, 0.2f);
+		// Load swimming texture map.
+		Texture swimmingIdle = new Texture("textures/badguy_boss_swimming_idle.png");
+
+		// Cut idle swimming textures from texture map.
+		TextureRegion swimmingIdleFront = new TextureRegion(swimmingIdle, 0*14, 0, 14, 17);
+		TextureRegion swimmingIdleBack = new TextureRegion(swimmingIdle, 1*14, 0, 14, 17);
+		TextureRegion swimmingIdleLeft = new TextureRegion(swimmingIdle, 2*14, 0, 14, 17);
+		TextureRegion swimmingIdleRight = new TextureRegion(swimmingIdle, 3*14, 0, 14, 17);
+
+		//Load swimming animations.
+		Animation swimmingFront = loadAnimation("textures/badguy_boss_swimming_front.png", 2, 14, 0.2f);
+		Animation swimmingBack = loadAnimation("textures/badguy_boss_swimming_back.png", 2, 14, 0.2f);
+		Animation swimmingLeft = loadAnimation("textures/badguy_boss_swimming_left.png", 2, 14, 0.2f);
+		Animation swimmingRight = loadAnimation("textures/badguy_boss_swimming_right.png", 2, 14, 0.2f);
 		
 		
 		bossNormal = new TextureSet(front, back, left, right, walkingFront, walkingBack, walkingLeft, walkingRight);
 		
-//		bossSwimming = new TextureSet(swimmingIdleFront, swimmingIdleBack, swimmingIdleLeft, swimmingIdleRight,
-//				swimmingFront, swimmingBack, swimmingLeft, swimmingRight);
+		bossSwimming = new TextureSet(swimmingIdleFront, swimmingIdleBack, swimmingIdleLeft, swimmingIdleRight,
+				swimmingFront, swimmingBack, swimmingLeft, swimmingRight);
 	}
 	
 	
