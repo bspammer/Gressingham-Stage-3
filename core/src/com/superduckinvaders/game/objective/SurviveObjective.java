@@ -38,6 +38,11 @@ public class SurviveObjective extends Objective {
 		return "Survive for " + Integer.toString(time) + " seconds to win!";
 	}
 
+	@Override
+	public int getTimeRemaining(){
+		return time;
+	}
+	
 	/**
 	 * Updates the status towards this SurviveObjective.
 	 *

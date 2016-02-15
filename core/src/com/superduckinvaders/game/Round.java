@@ -26,6 +26,9 @@ import java.util.List;
  */
 public final class Round {
 	
+	
+	private boolean bossFlag = true;
+	
 	/**
 	 * Boolean indicating whether or not to spawn testing powerups next to player at start of round.
 	 */
@@ -527,6 +530,16 @@ public final class Round {
 				parent.showLoseScreen();
 			}
 		}
+		
+		if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE){
+			if (objective.getTimeRemaining()<50){
+				if (bossFlag){
+				createBoss(player.getX()+10, player.getY()+10, 500, Assets.bossNormal, 200);
+				bossFlag = false;
+				}
+			}
+				
+			}
 		
 
 		for (int i = 0; i < entities.size(); i++) {
