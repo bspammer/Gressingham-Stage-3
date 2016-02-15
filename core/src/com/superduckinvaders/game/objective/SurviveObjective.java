@@ -16,16 +16,23 @@ public class SurviveObjective extends Objective {
 	 * Accumulation variable to count the time passed based on delta time.
 	 */
 	private float accum;
+	
+	/**
+	 * The time at which a boss Mob is spawned.
+	 * Always half of time defined in SurviveObjective constructor.
+	 */
+	private int bossSpawnTime;
 
 	/**
 	 * Initialises this SurviveObjective.
 	 *
 	 * @param Rparent the round this CollectObjective belongs to.
-	 * @param time represents the total time the player must survive to complete the obejective.
+	 * @param time represents the total time the player must survive to complete the objective.
 	 */
 	public SurviveObjective(Round parent, int time) {
 		super(parent);
 		this.time = time;
+		this.bossSpawnTime = time/2;
 	}
 
 	/**
@@ -38,9 +45,12 @@ public class SurviveObjective extends Objective {
 		return "Survive for " + Integer.toString(time) + " seconds to win!";
 	}
 
-	@Override
 	public int getTimeRemaining(){
 		return time;
+	}
+	
+	public int getBossSpawnTime() {
+		return bossSpawnTime;
 	}
 	
 	/**
