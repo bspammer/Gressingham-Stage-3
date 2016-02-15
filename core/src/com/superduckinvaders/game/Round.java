@@ -434,6 +434,33 @@ public final class Round {
 		entities.add(mob);
 		return true;
 	}
+	
+	/**
+	 * Creates a boss mob at the given coordinates
+	 * @param x the initial x coordinate
+	 * @param y the initial y coordinate
+	 * @param health the initial health of the mob
+	 * @param textureSet the texture set to use
+	 * @param speed how fast the mob moves in pixels per second
+	 * @return true if the mob was successfully added, false if there was an intersection and the mob wasn't added
+	 */
+	public boolean createBoss(double x, double y, int health, TextureSet textureSet, int speed) {
+		Mob mob;
+		mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), false,true);
+		// Check mob isn't out of bounds.
+		if (x < 0 || x > getMapWidth() - textureSet.getWidth() || y < 0 || y > getMapHeight() - textureSet.getHeight()) {
+			return false;
+		}
+		// Check mob doesn't intersect anything.
+		for (Entity entity : entities) {
+			if (entity instanceof Character
+					&& (mob.intersects(entity.getX(), entity.getY(), entity.getWidth(), entity.getHeight()) || mob.collidesX(0) || mob.collidesY(0))) {
+				return false;
+			}
+		}
+		entities.add(mob);
+		return true;
+	}
 
 	/**
 	 * Updates all entities in this Round.

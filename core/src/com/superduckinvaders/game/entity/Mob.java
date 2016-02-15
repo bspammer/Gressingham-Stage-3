@@ -65,6 +65,8 @@ public class Mob extends Character {
         this.speed = speed;
         this.ai = ai;
         this.boss = boss;
+        
+        //there are no ranged bosses
         if (this.boss){
         	this.ranged=false;
         }
