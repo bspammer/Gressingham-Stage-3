@@ -42,7 +42,7 @@ public class Mob extends Character {
     /**
      * Double indicating the chance a mob has to fire a projectile.
      */
-    private static double MOB_FIRERATE = 0.005;
+    private static double MOB_FIRERATE = 0.01;
     
     /**
      * Constructor for a Mob character.

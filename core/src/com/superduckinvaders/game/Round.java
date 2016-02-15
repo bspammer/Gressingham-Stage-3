@@ -36,10 +36,7 @@ public final class Round {
 	 */
 	public static boolean isSwimming = false;
 	
-	/**
-	 * Boolean indicating if the player is in mud or not).
-	 */
-	public static boolean isInMud=false;
+	
 
 	/**
 	 * used to display tiles
@@ -306,7 +303,13 @@ public final class Round {
 		int tileX = x / getTileWidth();
 		int tileY = y / getTileHeight();
 
-		return getCollisionLayer().getCell(tileX, tileY) != null || (getObstaclesLayer() != null && getObstaclesLayer().getCell(tileX, tileY) != null);
+		if (player.isFlying()){
+			return getCollisionLayer().getCell(tileX, tileY) != null;
+		}
+		else {
+			return getCollisionLayer().getCell(tileX, tileY) != null|| (getObstaclesLayer() != null && getObstaclesLayer().getCell(tileX, tileY) != null);
+		}
+		 
 	}
 
 	/**
@@ -518,15 +521,6 @@ public final class Round {
 			}
 		}
 		
-//		
-//		TiledMapTileLayer mud = (TiledMapTileLayer) map.getLayers().get("Mud");
-//        
-//		if (mud.getCell(PlayerX,PlayerY) != null){
-//        		isInMud = true;
-//        	}
-//        	else{
-//        		isInMud=false;
-//        	}
 
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);

@@ -190,20 +190,13 @@ public class Player extends Character {
         return flyingTimer <= 0;
     }
     
-    
-    /**
-     * Returns if the player is currently in mud
-     */
-    public boolean isInMud() {
-    	return Round.isInMud;
-    }
 
     /**
      * @return the width of this Player
      */
     @Override
     public int getWidth() {
-        return Assets.playerNormal.getWidth();
+       return Assets.playerNormal.getWidth();
     }
 
     /**
@@ -250,13 +243,7 @@ public class Player extends Character {
     		PLAYER_SPEED=200;
     	}
     	
-//    	if(Round.isInMud){
-//    		PLAYER_SPEED=50;
-//    	}
-//    	else {
-//    		PLAYER_SPEED=200;
-//    	}
-    	
+
     	for (Player.Powerup key : powerupRemainingTimes.keySet()) {
     		if (powerupIsActive(key)) {
     			powerupRemainingTimes.put(key, powerupRemainingTimes.get(key) - delta);
