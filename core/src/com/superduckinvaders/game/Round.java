@@ -54,7 +54,7 @@ public final class Round {
 	private static final double RANGED_MOB_SPAWNRATE = 0.1;
 	
 	/**
-	 * Total number of mobs to spawn at start of round, and number to maintain in SurviveObjective.
+	 * Total number of mobs to spawn at start of round
 	 */
 	private static final int NUMBER_OF_MOBS = 200;
 
@@ -413,9 +413,9 @@ public final class Round {
 		
 		//spawn mobs as ranged mobs with probability of RANGED_MOB_SPAWNRATE
 		if (random < RANGED_MOB_SPAWNRATE) {
-			mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), true);
+			mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), true,false);
 		} else {
-			mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), false);
+			mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), false,false);
 		}
 
 		// Check mob isn't out of bounds.

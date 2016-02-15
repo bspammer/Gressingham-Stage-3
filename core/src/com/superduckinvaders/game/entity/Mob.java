@@ -31,6 +31,10 @@ public class Mob extends Character {
      */
     private boolean ranged;
     
+    /**
+     * Boolean indicating whether or not the mob is a boss.
+     */
+    private boolean boss;
     
  
     
@@ -55,16 +59,24 @@ public class Mob extends Character {
      * @param ai Which AI to spawn the mob with.
      * @param ranged Is the mob ranged or not.
      */
-    public Mob(Round parent, double x, double y, int health, TextureSet textureSet, int speed, AI ai, boolean ranged) {
+    public Mob(Round parent, double x, double y, int health, TextureSet textureSet, int speed, AI ai, boolean ranged,boolean boss) {
         super(parent, x, y, health);
         this.textureSet = textureSet;
         this.speed = speed;
         this.ai = ai;
-        this.ranged = ranged;
+        this.boss = boss;
+        if (this.boss){
+        	this.ranged=false;
+        }
+        else {
+        	this.ranged = ranged;
+        }
+        
+        
     }
 
     public Mob(Round parent, int x, int y, int health, TextureSet textureSet, int speed) {
-        this(parent, x, y, health, textureSet, speed, new DummyAI(parent), false);
+        this(parent, x, y, health, textureSet, speed, new DummyAI(parent), false,false);
     }
     
     /**
@@ -180,10 +192,19 @@ public class Mob extends Character {
      */
     @Override
     public void render(SpriteBatch spriteBatch) {
+    	
+    	if(this.boss){
+    		textureSet = Assets.bossNormal;
+    	}
+    	
     	if (this.getSwimming()) {
-    		//CHANGE ME
+    		if (this.boss){
+    			textureSet = Assets.bossSwimming;
+    		}
+    		else {
         	textureSet = Assets.badGuySwimming;
         } 
+    	}
         else if (this.isRanged()) {
         	textureSet = Assets.badGuyGun;
         } else {
