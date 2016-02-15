@@ -176,6 +176,30 @@ public abstract class Entity {
         }
     }
 
+    
+
+    /**
+	 * Gets whether the map tile at the specified coordinates is blocked or not.
+	 *
+	 * @param x the x coordinate of the map tile
+	 * @param y the y coordinate of the map tile
+	 * @return whether or not the map tile is blocked
+	 */
+	public boolean isTileBlocked(int x, int y) {
+		int tileX = x / parent.getTileWidth();
+		int tileY = y / parent.getTileHeight();
+
+		//allows the player to fly over bushes
+		if (this instanceof Player && parent.getPlayer().isFlying()){
+			return parent.getCollisionLayer().getCell(tileX, tileY) != null;
+		}
+		else {
+			return parent.getCollisionLayer().getCell(tileX, tileY) != null || (parent.getObstaclesLayer() != null && parent.getObstaclesLayer().getCell(tileX, tileY) != null);
+		}
+		 
+	}
+    
+    
     /**
      * Gets whether the specified x delta will cause a collision on the left or right.
      *
@@ -270,10 +294,10 @@ public abstract class Entity {
     private boolean collidesLeft(double deltaX) {
         // If entity is smaller than tile we can just check to see if each corner collides instead of all points along the edge.
         if (getHeight() <= parent.getTileHeight()) {
-            return parent.isTileBlocked((int) Math.floor(x + deltaX), (int) y) || parent.isTileBlocked((int) Math.floor(x + deltaX), (int) y + getHeight());
+            return isTileBlocked((int) Math.floor(x + deltaX), (int) y) || isTileBlocked((int) Math.floor(x + deltaX), (int) y + getHeight());
         } else {
             for (int i = (int) y; i < y + getHeight(); i++) {
-                if (parent.isTileBlocked((int) Math.floor(x + deltaX), i)) {
+                if (isTileBlocked((int) Math.floor(x + deltaX), i)) {
                     return true;
                 }
             }
@@ -291,10 +315,10 @@ public abstract class Entity {
     private boolean collidesRight(double deltaX) {
         // If entity is smaller than tile we can just check to see if each corner collides instead of all points along the edge.
         if (getHeight() <= parent.getTileHeight()) {
-            return parent.isTileBlocked((int) Math.floor(x + getWidth() + deltaX), (int) y) || parent.isTileBlocked((int) Math.floor(x + getWidth() + deltaX), (int) y + getHeight());
+            return isTileBlocked((int) Math.floor(x + getWidth() + deltaX), (int) y) || isTileBlocked((int) Math.floor(x + getWidth() + deltaX), (int) y + getHeight());
         } else {
             for (int i = (int) y; i < y + getHeight(); i++) {
-                if (parent.isTileBlocked((int) Math.ceil(x + getWidth() - 1 + deltaX), i)) {
+                if (isTileBlocked((int) Math.ceil(x + getWidth() - 1 + deltaX), i)) {
                     return true;
                 }
             }
@@ -312,10 +336,10 @@ public abstract class Entity {
     private boolean collidesBottom(double deltaY) {
         // If entity is smaller than tile we can just check to see if each corner collides instead of all points along the edge.
         if (getWidth() <= parent.getTileWidth()) {
-            return parent.isTileBlocked((int) x, (int) Math.floor(y + deltaY)) || parent.isTileBlocked((int) x + getWidth(), (int) Math.floor(y + deltaY));
+            return isTileBlocked((int) x, (int) Math.floor(y + deltaY)) || isTileBlocked((int) x + getWidth(), (int) Math.floor(y + deltaY));
         } else {
             for (int i = (int) x; i < x + getWidth(); i++) {
-                if (parent.isTileBlocked(i, (int) Math.floor(y + deltaY))) {
+                if (isTileBlocked(i, (int) Math.floor(y + deltaY))) {
                     return true;
                 }
             }
@@ -334,10 +358,10 @@ public abstract class Entity {
     private boolean collidesTop(double deltaY) {
         // If entity is smaller than tile we can just check to see if each corner collides instead of all points along the edge.
         if (getWidth() <= parent.getTileWidth()) {
-            return parent.isTileBlocked((int) x, (int) Math.floor(y + getHeight() + deltaY)) || parent.isTileBlocked((int) x + getWidth(), (int) Math.floor(y + getHeight() + deltaY));
+            return isTileBlocked((int) x, (int) Math.floor(y + getHeight() + deltaY)) || isTileBlocked((int) x + getWidth(), (int) Math.floor(y + getHeight() + deltaY));
         } else {
             for (int i = (int) x; i < x + getWidth(); i++) {
-                if (parent.isTileBlocked(i, (int) Math.ceil(y + getHeight() - 1 + deltaY))) {
+                if (isTileBlocked(i, (int) Math.ceil(y + getHeight() - 1 + deltaY))) {
                     return true;
                 }
             }

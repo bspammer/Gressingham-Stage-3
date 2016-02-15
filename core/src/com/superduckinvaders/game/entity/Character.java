@@ -173,6 +173,9 @@ public abstract class Character extends Entity {
     	return isSwimming;
     }
     
+    
+    
+    
     /**
      * Updates the state of this Character.
      *

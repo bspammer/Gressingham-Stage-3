@@ -292,25 +292,7 @@ public final class Round {
 		return (int) getBaseLayer().getTileHeight();
 	}
 
-	/**
-	 * Gets whether the map tile at the specified coordinates is blocked or not.
-	 *
-	 * @param x the x coordinate of the map tile
-	 * @param y the y coordinate of the map tile
-	 * @return whether or not the map tile is blocked
-	 */
-	public boolean isTileBlocked(int x, int y) {
-		int tileX = x / getTileWidth();
-		int tileY = y / getTileHeight();
-
-		if (player.isFlying()){
-			return getCollisionLayer().getCell(tileX, tileY) != null;
-		}
-		else {
-			return getCollisionLayer().getCell(tileX, tileY) != null|| (getObstaclesLayer() != null && getObstaclesLayer().getCell(tileX, tileY) != null);
-		}
-		 
-	}
+	
 
 	/**
 	 * Converts screen coordinates to world coordinates.
