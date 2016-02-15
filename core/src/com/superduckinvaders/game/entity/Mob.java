@@ -204,9 +204,7 @@ public class Mob extends Character {
 
 		if (this.getSwimming()) {
 			if (this.boss){
-				//FIXME
-				//textureSet = Assets.bossSwimming;
-				textureSet = Assets.badGuySwimming;
+				textureSet = Assets.bossSwimming;
 			}
 			else {
 				textureSet = Assets.badGuySwimming;
