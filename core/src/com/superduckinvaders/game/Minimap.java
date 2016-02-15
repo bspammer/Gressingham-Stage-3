@@ -14,11 +14,20 @@ import com.superduckinvaders.game.Round;
 
 public class Minimap {
 	
+	/**
+	 * Width of the minimap border.
+	 */
 	private static final int BORDER_WIDTH = 2;
 	
 	private Round round;
 	private SpriteBatch spriteBatch;
 	
+	/**
+	 * Each enumerable represents an object or obstacle in the game world.
+	 * Each has a specific defining colour.
+	 * @author Matthew
+	 *
+	 */
 	private enum minimapColors {
 		GRASS,
 		WATER,
@@ -31,6 +40,9 @@ public class Minimap {
 		PLAYER
 	}
 	
+	/**
+	 * Maps a named enum to an integer representing a colour.
+	 */
 	private static HashMap<minimapColors, Integer> colorDictionary = new HashMap<minimapColors, Integer>();
 	static {
 		colorDictionary.put(minimapColors.GRASS, 0x7DC847FF);
@@ -44,15 +56,18 @@ public class Minimap {
 		colorDictionary.put(minimapColors.PLAYER, 0xFFFFFFFF);
 	}
 	
-	
-	
-	public Minimap(Round round,SpriteBatch spriteBatch){
-		this.round=round;
-		this.spriteBatch=spriteBatch;
+	/**
+	 * Initialises the minimap with the current round and the round SpriteBatch.
+	 * @param round the current round of the game.
+	 * @param spriteBatch the spritebatch used in the current round of the game.
+	 */
+	public Minimap(Round round, SpriteBatch spriteBatch){
+		this.round = round;
+		this.spriteBatch = spriteBatch;
 	}
 	
 	/**
-	 * draws a minimap in the top right using coloured cells.
+	 * Draws a minimap in the top right using coloured cells.
 	 */
 	public void drawMinimap(int prevWindowWidth,int prevWindowHeight) {
 		Player player = round.getPlayer();

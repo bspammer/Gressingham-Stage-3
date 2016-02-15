@@ -28,7 +28,9 @@ import java.util.List;
  */
 public final class Round {
 	
-	
+	/**
+	 * Boolean representing whether or not a boss has already been spawned.
+	 */
 	private boolean bossFlag = true;
 	
 	/**
@@ -41,10 +43,8 @@ public final class Round {
 	 */
 	public static boolean isSwimming = false;
 	
-	
-
 	/**
-	 * used to display tiles
+	 * Used to draw tiles on the minimap.
 	 */
 	public ShapeRenderer sr;
 
@@ -93,6 +93,9 @@ public final class Round {
 	 */
 	private Objective objective;
 
+	/**
+	 * A counter representing the total number of mobs in the round.
+	 */
 	private int mobCount;
 
 	/**
@@ -294,8 +297,6 @@ public final class Round {
 	public int getTileHeight() {
 		return (int) getBaseLayer().getTileHeight();
 	}
-
-	
 
 	/**
 	 * Converts screen coordinates to world coordinates.
@@ -602,7 +603,7 @@ public final class Round {
 			SurviveObjective surviveObjective = ((SurviveObjective) objective);
 			if (surviveObjective.getTimeRemaining() < surviveObjective.getBossSpawnTime()) {
 				if (bossFlag){
-					System.out.println("ping");
+					System.out.println("trying to spawn boss 100 times at min 100 max 300 distance");
 					if (spawnRandomBoss(100, 100, 100, 300, 300)){
 						bossFlag = false;
 					}
