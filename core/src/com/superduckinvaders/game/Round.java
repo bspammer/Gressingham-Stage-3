@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.superduckinvaders.game.ai.BossAI;
 import com.superduckinvaders.game.ai.ZombieAI;
 import com.superduckinvaders.game.assets.Assets;
 import com.superduckinvaders.game.assets.TextureSet;
@@ -18,6 +19,7 @@ import com.superduckinvaders.game.entity.item.Upgrade;
 import com.superduckinvaders.game.objective.CollectObjective;
 import com.superduckinvaders.game.objective.Objective;
 import com.superduckinvaders.game.objective.SurviveObjective;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -449,7 +451,7 @@ public final class Round {
 	 */
 	public boolean createBoss(double x, double y, int health, TextureSet textureSet, int speed) {
 		Mob mob;
-		mob = new Mob(this, x, y, health, textureSet, speed, new ZombieAI(this, 32), false,true);
+		mob = new Mob(this, x, y, health, textureSet, speed, new BossAI(this, 32), false,true);
 		// Check mob isn't out of bounds.
 		if (x < 0 || x > getMapWidth() - textureSet.getWidth() || y < 0 || y > getMapHeight() - textureSet.getHeight()) {
 			return false;

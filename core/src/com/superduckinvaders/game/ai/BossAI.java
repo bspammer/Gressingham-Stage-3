@@ -1,4 +1,3 @@
-
 package com.superduckinvaders.game.ai;
 
 import com.badlogic.gdx.Gdx;
@@ -11,12 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
-/**
- * AI that follows and attacks the player within a certain range.
- */
-public class ZombieAI extends AI {
 
-	
+public class BossAI extends AI {
+
 	/**
 	 * How many seconds between attacks?
 	 */
@@ -83,7 +79,7 @@ public class ZombieAI extends AI {
 	 * @param round       the round the Mob this AI controls is a part of
 	 * @param attackRange how far away from the player can this ZombieAI attack
 	 */
-	public ZombieAI(Round round, int attackRange) {
+	public BossAI(Round round, int attackRange) {
 		super(round);
 		this.tileWidth = round.getTileWidth();
 		this.tileHeight = round.getTileHeight();
@@ -130,7 +126,7 @@ public class ZombieAI extends AI {
 		// Damage player.
 		if ((int) distanceFromPlayer < attackRange && attackTimer <= 0) {
 		
-				round.getPlayer().damage(1);
+				round.getPlayer().damage(3);
 			
 			
 			attackTimer = ATTACK_DELAY;
