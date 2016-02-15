@@ -18,11 +18,18 @@ public class AnimatedText {
 	private float displayTimer = MAX_SCREEN_TIME;
 	private Color color;
 	
-	public AnimatedText(String text, float x, float y, Color color) {
+	/**
+	 * Initialises an instance of AnimatedText with given parameters.
+	 * @param text The text to display.
+	 * @param x The x position of the text.
+	 * @param y The y position of the text.
+	 * @param colour The colour of the text.
+	 */
+	public AnimatedText(String text, float x, float y, Color colour) {
 		this.text = text;
 		this.currentX = x;
 		this.currentY = y;
-		this.color = color;
+		this.color = colour;
 	}
 
 	/**

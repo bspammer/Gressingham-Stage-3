@@ -55,6 +55,11 @@ public final class Round {
 	 * Double indicating the chance of spawning a ranged mob.
 	 */
 	private static final double RANGED_MOB_SPAWNRATE = 0.1;
+	
+	/**
+	 * Total number of mobs to spawn at start of round, and number to maintain in SurviveObjective.
+	 */
+	private static final int NUMBER_OF_MOBS = 200;
 
 	/**
 	 * The GameTest instance this Round belongs to.
@@ -110,7 +115,7 @@ public final class Round {
 		initObjective();
 
 		this.mobCount = 0;
-		spawnRandomMobs(100, 200, 200, 1000, 1000);
+		spawnRandomMobs(NUMBER_OF_MOBS, 100, 100, 2000, 2000);
 	}
 
 	/**
@@ -207,8 +212,8 @@ public final class Round {
 	 * @param maxY the maximum y distance from the player to spawn the mobs
 	 */
 	private void spawnRandomMobs(int amount, int minX, int minY, int maxX, int maxY) {
-		for (int maxAttempts = 200; maxAttempts >= 0; maxAttempts--) {
-			if (mobCount < 100) {
+		for (int maxAttempts = NUMBER_OF_MOBS * 2; maxAttempts >= 0; maxAttempts--) {
+			if (mobCount < NUMBER_OF_MOBS) {
 				int x = MathUtils.random(minX, maxX) * (MathUtils.randomBoolean() ? -1 : 1);
 				int y = MathUtils.random(minY, maxY) * (MathUtils.randomBoolean() ? -1 : 1);
 				mobCount += createMob(getPlayer().getX() + x, getPlayer().getY() + y, 100, Assets.badGuyNormal, 100) ? 1 : 0;
@@ -537,7 +542,6 @@ public final class Round {
 				if (entity instanceof Mob && ((Mob) entity).isDead()) {
 					//decrement mob count
 					mobCount--;
-					System.out.println(mobCount + "-");
 					//add score to player
 					int scoreToAdd = (int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
 					player.addScore(scoreToAdd);
@@ -548,12 +552,12 @@ public final class Round {
 					} else {
 						textColor = Color.RED;
 					}
+					//score pop up text
                     parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) entity.getX(), (float) entity.getY() + entity.getHeight(), textColor);
 					//respawn killed enemies on SurviveObjective
 					if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE) {
-						spawnRandomMobs(1, 50, 50, 100, 100);
+						spawnRandomMobs(1, 100, 100, 300, 300);
 					}
-					System.out.println(mobCount);
 				}
 				
 				entities.remove(i);
