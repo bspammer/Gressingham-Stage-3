@@ -532,10 +532,16 @@ public final class Round {
 		}
 		
 		if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE){
-			if (objective.getTimeRemaining()<50){
+			if (objective.getTimeRemaining()<95){
 				if (bossFlag){
-				createBoss(player.getX()+10, player.getY()+10, 500, Assets.bossNormal, 200);
-				bossFlag = false;
+				System.out.println("ping");
+				
+				if (createBoss(player.getX()+50, player.getY()+50, 500, Assets.bossNormal, 200)){
+					createBoss(player.getX()+50, player.getY()+50, 500, Assets.bossNormal, 200);
+					bossFlag = false;
+				}
+			
+				
 				}
 			}
 				
@@ -559,14 +565,23 @@ public final class Round {
 					//decrement mob count
 					mobCount--;
 					//add score to player
-					int scoreToAdd = (int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
+					int scoreToAdd = 0;
+					if (((Mob) entity).isBoss()){
+						 scoreToAdd = (int) (100 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
+					}
+					else {
+						 scoreToAdd = (int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
+					}
 					player.addScore(scoreToAdd);
 					//create an animated text to show added score
 					Color textColor;
 					if (scoreToAdd <= 10) {
 						textColor = Color.WHITE;
-					} else {
+					} else if (scoreToAdd <=50){
 						textColor = Color.RED;
+					}
+					else {
+						textColor = Color.BLACK;
 					}
 					//score pop up text
                     parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) (entity.getX() - entity.getWidth()/2), (float) entity.getY() + entity.getHeight(), textColor);

@@ -16,6 +16,8 @@ import java.util.PriorityQueue;
  */
 public class ZombieAI extends AI {
 
+	
+	private boolean boss;
 	/**
 	 * How many seconds between attacks?
 	 */
@@ -84,7 +86,6 @@ public class ZombieAI extends AI {
 	 */
 	public ZombieAI(Round round, int attackRange) {
 		super(round);
-
 		this.tileWidth = round.getTileWidth();
 		this.tileHeight = round.getTileHeight();
 		this.attackRange = attackRange;
@@ -129,7 +130,13 @@ public class ZombieAI extends AI {
 
 		// Damage player.
 		if ((int) distanceFromPlayer < attackRange && attackTimer <= 0) {
-			round.getPlayer().damage(1);
+			if(boss){
+				round.getPlayer().damage(1);
+			}
+			else {
+				round.getPlayer().damage(1);
+			}
+			
 			attackTimer = ATTACK_DELAY;
 		} else if (attackTimer > 0) {
 			attackTimer -= delta;
