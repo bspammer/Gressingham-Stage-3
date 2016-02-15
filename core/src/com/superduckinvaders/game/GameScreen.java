@@ -167,7 +167,24 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// Centre the camera on the player.
-		gameCam.position.set((int) round.getPlayer().getX() + round.getPlayer().getWidth() / 2, (int) round.getPlayer().getY() + round.getPlayer().getHeight() / 2, 0);
+		double cameraX = round.getPlayer().getX() + round.getPlayer().getWidth() / 2;
+		double cameraY = round.getPlayer().getY() + round.getPlayer().getHeight() / 2;
+		float cameraWidth = gameCam.viewportWidth;
+		float cameraHeight = gameCam.viewportHeight;
+		// Clamp camera position to edges of the map
+		if (cameraX - cameraWidth/4 < 0) {
+			cameraX = cameraWidth/4;
+		}
+		if (cameraX + cameraWidth/4 > round.getMapWidth()) {
+			cameraX = round.getMapWidth() - cameraWidth/4;
+		}
+		if (cameraY - cameraHeight/4 < 0) {
+			cameraY = cameraHeight/4;
+		}
+		if (cameraY + cameraHeight/4 > round.getMapHeight()) {
+			cameraY = round.getMapHeight() - cameraHeight/4;
+		}
+		gameCam.position.set((int) cameraX, (int) cameraY, 0);
 		gameCam.update();
 
 		spriteBatch.setProjectionMatrix(gameCam.combined);
