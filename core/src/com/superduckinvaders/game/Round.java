@@ -209,13 +209,14 @@ public final class Round {
 	 * @param maxY the maximum y distance from the player to spawn the mobs
 	 */
 	private void spawnRandomMobs(int amount, int minX, int minY, int maxX, int maxY) {
-		for (int maxAttempts = amount; maxAttempts >= 0; maxAttempts--) {
+		for (int i=0;i<amount; i++) {
 				int x = MathUtils.random(minX, maxX) * (MathUtils.randomBoolean() ? -1 : 1);
 				int y = MathUtils.random(minY, maxY) * (MathUtils.randomBoolean() ? -1 : 1);
-				mobCount += createMob(getPlayer().getX() + x, getPlayer().getY() + y, 100, Assets.badGuyNormal, 100) ? 1 : 0;
-			
+				createMob(getPlayer().getX() + x, getPlayer().getY() + y, 100, Assets.badGuyNormal, 100);
+				mobCount +=  1;
+			} 
 		}
-	}
+	
 
 	/**
 	 * Gets the current map
@@ -531,7 +532,9 @@ public final class Round {
                     parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) entity.getX(), (float) entity.getY() + entity.getHeight(), textColor);
 					//respawn killed enemies on SurviveObjective
 					if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE) {
-						spawnRandomMobs(1, 100, 100, 300, 300);
+						
+						//spawns 2 mobs for every 1 you kill. Levels get progressivley harder
+						spawnRandomMobs(2, 100, 100, 300, 300);
 						System.out.println(mobCount);
 					}
 				}
