@@ -55,7 +55,7 @@ public class LoseScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
             	DuckGame.playSoundEffect(Assets.buttonPress, 1);
-                parent.showStartScreen();
+                parent.showLevelSelectScreen();
             }
         });
 
@@ -65,7 +65,7 @@ public class LoseScreen implements Screen {
         Label titleLabel = new Label("You lose!", red);
         titleLabel.setPosition((stage.getWidth() - titleLabel.getPrefWidth()) / 2, 500);
 
-        Label backLabel = new Label("Back to start screen", white);
+        Label backLabel = new Label("Back to level select", white);
         backLabel.setPosition((stage.getWidth() - backLabel.getPrefWidth()) / 2, 235);
         backLabel.setTouchable(Touchable.disabled);
 

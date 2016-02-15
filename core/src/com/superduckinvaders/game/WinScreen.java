@@ -80,7 +80,7 @@ public class WinScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
             	DuckGame.playSoundEffect(Assets.buttonPress, 1);
-                parent.showStartScreen();
+                parent.showLevelSelectScreen();
             }
         });
 
@@ -93,7 +93,7 @@ public class WinScreen implements Screen {
         Label scoreLabel = new Label("Final score: " + score, green);
         scoreLabel.setPosition((stage.getWidth() - scoreLabel.getPrefWidth()) / 2, 460);
 
-        Label backLabel = new Label("Back to start screen", white);
+        Label backLabel = new Label("Back to level select", white);
         backLabel.setPosition((stage.getWidth() - backLabel.getPrefWidth()) / 2, 235);
         backLabel.setTouchable(Touchable.disabled);
 
