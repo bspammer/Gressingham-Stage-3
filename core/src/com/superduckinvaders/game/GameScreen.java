@@ -23,18 +23,15 @@ import com.superduckinvaders.game.entity.Player;
 import com.superduckinvaders.game.entity.item.Powerup;
 import com.superduckinvaders.game.objective.AnimatedText;
 
-
-
 /**
  * Screen for interaction with the game.
  */
 public class GameScreen implements Screen {
 
-
 	/**
 	 * Draw map gridlines for debug purposes.
 	 */
-	private boolean gridlines=false;
+	private boolean gridlines = false;
 
 	/**
 	 * The game camera.
@@ -127,7 +124,7 @@ public class GameScreen implements Screen {
 		spriteBatch = new SpriteBatch();
 		
 		mapRenderer = new OrthogonalTiledMapRenderer(round.getMap(), spriteBatch);
-		this.miniMap = new Minimap(round,spriteBatch);
+		this.miniMap = new Minimap(round, spriteBatch);
 	}
 	
 	/**
@@ -153,7 +150,7 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Main game loop.
+	 * Main game drawing loop.
 	 *
 	 * @param delta how much time has passed since the last update
 	 */
@@ -166,27 +163,9 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		// Centre the camera on the player.
-		double cameraX = round.getPlayer().getX() + round.getPlayer().getWidth() / 2;
-		double cameraY = round.getPlayer().getY() + round.getPlayer().getHeight() / 2;
-		float cameraWidth = gameCam.viewportWidth;
-		float cameraHeight = gameCam.viewportHeight;
-		// Clamp camera position to edges of the map
-		if (cameraX - cameraWidth/4 < 0) {
-			cameraX = cameraWidth/4;
-		}
-		if (cameraX + cameraWidth/4 > round.getMapWidth()) {
-			cameraX = round.getMapWidth() - cameraWidth/4;
-		}
-		if (cameraY - cameraHeight/4 < 0) {
-			cameraY = cameraHeight/4;
-		}
-		if (cameraY + cameraHeight/4 > round.getMapHeight()) {
-			cameraY = round.getMapHeight() - cameraHeight/4;
-		}
-		gameCam.position.set((int) cameraX, (int) cameraY, 0);
-		gameCam.update();
+		handlePlayerCamera();
 
+		//set batch to draw what gameCam sees.
 		spriteBatch.setProjectionMatrix(gameCam.combined);
 		spriteBatch.begin();
 		
@@ -234,22 +213,54 @@ public class GameScreen implements Screen {
 		//draw custom powerup icon timers
 		drawPlayerPowerupTimers();
 
-		if (gridlines){
-			TiledMap map = round.getMap();
-			ShapeRenderer sr = new ShapeRenderer();
-			int tileWidth = map.getProperties().get("tilewidth", Integer.class), tileHeight = map.getProperties().get("tileheight", Integer.class);
-			int mapWidth = map.getProperties().get("width", Integer.class) * tileWidth, mapHeight = map.getProperties().get("height", Integer.class) * tileHeight;
-			sr.setProjectionMatrix(gameCam.combined);
-			sr.begin(ShapeType.Line);
-			for(int y = 0; y < mapWidth; y += tileWidth)
-				sr.line(y, 0, y, mapHeight);
-			for(int y = 0; y < mapHeight; y += tileHeight)
-				sr.line(0, y, mapWidth, y);
-			sr.end();
+		//debugging purposes
+		if (gridlines) {
+			drawGridlines();
 		}
 	}
 
+	/**
+	 * Handles camera following the player and clamps the camera to the edges of the game maps.
+	 */
+	private void handlePlayerCamera() {
+		// Centre the camera on the player.
+		double cameraX = round.getPlayer().getX() + round.getPlayer().getWidth() / 2;
+		double cameraY = round.getPlayer().getY() + round.getPlayer().getHeight() / 2;
+		float cameraWidth = gameCam.viewportWidth;
+		float cameraHeight = gameCam.viewportHeight;
+		// Clamp camera position to edges of the map
+		if (cameraX - cameraWidth/4 < 0) {
+			cameraX = cameraWidth/4;
+		}
+		if (cameraX + cameraWidth/4 > round.getMapWidth()) {
+			cameraX = round.getMapWidth() - cameraWidth/4;
+		}
+		if (cameraY - cameraHeight/4 < 0) {
+			cameraY = cameraHeight/4;
+		}
+		if (cameraY + cameraHeight/4 > round.getMapHeight()) {
+			cameraY = round.getMapHeight() - cameraHeight/4;
+		}
+		gameCam.position.set((int) cameraX, (int) cameraY, 0);
+		gameCam.update();
+	}
 
+	/**
+	 * Draws the Tiled gridlines for debugging purposes.
+	 */
+	private void drawGridlines() {
+		TiledMap map = round.getMap();
+		ShapeRenderer sr = new ShapeRenderer();
+		int tileWidth = map.getProperties().get("tilewidth", Integer.class), tileHeight = map.getProperties().get("tileheight", Integer.class);
+		int mapWidth = map.getProperties().get("width", Integer.class) * tileWidth, mapHeight = map.getProperties().get("height", Integer.class) * tileHeight;
+		sr.setProjectionMatrix(gameCam.combined);
+		sr.begin(ShapeType.Line);
+		for(int y = 0; y < mapWidth; y += tileWidth)
+			sr.line(y, 0, y, mapHeight);
+		for(int y = 0; y < mapHeight; y += tileHeight)
+			sr.line(0, y, mapWidth, y);
+		sr.end();
+	}
 	
 
 	/**

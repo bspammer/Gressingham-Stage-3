@@ -28,7 +28,9 @@ import java.util.List;
  */
 public final class Round {
 	
-	
+	/**
+	 * Boolean representing whether or not a boss has already been spawned.
+	 */
 	private boolean bossFlag = true;
 	
 	/**
@@ -41,10 +43,8 @@ public final class Round {
 	 */
 	public static boolean isSwimming = false;
 	
-	
-
 	/**
-	 * used to display tiles
+	 * Used to draw tiles on the minimap.
 	 */
 	public ShapeRenderer sr;
 
@@ -93,6 +93,9 @@ public final class Round {
 	 */
 	private Objective objective;
 
+	/**
+	 * A counter representing the total number of mobs in the round.
+	 */
 	private int mobCount;
 
 	/**
@@ -295,8 +298,6 @@ public final class Round {
 		return (int) getBaseLayer().getTileHeight();
 	}
 
-	
-
 	/**
 	 * Converts screen coordinates to world coordinates.
 	 *
@@ -449,7 +450,7 @@ public final class Round {
 	 * @param speed how fast the mob moves in pixels per second
 	 * @return true if the mob was successfully added, false if there was an intersection and the mob wasn't added
 	 */
-	public boolean createBoss(double x, double y, int health, TextureSet textureSet, int speed) {
+	private boolean createBoss(double x, double y, int health, TextureSet textureSet, int speed) {
 		Mob mob;
 		mob = new Mob(this, x, y, health, textureSet, speed, new BossAI(this, 32), false,true);
 		// Check mob isn't out of bounds.
@@ -466,23 +467,87 @@ public final class Round {
 		entities.add(mob);
 		return true;
 	}
-
+	
 	/**
-	 * Updates all entities in this Round.
-	 *
-	 * @param delta the time elapsed since the last update
+	 * Spawns a boss mob at a randomly chosen (within a range) distance from the player.
+	 * @param attempts how many times to attempt spawning the boss randomly.
+	 * @param minX the minimum x distance from the player to spawn the mob.
+	 * @param minY the minimum y distance from the player to spawn the mob.
+	 * @param maxX the maximum x distance from the player to spawn the mob.
+	 * @param maxY the maximum y distance from the player to spawn the mob.
+	 * @return true if the boss was successfully spawned in the given number of attempts.
 	 */
-	public void update(float delta) {
-		
+	private boolean spawnRandomBoss(int attempts, int minX, int minY, int maxX, int maxY) {
+		for (int i=0; i<attempts; i++) {
+				int x = MathUtils.random(minX, maxX) * (MathUtils.randomBoolean() ? -1 : 1);
+				int y = MathUtils.random(minY, maxY) * (MathUtils.randomBoolean() ? -1 : 1);
+				if (createBoss(getPlayer().getX() + x, getPlayer().getY() + y, 500, Assets.bossNormal, 200)) {
+					return true;
+				}
+			}
+			return false;
+	}
+	
+	private void updateEntities(float delta) {
+		for (int i = 0; i < entities.size(); i++) {
+			Entity entity = entities.get(i);
+
+			// for each entity update target position x and y with player x and y.
+			if (entity instanceof Mob) {
+				if ((boolean) ((Mob) entity).isRanged()) {
+					((Mob) entity).updateTargetPosition(player.getX(), player.getY());
+				}
+			}
+
+			if (entity.isRemoved()) {
+				entities.remove(i);
+				if (entity instanceof Mob) {
+					mobCount--;
+
+					int scoreToAdd = 0;
+					if (((Mob) entity).isBoss()){
+						scoreToAdd = (int) (100 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
+					} else {
+						scoreToAdd = (int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
+					}
+					player.addScore(scoreToAdd);
+					
+					//create an animated text to show added score
+					Color textColor;
+					if (scoreToAdd <= 10) {
+						textColor = Color.WHITE;
+					} else if (scoreToAdd <=50){
+						textColor = Color.RED;
+					}
+					else {
+						textColor = Color.BLACK;
+					}
+					
+					parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) (entity.getX() - entity.getWidth()/2), (float) entity.getY() + entity.getHeight(), textColor);
+					//respawn killed enemies on SurviveObjective
+					if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE) {
+						//spawns 2 mobs for every 1 you kill. Levels get progressivley harder
+						spawnRandomMobs(2, 100, 100, 300, 300);
+						System.out.println(mobCount);
+					}
+				}
+			} else if (entity.distanceTo(player.getX(), player.getY()) < UPDATE_DISTANCE){
+				// Don't bother updating entities that aren't on screen.
+				entity.update(delta);
+			}
+		}
+	}
+	
+	private void updateObjective(float delta) {
 		// TODO Fix bug where replaying previously completed level wipes game progress.
 		if (objective != null) {
 			objective.update(delta);
 
 			if (objective.getStatus() == Objective.OBJECTIVE_COMPLETED) {
-				
+
 				Assets.music.stop();
 				DuckGame.playSoundEffect(Assets.levelComplete, 1);
-				
+
 				//if game not already completed
 				if(!DuckGame.levelsComplete.equals("11111111")) {
 					if(map.equals(Assets.levelOneMap)){
@@ -509,98 +574,53 @@ public final class Round {
 					else if(map.equals(Assets.levelEightMap)){
 						DuckGame.levelsComplete="11111111";
 					}
-					
+
 					parent.addScoreToTotal(player.getScore());
-					
+
 					if(DuckGame.levelsComplete.equals("11111111")) {
 						parent.showCompleteScreen();
 					} else {
 						parent.showWinScreen(player.getScore());
 					}
-					
-				//game already completed so don't record score and just display game complete screen
+
+					//game already completed so don't record score and just display game complete screen
 				} else {
 					parent.showCompleteScreen();
 				}
-				
+
 				//always save the settings
 				DuckGame.saveSettings();
-				
+
 			} else if (player.isDead()) {
 				Assets.music.stop();
 				DuckGame.playSoundEffect(Assets.gameOver, 1);
 				parent.showLoseScreen();
 			}
 		}
-		
+
+		//spawn boss at specified time
 		if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE){
-			if (objective.getTimeRemaining()<95){
+			SurviveObjective surviveObjective = ((SurviveObjective) objective);
+			if (surviveObjective.getTimeRemaining() < surviveObjective.getBossSpawnTime()) {
 				if (bossFlag){
-				System.out.println("ping");
-				
-				if (createBoss(player.getX()+50, player.getY()+50, 500, Assets.bossNormal, 200)){
-					createBoss(player.getX()+50, player.getY()+50, 500, Assets.bossNormal, 200);
-					bossFlag = false;
-				}
-			
-				
-				}
-			}
-				
-			}
-		
-
-		for (int i = 0; i < entities.size(); i++) {
-			Entity entity = entities.get(i);
-			
-			// for each entity update target position x and y with player x and y.
-			if (entity instanceof Mob) {
-				if ((boolean) ((Mob) entity).isRanged()) {
-					((Mob) entity).updateTargetPosition(player.getX(), player.getY());
-				}
-			}
-
-			if (entity.isRemoved()) {
-				entities.remove(i);
-				if (entity instanceof Mob) {
-					
-					//decrement mob count
-					mobCount--;
-					//add score to player
-					int scoreToAdd = 0;
-					if (((Mob) entity).isBoss()){
-						 scoreToAdd = (int) (100 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
-					}
-					else {
-						 scoreToAdd = (int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
-					}
-					player.addScore(scoreToAdd);
-					//create an animated text to show added score
-					Color textColor;
-					if (scoreToAdd <= 10) {
-						textColor = Color.WHITE;
-					} else if (scoreToAdd <=50){
-						textColor = Color.RED;
-					}
-					else {
-						textColor = Color.BLACK;
-					}
-					//score pop up text
-                    parent.getGameScreen().addAnimatedText("+" + Integer.toString(scoreToAdd), (float) (entity.getX() - entity.getWidth()/2), (float) entity.getY() + entity.getHeight(), textColor);
-					//respawn killed enemies on SurviveObjective
-					if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE) {
-						
-						//spawns 2 mobs for every 1 you kill. Levels get progressivley harder
-						spawnRandomMobs(2, 100, 100, 300, 300);
-						System.out.println(mobCount);
+					System.out.println("trying to spawn boss 100 times at min 100 max 300 distance");
+					if (spawnRandomBoss(100, 100, 100, 300, 300)){
+						bossFlag = false;
 					}
 				}
-				
-				
-			} else if (entity.distanceTo(player.getX(), player.getY()) < UPDATE_DISTANCE){
-				// Don't bother updating entities that aren't on screen.
-				entity.update(delta);
 			}
 		}
+	}
+
+	/**
+	 * Handles updating of all round specific objects.
+	 *
+	 * @param delta the time elapsed since the last update
+	 */
+	public void update(float delta) {
+		
+		updateObjective(delta);
+		
+		updateEntities(delta);
 	}
 }

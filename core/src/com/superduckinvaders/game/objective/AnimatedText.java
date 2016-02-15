@@ -9,6 +9,7 @@ public class AnimatedText {
 	 * Time the text will be on the screen in seconds
 	 */
 	private static final float LIFETIME = 1f;
+	
 	/**
 	 * Value to control how much the text moves upwards over its lifetime
 	 */

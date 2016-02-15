@@ -73,10 +73,5 @@ public abstract class Objective {
      * @param delta how much time has passed since the last update
      */
     public abstract void update(float delta);
-
-	public int getTimeRemaining() {
-		// TODO Auto-generated method stub
-		return 9000;
-	}
     
 }
