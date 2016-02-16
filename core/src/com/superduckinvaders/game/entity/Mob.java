@@ -62,8 +62,9 @@ public class Mob extends Character {
 	 * @param speed The speed of the mob.
 	 * @param ai Which AI to spawn the mob with.
 	 * @param ranged Is the mob ranged or not.
+	 * @param boss Is the mob a boss or not.
 	 */
-	public Mob(Round parent, double x, double y, int health, TextureSet textureSet, int speed, AI ai, boolean ranged,boolean boss) {
+	public Mob(Round parent, double x, double y, int health, TextureSet textureSet, int speed, AI ai, boolean ranged, boolean boss) {
 		super(parent, x, y, health);
 		this.textureSet = textureSet;
 		this.walkSpeed = speed;
@@ -83,7 +84,7 @@ public class Mob extends Character {
 	}
 
 	public Mob(Round parent, int x, int y, int health, TextureSet textureSet, int speed) {
-		this(parent, x, y, health, textureSet, speed, new DummyAI(parent), false,false);
+		this(parent, x, y, health, textureSet, speed, new DummyAI(parent), false, false);
 	}
 
 	/**
@@ -233,6 +234,10 @@ public class Mob extends Character {
 		return ranged;
 	}
 	
+	/**
+	 * Determine if the mob is a boss or not.
+	 * @return boolean indicating if mob is a boss or not.
+	 */
 	public boolean isBoss() {
 		return boss;
 	}
