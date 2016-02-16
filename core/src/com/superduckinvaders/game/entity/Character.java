@@ -9,9 +9,6 @@ import com.superduckinvaders.game.assets.TextureSet;
  */
 public abstract class Character extends Entity {
 
-	
-	
-	
 	/**
 	 * whether or not the character is swimming
 	 */

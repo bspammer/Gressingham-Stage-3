@@ -2,7 +2,6 @@ package com.superduckinvaders.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
@@ -42,11 +41,6 @@ public final class Round {
 	 * Boolean indicating if the player is swimming or not (in water).
 	 */
 	public static boolean isSwimming = false;
-	
-	/**
-	 * Used to draw tiles on the minimap.
-	 */
-	public ShapeRenderer sr;
 
 	/**
 	 * How near entities must be to the player to get updated in the game loop.
@@ -111,14 +105,16 @@ public final class Round {
 		// Choose which obstacles to use.
 		obstaclesLayer = chooseObstacles();
 
-		//create array of entities firstly so we can add the game entities to it after the fact.
+		// Create array of entities firstly so we can add the game entities to it after the fact.
 		entities = new ArrayList<Entity>(128);
 		
-		// Spawn player at map defined spawn point (default 0, 0)
+		// Spawn player at map defined spawn point (default 0, 0).
 		spawnPlayer(testPowerups);
 
+		// Set up the Round objective.
 		initObjective();
-
+		
+		// Initialise the mobCount and then spawn the specified number of mobs in the Round.
 		this.mobCount = 0;
 		spawnRandomMobs(NUMBER_OF_MOBS, 100, 100, 2000, 2000);
 	}
@@ -163,14 +159,14 @@ public final class Round {
 	 * Initialises the map's objective depending on it's specified ObjectiveType property.
 	 */
 	private void initObjective() {
-		//read map.tmx property value to determine which objective to create
+		// read map.tmx property value to determine which objective to create
 		int objectiveType = getObjectiveType();
 
-		//create appropriate objective as defined by map.tmx file in ObjectiveType property
+		// create appropriate objective as defined by map.tmx file in ObjectiveType property
 		switch(objectiveType) {
 		case(Objective.COLLECT_OBJECTIVE):
 			// set collect objective
-			// Determine where to spawn the objective.
+			// determine where to spawn the objective from map properties.
 			int objectiveX = Integer.parseInt(map.getProperties().get("ObjectiveX", "10", String.class)) * getTileWidth();
 			int objectiveY = Integer.parseInt(map.getProperties().get("ObjectiveY", "10", String.class)) * getTileHeight();
 
@@ -195,12 +191,12 @@ public final class Round {
 	private TiledMapTileLayer chooseObstacles() {
 		int count = 0;
 
-		// First count how many obstacle layers we have.
+		// first count how many obstacle layers we have.
 		while (map.getLayers().get(String.format("Obstacles%d", count)) != null) {
 			count++;
 		}
 
-		// Choose a random layer or return null if there are no layers.
+		// choose a random layer or return null if there are no layers.
 		if (count == 0) {
 			return null;
 		} else {
@@ -225,7 +221,6 @@ public final class Round {
 			} 
 		}
 	
-
 	/**
 	 * Gets the current map
 	 * @return this Round's map
@@ -478,7 +473,7 @@ public final class Round {
 	 * @return true if the boss was successfully spawned in the given number of attempts.
 	 */
 	private boolean spawnRandomBoss(int attempts, int minX, int minY, int maxX, int maxY) {
-		for (int i=0; i<attempts; i++) {
+		for (int i=0; i < attempts; i++) {
 				int x = MathUtils.random(minX, maxX) * (MathUtils.randomBoolean() ? -1 : 1);
 				int y = MathUtils.random(minY, maxY) * (MathUtils.randomBoolean() ? -1 : 1);
 				if (createBoss(getPlayer().getX() + x, getPlayer().getY() + y, 500, Assets.bossNormal, 200)) {
@@ -505,7 +500,7 @@ public final class Round {
 					mobCount--;
 
 					int scoreToAdd = 0;
-					if (((Mob) entity).isBoss()){
+					if (((Mob) entity).isBoss()) {
 						scoreToAdd = (int) (100 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
 					} else {
 						scoreToAdd = (int) (10 * (player.powerupIsActive(Player.Powerup.SCORE_MULTIPLIER) ? Player.PLAYER_SCORE_MULTIPLIER : 1));
@@ -518,8 +513,7 @@ public final class Round {
 						textColor = Color.WHITE;
 					} else if (scoreToAdd <=50){
 						textColor = Color.RED;
-					}
-					else {
+					} else {
 						textColor = Color.BLACK;
 					}
 					
@@ -552,26 +546,19 @@ public final class Round {
 				if(!DuckGame.levelsComplete.equals("11111111")) {
 					if(map.equals(Assets.levelOneMap)){
 						DuckGame.levelsComplete="1000000";
-					}
-					else if(map.equals(Assets.levelTwoMap)){
+					} else if(map.equals(Assets.levelTwoMap)) {
 						DuckGame.levelsComplete="11000000";
-					}
-					else if(map.equals(Assets.levelThreeMap)){
+					} else if(map.equals(Assets.levelThreeMap)) {
 						DuckGame.levelsComplete="11100000";
-					}
-					else if(map.equals(Assets.levelFourMap)){
+					} else if(map.equals(Assets.levelFourMap)) {
 						DuckGame.levelsComplete="11110000";
-					}
-					else if(map.equals(Assets.levelFiveMap)){
+					} else if(map.equals(Assets.levelFiveMap)) {
 						DuckGame.levelsComplete="11111000";
-					}
-					else if(map.equals(Assets.levelSixMap)){
+					} else if(map.equals(Assets.levelSixMap)) {
 						DuckGame.levelsComplete="11111100";
-					}
-					else if(map.equals(Assets.levelSevenMap)){
+					} else if(map.equals(Assets.levelSevenMap)) {
 						DuckGame.levelsComplete="11111110";
-					}
-					else if(map.equals(Assets.levelEightMap)){
+					} else if(map.equals(Assets.levelEightMap)) {
 						DuckGame.levelsComplete="11111111";
 					}
 
@@ -599,7 +586,7 @@ public final class Round {
 		}
 
 		//spawn boss at specified time
-		if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE){
+		if (getObjectiveType() == Objective.SURVIVE_OBJECTIVE) {
 			SurviveObjective surviveObjective = ((SurviveObjective) objective);
 			if (surviveObjective.getTimeRemaining() < surviveObjective.getBossSpawnTime()) {
 				if (bossFlag){

@@ -46,4 +46,8 @@ public class CollectObjective extends Objective {
 			status = OBJECTIVE_COMPLETED;
 		}
 	}
+	
+	public void testingSetStatus(int newStatus) {
+		status = newStatus;
+	}
 }
