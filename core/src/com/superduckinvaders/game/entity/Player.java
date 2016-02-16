@@ -238,13 +238,13 @@ public class Player extends Character {
      */
     @Override
     public void update(float delta) {
-        // Decrement powerup timer for each powerup.
     	if(this.getSwimming()){
     		PLAYER_SPEED=100;
     	} else {
     		PLAYER_SPEED=200;
     	}
 
+//    	 Decrement powerup timer for each powerup.
     	for (Player.Powerup key : powerupRemainingTimes.keySet()) {
     		if (powerupIsActive(key)) {
     			powerupRemainingTimes.put(key, powerupRemainingTimes.get(key) - delta);

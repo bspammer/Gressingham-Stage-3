@@ -27,7 +27,7 @@ public abstract class Entity {
     /**
      * Whether or not to remove this Entity on the next frame.
      */
-    protected boolean removed = false;
+    public boolean removed = false;
 
     /**
      * Initialises this Entity with zero initial coordinates.

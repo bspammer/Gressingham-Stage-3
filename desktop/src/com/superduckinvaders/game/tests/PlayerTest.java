@@ -11,6 +11,9 @@ import org.junit.Test;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.superduckinvaders.game.DuckGame;
+import com.superduckinvaders.game.ai.DummyAI;
+import com.superduckinvaders.game.assets.Assets;
+import com.superduckinvaders.game.entity.Mob;
 import com.superduckinvaders.game.entity.Player;
 import com.superduckinvaders.game.entity.Player.Powerup;
 import com.superduckinvaders.game.Round;
@@ -124,16 +127,13 @@ public class PlayerTest {
 		}
 		
 		testPlayer.setPowerup(Player.Powerup.REGENERATION, 100);
-		testPlayer.update(50);
-		testPlayer.update(50);
-		testPlayer.update(50);
+		testPlayer.update(10);
+		testRound.update(10);
 		
 		int endHealth = testPlayer.getCurrentHealth();
-		System.out.println(endHealth);
 		
-		//Player should definitely be at max health after 100 seconds of regen
-		assertEquals(endHealth, Player.PLAYER_HEALTH);
-		
+		//Player should definitely be at max health after 10 seconds of regen
+		assertEquals(endHealth, Player.PLAYER_HEALTH);	
 	}
 	
 	@Test
@@ -145,6 +145,24 @@ public class PlayerTest {
 		expectedPowerups.put(Player.Powerup.SCORE_MULTIPLIER, 1.0);
 		
 		assertEquals(actualPowerups, expectedPowerups);
+	}
+	
+	@Test
+	public void scoreForKillingEnemyShouldBeMultiplied() {
+		testPlayer.setPowerup(Player.Powerup.SCORE_MULTIPLIER, 5);
+		testRound.createMob((int) testPlayer.getX() + 48, (int) testPlayer.getY() - 48, 10, Assets.badGuyNormal, 0);
+		int i;
+		for (i=0; i<testRound.getEntities().size(); i++) {
+			if (testRound.getEntities().get(i) instanceof Mob) break;
+		}
+		Mob testEnemy = (Mob) testRound.getEntities().get(i);
+		
+		int scoreBefore = testPlayer.getScore();
+		testEnemy.removed = true;
+		testRound.update(1);
+		int scoreAfter = testPlayer.getScore();
+		
+		assertEquals((int) (scoreAfter-scoreBefore), (int) (10*Player.PLAYER_SCORE_MULTIPLIER));
 	}
 	
 	@Test
@@ -160,6 +178,7 @@ public class PlayerTest {
 	
 	@Test
 	public void scoreTest() {
+		testPlayer.addScore(-testPlayer.getScore());
 		assertEquals(0, testPlayer.getScore());
 		testPlayer.addScore(10);
 		assertEquals(10, testPlayer.getScore());
