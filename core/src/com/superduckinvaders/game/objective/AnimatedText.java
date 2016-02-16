@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.superduckinvaders.game.assets.Assets;
 
+/**
+ * Represents the floating text which displays upon killing an enemy or gaining some score.
+ */
 public class AnimatedText {
 	/**
 	 * Time the text will be on the screen in seconds
@@ -14,9 +17,25 @@ public class AnimatedText {
 	 * Value to control how much the text moves upwards over its lifetime
 	 */
 	private static final float MOVEMENT_AMOUNT = 20;
+	
+	/**
+	 * The text to animate and display.
+	 */
 	private String text;
+	
+	/**
+	 * The current positions x and y of the animated text.
+	 */
 	private float currentX, currentY;
+	
+	/**
+	 * The timer which controls how long the text should animate and be displayed for.
+	 */
 	private float displayTimer;
+	
+	/**
+	 * The colour of the animated text.
+	 */
 	private Color colour;
 	
 	/**
