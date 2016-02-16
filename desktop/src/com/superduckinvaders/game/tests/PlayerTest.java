@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -55,15 +56,26 @@ public class PlayerTest {
 		this.expectedPowerups = testPlayer.getPowerups();
     }
     
+    @Before
+    public void clearPowerups() {
+    	for (Powerup powerup : Player.Powerup.values()) {
+    		testPlayer.setPowerup(powerup, 0);
+    	}
+    }
+    
     @Test
     public void upgradeTest() {
+    	testPlayer.update(1);
+    	
 		assertEquals(Player.Upgrade.NONE, testPlayer.getUpgrade());
 		testPlayer.setUpgrade(Player.Upgrade.GUN);
 		assertEquals(Player.Upgrade.GUN, testPlayer.getUpgrade());
     }
 
 	@Test
-	public void invulnTest() {
+	public void setInvulnPowerupTest() {
+		testPlayer.update(1);
+		
 		testPlayer.setPowerup(Player.Powerup.INVULNERABLE, 1);
 		actualPowerups = testPlayer.getPowerups();
 		expectedPowerups.put(Player.Powerup.INVULNERABLE, 1.0);
@@ -72,9 +84,20 @@ public class PlayerTest {
 	}
 	
 	@Test
-	public void firerateTest() {
+	public void invulnPowerupShouldPreventDamage() {
 		testPlayer.update(1);
+		int startHealth = testPlayer.getCurrentHealth();
 		
+		testPlayer.setPowerup(Player.Powerup.INVULNERABLE, 5);
+		testPlayer.damage(5);
+		
+		int endHealth = testPlayer.getCurrentHealth();
+		
+		assertEquals(startHealth, endHealth);
+	}
+	
+	@Test
+	public void setFireratePowerupTest() {
 		testPlayer.setPowerup(Player.Powerup.RATE_OF_FIRE, 1);
 		actualPowerups = testPlayer.getPowerups();
 		expectedPowerups.put(Player.Powerup.RATE_OF_FIRE, 1.0);
@@ -83,7 +106,7 @@ public class PlayerTest {
 	}
 	
 	@Test
-	public void regenTest() {
+	public void setRegenPowerupTest() {
 		testPlayer.update(1);
 		
 		testPlayer.setPowerup(Player.Powerup.REGENERATION, 1);
@@ -94,7 +117,27 @@ public class PlayerTest {
 	}
 	
 	@Test
-	public void multiplierTest() {
+	public void regenPowerupShouldRegenerateHealth() {
+		int startHealth = testPlayer.getCurrentHealth();
+		if (startHealth == Player.PLAYER_HEALTH) {
+			testPlayer.damage(1);
+		}
+		
+		testPlayer.setPowerup(Player.Powerup.REGENERATION, 100);
+		testPlayer.update(50);
+		testPlayer.update(50);
+		testPlayer.update(50);
+		
+		int endHealth = testPlayer.getCurrentHealth();
+		System.out.println(endHealth);
+		
+		//Player should definitely be at max health after 100 seconds of regen
+		assertEquals(endHealth, Player.PLAYER_HEALTH);
+		
+	}
+	
+	@Test
+	public void setMultiplierPowerupTest() {
 		testPlayer.update(1);
 		
 		testPlayer.setPowerup(Player.Powerup.SCORE_MULTIPLIER, 1);
@@ -105,7 +148,7 @@ public class PlayerTest {
 	}
 	
 	@Test
-	public void speedTest() {
+	public void setSpeedPowerupTest() {
 		testPlayer.update(1);
 		
 		testPlayer.setPowerup(Player.Powerup.SUPER_SPEED, 1);

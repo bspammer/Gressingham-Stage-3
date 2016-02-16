@@ -399,7 +399,7 @@ public class GameScreen implements Screen {
 	 */
 	@Override
 	public void dispose() {
-		Assets.music.stop();
+		DuckGame.stopMusic();
 		mapRenderer.dispose();
 		spriteBatch.dispose();
 	}
