@@ -8,7 +8,9 @@ import com.superduckinvaders.game.ai.AI;
 import com.superduckinvaders.game.ai.DummyAI;
 import com.superduckinvaders.game.assets.Assets;
 import com.superduckinvaders.game.assets.TextureSet;
-
+/**
+ * Represents an enemy in the game
+ */
 public class Mob extends Character {
 
 	/**

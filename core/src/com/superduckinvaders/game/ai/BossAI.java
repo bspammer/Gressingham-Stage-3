@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
-
+/**
+ * Stronger AI that follows and attacks the player within a certain range.
+ */
 public class BossAI extends AI {
 
 	/**
