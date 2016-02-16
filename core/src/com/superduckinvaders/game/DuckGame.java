@@ -278,6 +278,13 @@ public class DuckGame extends Game {
 	}
 	
 	/**
+	 * Stops the current music from playing
+	 */
+	public static void stopMusic() {
+		if (currentMusic != null) currentMusic.stop();
+	}
+	
+	/**
 	 * plays sfx files based on volumes in settings
 	 * @param sound file to be played
 	 * @param volumeMultiplier can be used to increase sound of particularly quiet files

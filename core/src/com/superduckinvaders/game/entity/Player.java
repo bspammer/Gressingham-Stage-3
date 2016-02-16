@@ -145,7 +145,7 @@ public class Player extends Character {
     }
     
     /**
-     * Get the players current powerup (in the Powerup enum).
+     * Get a map from powerups to time remaining
      * @return the current powerup
      */
     public HashMap<Powerup, Double> getPowerups() {

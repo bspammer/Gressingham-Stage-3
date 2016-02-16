@@ -539,7 +539,7 @@ public final class Round {
 
 			if (objective.getStatus() == Objective.OBJECTIVE_COMPLETED) {
 
-				Assets.music.stop();
+				DuckGame.stopMusic();
 				DuckGame.playSoundEffect(Assets.levelComplete, 1);
 
 				//if game not already completed
@@ -579,7 +579,7 @@ public final class Round {
 				DuckGame.saveSettings();
 
 			} else if (player.isDead()) {
-				Assets.music.stop();
+				DuckGame.stopMusic();
 				DuckGame.playSoundEffect(Assets.gameOver, 1);
 				parent.showLoseScreen();
 			}
