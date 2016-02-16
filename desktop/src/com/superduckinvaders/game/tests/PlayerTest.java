@@ -148,7 +148,7 @@ public class PlayerTest {
 	}
 	
 	@Test
-	public void scoreForKillingEnemyShouldBeMultiplied() {
+	public void scoreForKillingEnemyShouldBeMultipliedWithMultiplierPowerup() {
 		testPlayer.setPowerup(Player.Powerup.SCORE_MULTIPLIER, 5);
 		testRound.createMob((int) testPlayer.getX() + 48, (int) testPlayer.getY() - 48, 10, Assets.badGuyNormal, 0);
 		int i;
@@ -178,10 +178,47 @@ public class PlayerTest {
 	
 	@Test
 	public void scoreTest() {
+		// Set score to 0
 		testPlayer.addScore(-testPlayer.getScore());
 		assertEquals(0, testPlayer.getScore());
 		testPlayer.addScore(10);
 		assertEquals(10, testPlayer.getScore());
 	}
 
+	@Test
+	public void killingEnemyShouldRewardPoints() {
+		testRound.createMob((int) testPlayer.getX() + 48, (int) testPlayer.getY() - 48, 10, Assets.badGuyNormal, 0);
+		int i;
+		for (i=0; i<testRound.getEntities().size(); i++) {
+			if (testRound.getEntities().get(i) instanceof Mob) break;
+		}
+		Mob testEnemy = (Mob) testRound.getEntities().get(i);
+		
+		int scoreBefore = testPlayer.getScore();
+		testEnemy.removed = true;
+		testRound.update(1);
+		int scoreAfter = testPlayer.getScore();
+		
+		assertEquals((int) (scoreAfter-scoreBefore), 10);
+	}
+	
+	@Test
+	public void damageTest() {
+		if (testPlayer.getCurrentHealth() != Player.PLAYER_HEALTH) {
+			testPlayer.heal(20);
+		}
+		testPlayer.damage(1);
+		
+		assertEquals(testPlayer.getCurrentHealth(), Player.PLAYER_HEALTH-1);
+	}
+	
+	@Test
+	public void healTest() {
+		if (testPlayer.getCurrentHealth() == Player.PLAYER_HEALTH) {
+			testPlayer.damage(1);
+		}
+		testPlayer.heal(20);
+		
+		assertEquals(testPlayer.getCurrentHealth(), Player.PLAYER_HEALTH);
+	}
 }
