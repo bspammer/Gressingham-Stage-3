@@ -324,4 +324,12 @@ public class DuckGame extends Game {
 	public void addScoreToTotal(int score) {
 		totalScore += score;
 	}
+	
+	/**
+	 * Get the total game score so far.
+	 * @return the total game score so far.
+	 */
+	public int getTotalScore() {
+		return totalScore;
+	}
 }

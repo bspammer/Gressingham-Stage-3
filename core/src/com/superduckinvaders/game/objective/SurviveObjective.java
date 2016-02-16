@@ -78,6 +78,7 @@ public class SurviveObjective extends Objective {
 		//if timer ran out objective completed
 		if(time <= 0) {
 			status = OBJECTIVE_COMPLETED;
+			parent.getGame().addScoreToTotal(100);
 		}
 		
 	}

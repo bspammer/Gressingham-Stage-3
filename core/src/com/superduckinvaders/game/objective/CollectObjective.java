@@ -49,5 +49,8 @@ public class CollectObjective extends Objective {
 	
 	public void testingSetStatus(int newStatus) {
 		status = newStatus;
+		if (newStatus == Objective.OBJECTIVE_COMPLETED) {
+			parent.getGame().addScoreToTotal(100);
+		}
 	}
 }

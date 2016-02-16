@@ -561,7 +561,8 @@ public final class Round {
 					} else if(map.equals(Assets.levelEightMap)) {
 						DuckGame.levelsComplete="11111111";
 					}
-
+					
+					//add level score to total
 					parent.addScoreToTotal(player.getScore());
 
 					if(DuckGame.levelsComplete.equals("11111111")) {
@@ -609,5 +610,9 @@ public final class Round {
 		updateObjective(delta);
 		
 		updateEntities(delta);
+	}
+	
+	public DuckGame getGame() {
+		return parent;
 	}
 }
