@@ -13,27 +13,31 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class EntityTest {
+	
 	protected static DuckGame duckGame;
 	protected static Round testRound;
-	
-    @BeforeClass
-    public static void setUp() {
-    	duckGame = new DuckGame();
- 
+
+	private Mob testMob;
+
+	@BeforeClass
+	public static void setUp() {
+
+		duckGame = new DuckGame();
+
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1280;
 		config.height = 720;
 		config.resizable = false;
 		config.title = "SUPER DUCK INVADERS! - Team Mallard";
 		new LwjglApplication(duckGame, config);
-        
+
 		while (duckGame.onGameScreen == false) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 		testRound = duckGame.getRound();
 		try {
@@ -41,37 +45,90 @@ public class EntityTest {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-    }
-	
+	}
 
 	@Test
-	public void updateMovementTest() {
-		Mob testSubject = new Mob(testRound, 20, 20, 5, Assets.badGuyNormal, 2);
-		
+	public void moveXTest() {
+		testMob = new Mob(testRound, 20, 20, 5, Assets.badGuyNormal, 2);
+
 		//x positive direction
-		testSubject.setVelocity(1, 0);
-		testSubject.update(1);
+		testMob.update(1);
+		testMob.setVelocity(1, 0);
+		testMob.update(1);
 		int[] expectedCoord = {22, 20};
-		int[] actualCoord = {(int)testSubject.getX(), (int)testSubject.getY()};
+		int[] actualCoord = {(int) testMob.getX(), (int) testMob.getY()};
 		assertArrayEquals(expectedCoord, actualCoord);
-		
+
 		//x negative direction, lag frames introduced (i.e. delta is higher than usual)
-		testSubject.setVelocity(-1, 0);
-		testSubject.update(2);
-		expectedCoord[0]=18;
-		expectedCoord[1]=20;
-		actualCoord[0]=(int)testSubject.getX();
-		actualCoord[1]=(int)testSubject.getY();
+		testMob.setVelocity(-1, 0);
+		testMob.update(2);
+		expectedCoord[0] = 18;
+		expectedCoord[1] = 20;
+		actualCoord[0] = (int) testMob.getX();
+		actualCoord[1] = (int) testMob.getY();
 		assertArrayEquals(expectedCoord, actualCoord);
-		
-		//combine x and y directions, assume vector normalization before movement
-		testSubject.setVelocity(3, 4);
-		testSubject.update(5);
-		expectedCoord[0] = 24;
-		expectedCoord[1] = 28;
-		actualCoord[0]=(int)testSubject.getX();
-		actualCoord[1]=(int)testSubject.getY();
+	}
+
+	@Test
+	public void moveYTest() {
+		testMob = new Mob(testRound, 20, 20, 5, Assets.badGuyNormal, 2);
+
+		//x positive direction
+		testMob.update(1);
+		testMob.setVelocity(0, 1);
+		testMob.update(1);
+		int[] expectedCoord = {20, 22};
+		int[] actualCoord = {(int) testMob.getX(), (int) testMob.getY()};
+		assertArrayEquals(expectedCoord, actualCoord);
+
+		//x negative direction, lag frames introduced (i.e. delta is higher than usual)
+		testMob.setVelocity(0, -1);
+		testMob.update(2);
+		expectedCoord[0] = 20;
+		expectedCoord[1] = 18;
+		actualCoord[0] = (int) testMob.getX();
+		actualCoord[1] = (int) testMob.getY();
+		assertArrayEquals(expectedCoord, actualCoord);
+	}
+
+	@Test
+	public void moveXYTest() {
+		testMob = new Mob(testRound, 20, 20, 5, Assets.badGuyNormal, 2);
+
+		//xy pos direction
+		testMob.update(1);
+		testMob.setVelocity(1, 1);
+		testMob.update(1);
+		int[] expectedCoord = {21, 21};
+		int[] actualCoord = {(int) testMob.getX(), (int) testMob.getY()};
+		assertArrayEquals(expectedCoord, actualCoord);
+
+		//x neg y pos direction
+		testMob.setVelocity(-1, 1);
+		testMob.update(1);
+		expectedCoord[0] = 20;
+		expectedCoord[1] = 22;
+		actualCoord[0] = (int) testMob.getX();
+		actualCoord[1] = (int) testMob.getY();
+		assertArrayEquals(expectedCoord, actualCoord);
+
+		//x pos y neg direction
+		testMob.setVelocity(1, -1);
+		testMob.update(1);
+		expectedCoord[0] = 21;
+		expectedCoord[1] = 21;
+		actualCoord[0] = (int) testMob.getX();
+		actualCoord[1] = (int) testMob.getY();
+		assertArrayEquals(expectedCoord, actualCoord);
+
+		//x neg y neg direction
+		testMob.setVelocity(-1, -1);
+		testMob.update(1);
+		expectedCoord[0] = 20;
+		expectedCoord[1] = 20;
+		actualCoord[0] = (int) testMob.getX();
+		actualCoord[1] = (int) testMob.getY();
 		assertArrayEquals(expectedCoord, actualCoord);
 	}
 }
-		
+
