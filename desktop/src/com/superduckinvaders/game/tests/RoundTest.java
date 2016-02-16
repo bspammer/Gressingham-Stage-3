@@ -10,7 +10,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.superduckinvaders.game.DuckGame;
 import com.superduckinvaders.game.assets.Assets;
 import com.superduckinvaders.game.entity.Mob;
-import com.superduckinvaders.game.round.Round;
+import com.superduckinvaders.game.Round;
 
 public class RoundTest {
 	protected static DuckGame duckGame;
@@ -51,9 +51,11 @@ public class RoundTest {
 		//check bad mob spawn
 		assertEquals(false, testRound.createMob(-10, -10, 10, Assets.badGuyNormal, 10));
 		assertEquals(currentMobCount, testRound.getEntities().size());
+		
 		//check correct mob spawn
 		assertEquals(true, testRound.createMob(100, 100, 10, Assets.badGuyNormal, 10));
 		assertEquals(currentMobCount+1, testRound.getEntities().size());
+		
 		//add mob manually, kill it and see if it despawns
 		Mob testMob = new Mob(testRound, 100, 100, 10, Assets.badGuyNormal, 10);
 		testRound.addEntity(testMob);
@@ -65,18 +67,13 @@ public class RoundTest {
 		//give it two frames to catch up
 		testRound.update(1);
 		testRound.update(1);
+		
 //		assertEquals(currentMobCount+1, testRound.getEntities().size());
 //		testRound.createParticle(100, 100, 20, null);
 //		testRound.createPowerup(100, 100, null, 100);
 //		testRound.createProjectile(100.0, 100.0, 200.0, 200.0, 10.0, 0.0, 0.0, 10, testRound.getPlayer());
 //		testRound.createUpgrade(100, 100, null);
 //		assertEquals(currentMobCount+5, testRound.getEntities().size());
-		
-	}
-	
-	@Test
-	public void collisionTest(){
-		assertEquals(false, testRound.isTileBlocked(300, 300));
 	}
 
 }

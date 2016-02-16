@@ -9,7 +9,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.superduckinvaders.game.DuckGame;
 import com.superduckinvaders.game.entity.Particle;
-import com.superduckinvaders.game.round.Round;
+import com.superduckinvaders.game.Round;
 
 public class ParticleTest {
 
@@ -44,12 +44,12 @@ public class ParticleTest {
     }
 
 	@Test
-	public void test() {
+	public void durationTest() {
 		Particle testParticle = new Particle(testRound, 100, 100, 1, null);
 		assertEquals(false, testParticle.isRemoved());
-		testParticle.update((float)0.9);
+		testParticle.update((float) 0.9);
 		assertEquals(false, testParticle.isRemoved());
-		testParticle.update((float)0.2);
+		testParticle.update((float) 0.2);
 		assertEquals(true, testParticle.isRemoved());
 	}
 

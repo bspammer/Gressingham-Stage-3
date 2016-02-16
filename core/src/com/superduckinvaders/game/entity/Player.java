@@ -1,5 +1,6 @@
 package com.superduckinvaders.game.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
@@ -139,9 +140,16 @@ public class Player extends Character {
      * Get the players current upgrade (in the Upgrade enum). 
      * @return the current upgrade
      */
-    public Upgrade getUpgrade(){
-    	
+    public Upgrade getUpgrade() {
     	return upgrade;
+    }
+    
+    /**
+     * Get the players current powerup (in the Powerup enum).
+     * @return the current powerup
+     */
+    public HashMap<Powerup, Double> getPowerups() {
+    	return powerupRemainingTimes;
     }
 
     /**
@@ -218,14 +226,9 @@ public class Player extends Character {
         if (!powerupIsActive(Powerup.INVULNERABLE)) {
             super.damage(health);
             DuckGame.playSoundEffect(Assets.quack, 1);
-            
-        }
-        else{
+        } else {
         	DuckGame.playSoundEffect(Assets.shieldHit, 1);
-        	
         }
-        
-        
     }
 
     /**
@@ -238,11 +241,9 @@ public class Player extends Character {
         // Decrement powerup timer for each powerup.
     	if(this.getSwimming()){
     		PLAYER_SPEED=100;
-    	}
-    	else {
+    	} else {
     		PLAYER_SPEED=200;
     	}
-    	
 
     	for (Player.Powerup key : powerupRemainingTimes.keySet()) {
     		if (powerupIsActive(key)) {
