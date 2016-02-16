@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.superduckinvaders.game.Round;
 import com.superduckinvaders.game.entity.Entity;
-
+/**
+ * The items class
+ */
 public class Item extends Entity {
 
     /**
