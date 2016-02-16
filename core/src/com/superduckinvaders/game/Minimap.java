@@ -11,7 +11,9 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.superduckinvaders.game.entity.Player;
 import com.superduckinvaders.game.Round;
-
+/**
+ * Contains methods needed to draw minimap
+ */
 public class Minimap {
 	
 	/**

@@ -9,7 +9,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.superduckinvaders.game.assets.Assets;
-
+/**
+ * Class which holds all of the game varaibles
+ */
 public class DuckGame extends Game {
 
 	/**
