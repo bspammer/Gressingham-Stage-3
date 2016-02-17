@@ -182,8 +182,8 @@ public class Assets {
 		levelFiveMap = loadTiledMap("maps/map5.tmx");
 		//hes east maps
 		levelSixMap = loadTiledMap("maps/map6.tmx");
-		levelSevenMap = loadTiledMap("maps/map.tmx");
-		levelEightMap = loadTiledMap("maps/map.tmx");
+		levelSevenMap = loadTiledMap("maps/map7.tmx");
+		levelEightMap = loadTiledMap("maps/map8.tmx");
 
 		font = loadFont("font/gamefont.fnt", "font/gamefont.png");
 
