@@ -1,5 +1,5 @@
 /**
- * URL for executable: https://drive.google.com/file/d/0B4to7QAfaHDIeEE0TG4tR0dyRk0/view?usp=sharing
+ * URL for executable: https://drive.google.com/open?id=0B6Dzw1Xbx2OzdkhPY1pQd2ZYODQ
  */
 
 package com.superduckinvaders.game.desktop;
